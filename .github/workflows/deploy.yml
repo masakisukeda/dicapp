@@ -1,0 +1,42 @@
+name: dic-deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: dic-deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: JS Syntax Check
+        run: node --check app.js
+
+      - name: Validate Generated Assets
+        run: |
+          node scripts/build-search-assets.js
+          git diff --exit-code -- robots.txt sitemap.xml llms.txt
+
+      - name: Deploy via FTP
+        env:
+          FTP_HOST: ${{ secrets.DIC_FTP_HOST }}
+          FTP_USER: ${{ secrets.DIC_FTP_USER }}
+          FTP_PASS: ${{ secrets.DIC_FTP_PASS }}
+          FTP_BASE: ${{ secrets.DIC_FTP_BASE }}
+          SKIP_PREPARE: "1"
+        run: ./scripts/deploy_prod.sh

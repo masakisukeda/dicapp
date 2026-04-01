@@ -2,6 +2,12 @@
 
 このプロジェクトを編集する AI / 自動化ツール向けの「最初に読む」運用メモです。
 
+## 共通ルール（最優先）
+- 共通指示書（最新版URL）: `https://drsp.cc/app/AGENTS.md`
+- ローカル編集元: `/Users/masakisukeda/Library/CloudStorage/GoogleDrive-masaki.sukeda@gmail.com/マイドライブ/Playground/AGENTS.md`
+- スコープは `/app` `/chat` `/dic` `/mng` のみ。無関係フォルダの編集・デプロイは禁止。
+- デプロイはFTP経由。`/dic` 以外へアップロードしないこと。
+
 ## 0. 最初にやること
 1. この `AGENTS.md` を最後まで読む。
 2. 変更対象を最小化する（無関係なファイルは触らない）。
@@ -41,6 +47,11 @@
   2. `sitemap/robots/llms` 再生成
   3. 本番アップロード
 - 実行には環境変数 `FTP_USER` / `FTP_PASS` が必要。
+- GitHub Actions 自動デプロイを使う場合は、以下のSecretsを設定:
+  - `DIC_FTP_HOST`（例: `s137.coreserver.jp`）
+  - `DIC_FTP_USER`
+  - `DIC_FTP_PASS`
+  - `DIC_FTP_BASE`（例: `ftp://s137.coreserver.jp/public_html/drsp.cc/dic`）
 
 例:
 ```bash
@@ -63,4 +74,3 @@ curl -fsSL 'https://drsp.cc/dic/app.js?v=xxxx' | rg '確認したい関数名'
 - 無関係なデザイン変更。
 - デプロイなしで「反映済み」と報告。
 - 機密値のハードコード。
-
