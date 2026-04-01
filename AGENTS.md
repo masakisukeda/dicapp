@@ -1,0 +1,66 @@
+# AGENTS.md (辞書アプリ)
+
+このプロジェクトを編集する AI / 自動化ツール向けの「最初に読む」運用メモです。
+
+## 0. 最初にやること
+1. この `AGENTS.md` を最後まで読む。
+2. 変更対象を最小化する（無関係なファイルは触らない）。
+3. 作業後は構文チェック・表示確認をしてから反映する。
+
+## 1. プロジェクト概要
+- 公開URL: `https://drsp.cc/dic/`
+- 主要構成:
+  - `index.html`: 画面構造
+  - `app.js`: 主要ロジック（検索、辞書くん、モーダル、描画）
+  - `css/site.css` / `css/site.min.css`: スタイル
+  - `data/`: 記事・カテゴリ・カリキュラム・用語データ
+  - `api/`: コメント等のAPI
+
+## 2. 変更ルール（重要）
+- 変更は原則「最小差分」。
+- UI文言は日本語トーンを維持する。
+- 入力系モーダルは誤タップで閉じない設計を優先（閉じるは `×` など明示操作）。
+- `app.js` の構文エラーを出さない（編集後に `node --check app.js`）。
+- CSSを変更した場合は `site.css` と `site.min.css` の差異に注意。
+
+## 3. 辞書くん修正時の注意
+- 主要関数:
+  - `answerFromDictionary`
+  - `findDirectDictionaryMatches`
+  - `findGuidedDictionaryMatch`
+- 用語系の改善は以下も確認:
+  - `GLOSSARY_TERMS`
+  - `DICT_KUN_GUIDE_MAP`
+  - `DICT_KUN_SYNONYM_GROUPS`
+- ヒットしない語は、記事検索だけでなく用語集フォールバックも検討する。
+
+## 4. 本番反映
+- 推奨: `./scripts/deploy_prod.sh`
+- スクリプト実行内容:
+  1. `app.js` のバージョン更新
+  2. `sitemap/robots/llms` 再生成
+  3. 本番アップロード
+- 実行には環境変数 `FTP_USER` / `FTP_PASS` が必要。
+
+例:
+```bash
+cd /Users/masakisukeda/dicapp
+FTP_USER='***' FTP_PASS='***' ./scripts/deploy_prod.sh
+```
+
+## 5. 反映確認
+- `index.html` の `app.js?v=...` が更新されているか。
+- 本番JSに修正コードが載っているか。
+
+例:
+```bash
+curl -fsSL 'https://drsp.cc/dic/index.html' | rg 'app.js\?v='
+curl -fsSL 'https://drsp.cc/dic/app.js?v=xxxx' | rg '確認したい関数名'
+```
+
+## 6. NG
+- 指示のない大規模リファクタ。
+- 無関係なデザイン変更。
+- デプロイなしで「反映済み」と報告。
+- 機密値のハードコード。
+

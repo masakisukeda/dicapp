@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>ディレクション辞書β — 辞書.app</title>
+<meta name="description" content="キャリアチェンジ中のデザイナーも、現場で育っている新人ディレクターも。迷ったらすぐ開く——それだけでいい辞書アプリです。">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="llms-summary" content="辞書.appは、Webディレクション実務の用語・進め方・ツール活用を学べる日本語辞書アプリです。カテゴリ別記事、用語集、コメント、要望投稿、辞書くん検索を提供します。">
+<meta name="theme-color" content="#0f1410">
+<link rel="icon" type="image/svg+xml" href="./img/dictionary-kun.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="辞書.app">
+<meta property="og:title" content="辞書.app — ディレクションの辞書">
+<meta property="og:description" content="ディレクションの&quot;わからない&quot;を、なくそう。キャリアチェンジ中のデザイナーも、新人ディレクターも迷ったらすぐ開ける辞書アプリ。">
+<meta property="og:url" content="https://drsp.cc/dic/">
+<meta property="og:image" content="https://drsp.cc/dic/img/ogp-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="辞書.app — ディレクションの辞書">
+<meta name="twitter:description" content="ディレクションの&quot;わからない&quot;を、なくそう。キャリアチェンジ中のデザイナーも、新人ディレクターも迷ったらすぐ開ける辞書アプリ。">
+<meta name="twitter:image" content="https://drsp.cc/dic/img/ogp-1200x630.png">
+<link rel="canonical" href="https://drsp.cc/dic/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "辞書.app",
+  "url": "https://drsp.cc/dic/",
+  "inLanguage": "ja",
+  "description": "Webディレクション実務の用語・進め方・ツール活用を学べる日本語辞書アプリ。",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://drsp.cc/dic/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/site.min.css?v=20260401.cssmin10">
+<style>
+.home-update-panel {
+  padding: 0;
+}
+.section-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.home-update-x-btn {
+  border: 1px solid var(--line, rgba(255,255,255,0.12));
+  background: transparent;
+  color: var(--text-sub, rgba(235,240,255,.74));
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.home-update-x-btn:hover {
+  color: var(--text, #fff);
+}
+body[data-theme="light"] .home-update-x-btn,
+body[data-theme="light"] .home-update-share-btn,
+body[data-theme="light"] .x-share-btn {
+  color: #17324a !important;
+  border-color: rgba(18, 48, 74, .26) !important;
+  background: rgba(40, 118, 188, .12) !important;
+}
+body[data-theme="light"] .home-update-x-btn:hover,
+body[data-theme="light"] .home-update-share-btn:hover,
+body[data-theme="light"] .x-share-btn:hover {
+  color: #0e2436 !important;
+  border-color: rgba(18, 48, 74, .36) !important;
+  background: rgba(40, 118, 188, .18) !important;
+}
+.home-update-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.home-update-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line, rgba(255,255,255,0.08));
+}
+body[data-theme="light"] .home-update-item {
+  border-bottom-color: rgba(0,0,0,0.10);
+}
+.home-update-dot {
+  color: var(--text-sub, rgba(235,240,255,.66));
+  font-size: 11px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-update-item:last-child {
+  border-bottom: none;
+}
+.home-update-main {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+.home-update-headline {
+  min-width: 0;
+  width: 100%;
+}
+.home-update-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.home-update-detail-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+.home-update-body {
+  font-size: 11px;
+  color: var(--muted, rgba(255,255,255,0.68));
+  line-height: 1.5;
+}
+.home-update-item .note-meta {
+  white-space: nowrap;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.home-update-side {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.home-update-share-btn {
+  border: 1px solid var(--line, rgba(255,255,255,0.12));
+  background: transparent;
+  color: var(--text-sub, rgba(235,240,255,.74));
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.home-update-share-btn:hover {
+  color: var(--text, #fff);
+}
+.home-note-link-row {
+  color: inherit;
+  text-decoration: none;
+}
+.home-note-link-row .home-update-main {
+  min-width: 0;
+}
+.home-update-detail-card {
+  width: min(560px, 92vw);
+  background: linear-gradient(180deg, var(--bg2), var(--bg3));
+  border: 1px solid var(--topbar-line);
+  border-radius: 14px;
+  box-shadow: 0 18px 46px rgba(0,0,0,.42);
+  padding: 14px;
+}
+.home-update-detail-date {
+  font-size: 12px;
+  color: var(--text-sub, rgba(235,240,255,.72));
+  margin-bottom: 8px;
+}
+.home-update-detail-body {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text, #fff);
+  word-break: break-word;
+}
+.home-update-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+@media (max-width: 768px) {
+  a,
+  button,
+  [role="button"],
+  .article-row,
+  .filter-chip,
+  .kun-fab,
+  .dict-chat-send {
+    touch-action: manipulation;
+  }
+  .section-label-row {
+    align-items: flex-end;
+  }
+  .home-update-item {
+    grid-template-columns: auto 1fr auto;
+    gap: 8px;
+    padding: 11px 12px;
+  }
+  .home-update-main {
+    overflow: hidden;
+  }
+  .home-update-headline {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .home-update-marquee {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    animation: none;
+    transform: none;
+    padding-right: 0;
+  }
+  .home-update-side {
+    grid-column: auto;
+    align-items: center;
+    gap: 5px;
+  }
+  .home-update-share-btn {
+    padding: 3px 7px;
+    font-size: 10px;
+  }
+  .home-update-detail-btn {
+    cursor: pointer;
+  }
+  .kun-fab-ring-wrap {
+    right: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    width: 54px;
+    height: 54px;
+  }
+  .kun-fab-ring-text {
+    display: none;
+  }
+  .kun-fab-mobile-label {
+    display: inline-flex !important;
+    position: absolute;
+    left: 50%;
+    top: -24px;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: rgba(235,240,255,.92);
+    background: rgba(7, 10, 8, .55);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 999px;
+    padding: 1px 8px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  body[data-theme="light"] .kun-fab-mobile-label {
+    color: rgba(15, 20, 16, .86);
+    background: rgba(255,255,255,.92);
+    border-color: rgba(15,20,16,.16);
+  }
+  .kun-fab-mobile-arc { display: none !important; }
+  #dictKunInput {
+    font-size: 16px !important;
+    line-height: 1.35;
+  }
+  .dict-chat-send {
+    font-size: 16px !important;
+    line-height: 1.2;
+  }
+  html,
+  body {
+    height: auto !important;
+    overflow-x: hidden;
+  }
+  .app {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+  .main {
+    overflow: visible !important;
+    min-height: 0 !important;
+  }
+  .app-footer {
+    position: static !important;
+    inset: auto !important;
+  }
+}
+
+@keyframes homeUpdateMarquee {
+  0% { transform: translateX(0); }
+  8% { transform: translateX(0); }
+  92% { transform: translateX(calc(-100% + 18ch)); }
+  100% { transform: translateX(calc(-100% + 18ch)); }
+}
+.kun-fab-ring-wrap {
+  position: fixed;
+  right: 18px;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  width: 58px;
+  height: 58px;
+  display: block;
+  z-index: 321;
+}
+.kun-fab-ring-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 116px;
+  height: 116px;
+  margin-left: -58px;
+  margin-top: -58px;
+  pointer-events: none;
+  animation: dictkunRingSpin 18s linear infinite;
+}
+.kun-fab-ring-text text {
+  font-size: 10px;
+  letter-spacing: .14em;
+  fill: var(--text-sub, rgba(235,240,255,.72));
+}
+body[data-theme="light"] .kun-fab-ring-text text {
+  fill: rgba(15, 20, 16, .62);
+}
+.kun-fab-ring-wrap.is-ring-dismissed .kun-fab-ring-text {
+  display: none;
+}
+.kun-fab-ring-wrap .kun-fab {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  z-index: 1;
+  width: 58px;
+  height: 58px;
+}
+.kun-fab-mobile-label {
+  display: none;
+}
+.kun-fab-mobile-arc {
+  display: none;
+}
+@keyframes dictkunRingSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+</style>
+<style>
+/* Modal post/action alignment parity with chat app */
+.comment-compose-actions,
+.fr-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.comment-compose-actions .comment-submit {
+  margin-left: auto;
+}
+.fr-actions .fr-btn {
+  order: 1;
+}
+.fr-actions .fr-btn-primary {
+  order: 2;
+}
+.admin-nav-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.header-admin-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  display: none;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--topbar-line, rgba(255,255,255,.16));
+  background: linear-gradient(180deg, var(--bg2), var(--bg3));
+  box-shadow: 0 14px 32px rgba(0,0,0,.35);
+  z-index: 90;
+}
+.admin-nav-wrap.is-open .header-admin-menu {
+  display: grid;
+}
+.header-admin-menu-btn {
+  border: 1px solid var(--line, rgba(255,255,255,0.16));
+  background: rgba(255,255,255,0.04);
+  color: var(--text, #fff);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+.header-admin-menu-btn:hover {
+  background: rgba(255,255,255,0.10);
+}
+.header-admin-menu-btn.primary {
+  border-color: rgba(166, 255, 38, 0.48);
+  background: rgba(166, 255, 38, 0.12);
+}
+body[data-theme="light"] .header-admin-menu {
+  border-color: rgba(17, 50, 79, 0.22);
+  background: linear-gradient(180deg, #ffffff, #edf5ff);
+  box-shadow: 0 14px 28px rgba(19, 40, 63, 0.2);
+}
+body[data-theme="light"] .header-admin-menu-btn {
+  border-color: rgba(17, 50, 79, 0.26);
+  background: rgba(40, 118, 188, 0.1);
+  color: #123554;
+}
+body[data-theme="light"] .header-admin-menu-btn:hover {
+  border-color: rgba(17, 50, 79, 0.36);
+  background: rgba(40, 118, 188, 0.18);
+  color: #0d2940;
+}
+body[data-theme="light"] .header-admin-menu-btn.primary {
+  border-color: rgba(12, 126, 79, 0.44);
+  background: rgba(16, 185, 129, 0.2);
+  color: #0f5136;
+}
+.article-create-grid {
+  display: grid;
+  gap: 8px;
+}
+.article-create-grid .admin-input {
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .admin-nav-wrap {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo logo-clickable" onclick="showView('home')">
+    <img id="brandLogo" src="./img/logo-dictionaryapp.svg" alt="辞書.app">
+  </div>
+  <div class="header-nav">
+    <div class="edit-badge" id="editBadge">
+      <div class="edit-dot"></div>
+      EDIT MODE
+    </div>
+    <button class="nav-btn ghost requests-btn header-btn-main header-route-btn" data-route="requests" type="button" onclick="goRequestsPage()">要望</button>
+    <button class="nav-btn ghost header-btn-sub header-route-btn" data-route="glossary" type="button" onclick="showGlossaryView()">用語集</button>
+    <button class="nav-btn ghost header-btn-sub editors-btn header-route-btn" data-route="editors" type="button" onclick="showEditorsView()" style="display:none;">編集メンバー</button>
+    <div class="admin-nav-wrap" id="headerAdminMenu">
+      <button class="nav-btn ghost admin-login-btn" id="headerAdminMenuBtn" type="button" aria-expanded="false" onclick="toggleHeaderAdminMenu(event)">管理者キー</button>
+      <div class="header-admin-menu" id="headerAdminMenuPanel">
+        <button class="header-admin-menu-btn primary" type="button" onclick="openCreateArticleModal(); closeHeaderAdminMenu();">記事作成</button>
+        <button class="header-admin-menu-btn" type="button" onclick="showEditorsView(); closeHeaderAdminMenu();">編集メンバー</button>
+        <button class="header-admin-menu-btn" type="button" onclick="showAdmin(); closeHeaderAdminMenu();">管理者キー</button>
+      </div>
+    </div>
+    <button class="nav-btn ghost mobile-search-btn" id="mobileSearchBtn" type="button" onclick="openMobileSidebar()">🔍 調べる</button>
+    <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替" onclick="toggleTheme()">☾</button>
+    <button class="mobile-menu-btn" type="button" aria-label="メニュー" onclick="toggleMobileMenu()">☰</button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="mode-toggle is-hidden">
+        <button class="mode-btn active" onclick="setMode('search', this)">🔍 引く</button>
+        <button class="mode-btn is-hidden" onclick="setMode('learn', this)">📚 学ぶ</button>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input id="sidebarSearchInput" class="search-input" type="text" placeholder="キーワードで検索..." oninput="handleSearchInput(this)" autocomplete="off">
+        <button id="searchClearBtn" class="search-clear" type="button" aria-label="検索をクリア" onclick="clearSearchInput({focus:true})">×</button>
+      </div>
+      <div class="menu-tag-cloud" id="menuTagCloud"></div>
+    </div>
+
+    <div class="cat-list" id="catList">
+      <!-- Categories injected by JS -->
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HOME VIEW -->
+    <div class="home-view ui-view-stack" id="homeView">
+      <div class="home-hero">
+        <div class="home-float-icons" aria-hidden="true">
+          <span class="float-icon" style="left: 2%; top: 14%; --delay: .2s;">📘</span>
+          <span class="float-icon" style="left: 10%; top: 62%; --delay: .9s;">✦</span>
+          <span class="float-icon" style="left: 36%; top: 76%; --delay: .4s;">✓</span>
+          <span class="float-icon" style="left: 70%; top: 20%; --delay: .7s;">⌕</span>
+          <span class="float-icon" style="left: 82%; top: 64%; --delay: 1.1s;">📝</span>
+        </div>
+
+        <div class="home-main">
+          <div class="home-eyebrow">ディレクション辞書β</div>
+          <h1 class="home-title">
+            <span class="title-line">ディレクションの</span><br>
+            <span class="title-line"><em>"わからない"</em>を、<span class="mobile-break-word">なくそう。</span></span>
+          </h1>
+          <p class="home-sub">
+            キャリアチェンジ中のデザイナーも、現場で育っている新人ディレクターも。<br>
+            迷ったらすぐ開く——それだけでいい辞書アプリです。
+          </p>
+        </div>
+      </div>
+
+      <div class="stats-unified">
+        <div class="stat-card stat-deco-card">
+          <div class="stat-num" id="articleCount">120</div>
+          <div class="stat-label">項目数</div>
+        </div>
+        <div class="stat-card stat-deco-card">
+          <div class="stat-num" id="homePvToday">0</div>
+          <div class="stat-label">累計PV</div>
+        </div>
+        <div class="stat-card stat-deco-card">
+          <div class="stat-num" id="homeUuToday">0</div>
+          <div class="stat-label">累計UU</div>
+        </div>
+        <div class="stat-card stat-deco-card">
+          <div class="stat-num" id="homeCommentTotal">0</div>
+          <div class="stat-label">コメント</div>
+        </div>
+        <div class="stat-card stat-deco-card">
+          <div class="stat-num" id="glossaryCount">0</div>
+          <div class="stat-label">用語</div>
+        </div>
+        <div class="stat-card stat-deco-card">
+          <div class="stat-num" id="homeRequestTotal">0</div>
+          <div class="stat-label">要望数</div>
+        </div>
+      </div>
+
+      <div class="section-label">目的別おすすめカリキュラム</div>
+      <div class="feature-grid home-track-grid" id="homeTrackGrid"></div>
+
+      <div class="section-label">カテゴリへジャンプ</div>
+      <div class="filter-chip-group category-chip-nav" id="homeCategoryNavList"></div>
+
+      <div class="home-columns">
+        <section class="home-col-item home-col-full">
+          <div class="section-label section-label-row">
+            <span>最近の機能アップデート</span>
+            <button class="home-update-x-btn" type="button" onclick="postHomeUpdatesOnX()">Xでポスト</button>
+          </div>
+          <div class="article-list" id="homeUpdateList">
+            <div class="article-row note-row is-placeholder">
+              <span class="article-title-row">アップデートを読み込み中...</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="home-col-item">
+          <div class="section-label">最近更新された記事</div>
+          <div class="article-list" id="recentList">
+            <!-- injected -->
+          </div>
+        </section>
+
+        <section class="home-col-item">
+          <div class="section-label">新着コメント</div>
+          <div class="article-list" id="latestCommentList">
+            <div class="article-row note-row is-placeholder">
+              <span class="article-title-row">まだコメントはありません</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="home-col-item home-col-full">
+          <div class="section-label">最新のDiSAのnote</div>
+          <div class="article-list" id="noteList">
+            <div class="article-row note-row is-placeholder">
+              <span class="article-title-row">note記事を読み込み中...</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- CATEGORY VIEW -->
+    <!-- TOOLS VIEW -->
+    <div class="tools-view ui-view-stack" id="toolsView">
+      <div class="article-breadcrumb">
+        <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>ツール・タグで探す</span>
+      </div>
+
+      <div class="category-hero">
+        <div class="cat-kicker">TOOLS &amp; TAGS</div>
+        <h2 class="cat-title">ツール・タグで探す</h2>
+        <p class="cat-sub">使っているツールや関連タグから記事を絞り込めます。</p>
+      </div>
+
+      <div class="section-label">ツールで絞る</div>
+      <div class="filter-chip-group" id="toolFilterChips"></div>
+
+      <div id="toolsTagSection">
+        <div class="section-label">タグで絞る</div>
+        <div class="filter-chip-group" id="tagFilterChips"></div>
+      </div>
+
+      <div class="section-label" id="toolsResultLabel">記事一覧</div>
+      <div class="article-list" id="toolsArticleList"></div>
+    </div>
+
+    <div class="category-view ui-view-stack" id="requestsView">
+      <div class="article-breadcrumb">
+        <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>ディレクション辞書βへの要望</span>
+      </div>
+
+      <div class="category-hero">
+        <div class="cat-kicker">DICTIONARY REQUESTS</div>
+        <h2 class="cat-title">ディレクション辞書βへの要望</h2>
+        <p class="cat-sub">ディレクション辞書βへの要望を確認できます。改善の優先度整理に使ってください。</p>
+        <div class="category-stats">
+          <span class="category-pill" id="requestCountPill">0 件</span>
+          <button class="nav-btn ghost request-post-btn" id="requestPostBtn" type="button" onclick="openFeatureRequestModal()">要望を投稿</button>
+        </div>
+      </div>
+
+      <div class="section-label">ディレクション辞書βへの要望</div>
+      <div class="article-list" id="featureRequestGrid"></div>
+    </div>
+
+
+    <div class="category-view ui-view-stack" id="glossaryView">
+      <div class="article-breadcrumb">
+        <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>用語集</span>
+      </div>
+
+      <div class="category-hero">
+        <div class="cat-kicker">GLOSSARY</div>
+        <h2 class="cat-title">用語集</h2>
+        <p class="cat-sub">ディレクション辞書βでよく使う用語をカテゴリページと同じ体裁で確認できます。</p>
+        <div class="category-stats">
+          <span class="category-pill" id="glossaryTermCount">0 件</span>
+          <button class="nav-btn ghost request-post-btn" type="button" onclick="openGlossaryTermModal()">用語を追加</button>
+        </div>
+      </div>
+
+      <div class="search-wrap glossary-search-wrap">
+        <span class="search-icon">⌕</span>
+        <input id="glossarySearchInput" class="search-input" type="text" placeholder="用語を検索..." oninput="renderGlossaryPage(this.value)" autocomplete="off">
+      </div>
+
+      <div class="glossary-sort-row">
+        <span class="glossary-sort-label">並び順</span>
+        <button class="filter-chip active" type="button" data-glossary-sort="freq" onclick="setGlossarySort('freq')">頻出順</button>
+        <button class="filter-chip" type="button" data-glossary-sort="kana" onclick="setGlossarySort('kana')">五十音順</button>
+      </div>
+
+      <div class="section-label">用語一覧</div>
+      <div class="article-list" id="glossaryArticleList"></div>
+    </div>
+
+    <div class="category-view editors-view ui-view-stack" id="editorsView">
+      <div class="article-breadcrumb">
+        <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>編集メンバー</span>
+      </div>
+
+      <div class="category-hero">
+        <div class="cat-kicker">EDITORS</div>
+        <h2 class="cat-title">編集メンバー</h2>
+        <p class="cat-sub">Xアカウントとプロフィールを登録して、編集メンバーを一覧表示できます。</p>
+        <div class="category-stats">
+          <span class="category-pill" id="editorCountPill">0 人</span>
+          <button class="nav-btn ghost request-post-btn" id="editorManageBtn" type="button" onclick="openEditorModal()">編集メンバーを追加</button>
+        </div>
+      </div>
+
+      <div class="section-label">メンバー一覧</div>
+      <div class="editor-list" id="editorList"></div>
+    </div>
+
+    <div class="category-view ui-view-stack" id="categoryView">
+      <div class="article-breadcrumb">
+        <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
+        <span class="breadcrumb-sep">›</span>
+        <span id="categoryNameCrumb"></span>
+      </div>
+
+      <div class="category-hero">
+        <div class="cat-kicker" id="categoryKicker">CATEGORY</div>
+        <h2 class="cat-title" id="categoryTitle"></h2>
+        <p class="cat-sub" id="categorySub">カテゴリの項目をまとめて確認できます。</p>
+        <div class="category-stats">
+          <span class="category-pill" id="categoryArticleCount">0 項目</span>
+        </div>
+        <div class="category-phase-guide" id="categoryPhaseBlock">
+          <div class="category-phase-head">
+            <div class="category-phase-label">このカテゴリの担当フェーズ</div>
+            <div class="category-phase-chips" id="categoryPhaseChips"></div>
+          </div>
+          <div class="category-phase-diagram" id="categoryPhaseDiagram" aria-label="カテゴリと工程の対応マップ">
+            <div class="phase-table-wrap">
+              <section class="phase-lane">
+                <h3 class="phase-lane-title">Waterfall</h3>
+                <div class="phase-table-row waterfall">
+                  <span class="phase-step is-major" data-phase-key="planning">企画</span>
+                  <span class="phase-arrow">→</span>
+                  <span class="phase-step" data-phase-key="requirements">要件定義</span>
+                  <span class="phase-arrow">→</span>
+                  <span class="phase-step" data-phase-key="design">設計</span>
+                  <span class="phase-arrow">→</span>
+                  <span class="phase-step" data-phase-key="progress">進捗管理</span>
+                </div>
+                <div class="phase-table-row waterfall">
+                  <span class="phase-step" data-phase-key="implementation">実装</span>
+                  <span class="phase-arrow">→</span>
+                  <span class="phase-step" data-phase-key="testing">テスト</span>
+                  <span class="phase-arrow">→</span>
+                  <span class="phase-step" data-phase-key="operations">運用</span>
+                  <span class="phase-arrow">→</span>
+                  <span class="phase-step" data-phase-key="growth">改善</span>
+                </div>
+              </section>
+            </div>
+            <div class="phase-table-wrap">
+              <section class="phase-lane">
+                <h3 class="phase-lane-title">Agile</h3>
+                <div class="phase-table-row agile">
+                  <span class="phase-step is-major" data-phase-key="planning">企画</span>
+                  <span class="phase-arrow">→</span>
+                  <span class="phase-step" data-phase-key="requirements">要件定義 → 設計 → 実装 → テスト</span>
+                  <span class="phase-arrow">↻</span>
+                  <span class="phase-step" data-phase-key="growth">反復改善</span>
+                </div>
+                <div class="phase-table-row agile">
+                  <span class="phase-step" data-phase-key="operations">リリース/運用</span>
+                  <span class="phase-arrow">→</span>
+                  <span class="phase-step" data-phase-key="requirements">次スプリントの要件整理</span>
+                  <span class="phase-arrow">↻</span>
+                  <span class="phase-step" data-phase-key="growth">継続学習</span>
+                </div>
+              </section>
+            </div>
+          </div>
+          <p class="category-phase-note" id="categoryPhaseNote"></p>
+        </div>
+      </div>
+
+      <div class="category-top-grid" id="categoryTopGrid">
+        <section class="category-top-col category-top-col-nav" aria-labelledby="categoryNavHeading">
+          <div class="section-label" id="categoryNavHeading">他カテゴリへ</div>
+          <div class="filter-chip-group category-chip-nav" id="categoryNavList"></div>
+        </section>
+
+        <section class="category-top-col category-top-col-list" aria-labelledby="categoryListHeading">
+          <div class="section-label" id="categoryListHeading">カテゴリの項目一覧</div>
+          <div class="article-list" id="categoryArticleList"></div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ARTICLE VIEW -->
+    <div class="article-view ui-view-stack" id="articleView">
+      <div class="article-breadcrumb">
+        <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
+        <span class="breadcrumb-sep">›</span>
+        <span id="articleCat"></span>
+        <span class="breadcrumb-sep">›</span>
+        <span id="articleName"></span>
+      </div>
+
+      <div class="article-content-card">
+        <div class="article-header">
+          <div class="article-eyebrow" id="articleEyebrow"></div>
+          <h1 class="article-title" id="articleTitle"></h1>
+          <div class="article-meta">
+            <div class="article-editor-meta" id="articleEditorMeta"></div>
+            <div class="article-updated" id="articleUpdatedAt"></div>
+            <div class="article-tags" id="articleTagsHeader"></div>
+            <div class="admin-article-actions" id="adminArticleActions">
+              <button class="admin-article-btn" onclick="openArticleEditor()">編集</button>
+              <button class="admin-article-btn danger" onclick="deleteCurrentArticle()">削除</button>
+            </div>
+            <button class="x-share-btn" onclick="shareArticleOnX()">Xで引用ポスト</button>
+          </div>
+        </div>
+
+        <div class="tool-tabs" id="toolTabs"></div>
+
+        <div class="article-body" id="articleBody"></div>
+        <div class="article-sibling-nav" id="articleSiblingNav">
+          <button class="article-sibling-btn" id="articlePrevBtn" type="button" disabled>
+            <span class="article-sibling-dir">‹ 前の記事</span>
+            <span class="article-sibling-title">読み込み中...</span>
+          </button>
+          <button class="article-sibling-btn" id="articleNextBtn" type="button" disabled>
+            <span class="article-sibling-dir">次の記事 ›</span>
+            <span class="article-sibling-title">読み込み中...</span>
+          </button>
+        </div>
+      </div>
+
+
+      <section class="comment-panel" id="commentPanel">
+        <div class="comment-title">コメント</div>
+        <div class="comment-toolbar">
+          <button id="openCommentComposerBtn" class="comment-open-btn" type="button">コメントを投稿🐮</button>
+        </div>
+        <div class="comment-list" id="commentList"></div>
+      </section>
+
+      <div class="admin-modal" id="commentComposeModal">
+        <div class="comment-compose-modal">
+          <div class="comment-compose-head">
+            <div class="comment-compose-title">コメントを投稿🐮</div>
+            <button id="commentComposeCloseX" class="comment-compose-close" type="button" aria-label="閉じる">×</button>
+          </div>
+          <div class="comment-form comment-form-tight">
+            <label class="comment-title comment-title-inline">名前</label>
+            <input id="commentNameInput" class="comment-input" type="text" maxlength="40" placeholder="匿名">
+            <label class="comment-title comment-title-inline">質問</label>
+            <textarea id="commentBodyInput" class="comment-textarea" maxlength="500" placeholder="例）今回の機能で一番効果が高い使い方は？"></textarea>
+          </div>
+          <div class="comment-compose-actions">
+            <button id="submitCommentBtn" class="comment-submit" type="button">送信🐮</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="learn-mobile-bar is-hidden" id="learnMobileBar">
+        <button class="learn-mobile-btn primary" id="mobileProgressBtn" onclick="toggleCurrentArticleProgress()">完了にする</button>
+        <button class="learn-mobile-btn" id="mobileNextBtn" onclick="openNextCurriculumArticle()">次の学習へ</button>
+        <button class="learn-mobile-btn is-hidden" onclick="showView('home')">学習一覧へ</button>
+      </div>
+
+    </div>
+
+    <!-- LEARN VIEW -->
+    <div class="learn-view ui-view-stack" id="learnView">
+      <div class="home-hero">
+        <div class="home-float-icons" aria-hidden="true">
+          <span class="float-icon" style="left: 2%; top: 12%; --delay: .2s;">📘</span>
+          <span class="float-icon" style="left: 12%; top: 66%; --delay: .8s;">✦</span>
+          <span class="float-icon" style="left: 36%; top: 78%; --delay: .4s;">✓</span>
+          <span class="float-icon" style="left: 68%; top: 18%; --delay: .7s;">⌕</span>
+          <span class="float-icon" style="left: 84%; top: 62%; --delay: 1.1s;">📝</span>
+        </div>
+
+        <div class="home-main">
+          <div class="home-eyebrow">ディレクション辞書β</div>
+          <h2 class="home-title">
+            <span class="title-line">ディレクションを</span><br>
+            <span class="title-line"><em>"わかる"</em>まで学ぼう。</span>
+          </h2>
+          <p class="home-sub">
+            テキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト。
+            テキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト。
+          </p>
+        </div>
+      </div>
+
+      <div class="section-label">レベルを選ぶ</div>
+      <div class="level-grid">
+        <div class="level-card level-1" onclick="selectLevel(1, this)">
+          <div class="level-badge">LEVEL 01</div>
+          <div class="level-title">デザイナーから転向したい</div>
+          <div class="level-desc">クライアントとの調整が増えてきた。ディレクターって何から学べばいい？</div>
+          <div class="level-topics">
+            <span class="topic-chip">企画基礎</span>
+            <span class="topic-chip">要件定義</span>
+            <span class="topic-chip">進行管理</span>
+          </div>
+        </div>
+        <div class="level-card level-2" onclick="selectLevel(2, this)">
+          <div class="level-badge">LEVEL 02</div>
+          <div class="level-title">1〜3年目のディレクター担当</div>
+          <div class="level-desc">なんとなくできてるけど、自分のスキルに抜け漏れがある気がする。</div>
+          <div class="level-topics">
+            <span class="topic-chip">情報設計</span>
+            <span class="topic-chip">QA管理</span>
+            <span class="topic-chip">運用設計</span>
+          </div>
+        </div>
+        <div class="level-card level-3" onclick="selectLevel(3, this)">
+          <div class="level-badge">LEVEL 03</div>
+          <div class="level-title">ディレクターを育てる側</div>
+          <div class="level-desc">チームメンバーにディレクターを教えたい。研修・勉強会に使いたい。</div>
+          <div class="level-topics">
+            <span class="topic-chip">採用設計</span>
+            <span class="topic-chip">プロモーション</span>
+            <span class="topic-chip">全カテゴリ</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">カリキュラム</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:14%"></div>
+      </div>
+      <div class="progress-label" id="progressLabel">1 / 7 完了</div>
+
+      <div class="curriculum" id="curriculum">
+        <!-- injected -->
+      </div>
+    </div>
+
+
+
+  </main>
+</div>
+
+<footer class="app-footer">
+  &copy; 2026 <a href="https://drsp.cc/" target="_blank" rel="noopener noreferrer">一般社団法人ディレクションサポート協会</a> / 辞書.app
+</footer>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+<div class="mobile-menu-panel" id="mobileMenuPanel" role="dialog" aria-label="モバイルメニュー">
+  <button class="mobile-menu-item" type="button" onclick="goRequestsPage(); closeMobileMenu();">要望</button>
+  <button class="mobile-menu-item" type="button" onclick="showGlossaryView(); closeMobileMenu();">用語集</button>
+  <button class="mobile-menu-item" type="button" onclick="showEditorsView(); closeMobileMenu();">編集メンバー</button>
+  <button class="mobile-menu-item" type="button" onclick="showAdmin(); closeMobileMenu();">管理者キー</button>
+  <button class="mobile-menu-item" type="button" id="mobileCreateArticleBtn" style="display:none;" onclick="openCreateArticleModal(); closeMobileMenu();">記事作成</button>
+</div>
+
+
+<!-- FEATURE REQUEST MODAL -->
+<div class="fr-modal" id="featureRequestModal">
+  <div class="fr-box">
+    <div class="fr-header">
+      <div class="fr-title">📝 要望を投稿</div>
+      <button class="fr-close" type="button" onclick="closeFeatureRequestModal()">×</button>
+    </div>
+    <div class="fr-body">
+      <p class="fr-meta">改善点や追加したい機能を投稿できます。</p>
+
+      <label class="fr-label" for="frName">名前（任意）</label>
+      <input class="fr-input" id="frName" type="text" maxlength="40" placeholder="匿名でもOK">
+
+      <label class="fr-label" for="frTitle">要望タイトル</label>
+      <input class="fr-input" id="frTitle" type="text" maxlength="120" placeholder="例）検索をもっと速くしたい">
+
+
+      <label class="fr-label" for="frBody">詳細</label>
+      <textarea class="fr-input fr-textarea" id="frBody" maxlength="2000" placeholder="背景、困っていること、理想の挙動など"></textarea>
+
+      <label class="fr-label" for="frLink">参考URL（任意）</label>
+      <input class="fr-input" id="frLink" type="url" maxlength="300" placeholder="https://...">
+
+      <input class="is-hidden" id="frHp" type="text" autocomplete="off" tabindex="-1" aria-hidden="true">
+
+      <div id="frNotice" class="fr-notice"></div>
+      <div class="fr-actions">
+        <button class="fr-btn-primary" id="frSubmitBtn" type="button" onclick="submitFeatureRequest()">送信🐮</button>
+        <button class="fr-btn" type="button" onclick="clearFeatureRequestForm()">クリア</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fr-modal" id="glossaryTermModal">
+  <div class="fr-box">
+    <div class="fr-header">
+      <div class="fr-title" id="glossaryTermModalTitle">📘 用語を追加</div>
+      <button class="fr-close" type="button" onclick="closeGlossaryTermModal()">×</button>
+    </div>
+
+    <div class="fr-fields">
+      <input id="gtEditId" type="hidden" value="">
+
+      <label class="fr-label" for="gtName">名前（任意）</label>
+      <input class="fr-input" id="gtName" maxlength="40" placeholder="匿名">
+
+      <label class="fr-label" for="gtTerm">用語</label>
+      <input class="fr-input" id="gtTerm" maxlength="80" placeholder="例）WBS">
+
+      <label class="fr-label" for="gtDesc">説明</label>
+      <textarea class="fr-input fr-textarea" id="gtDesc" maxlength="500" placeholder="用語の説明を入力"></textarea>
+
+      <input class="is-hidden" id="gtHp" type="text" autocomplete="off" tabindex="-1" aria-hidden="true">
+
+      <div id="gtNotice" class="fr-notice"></div>
+      <div class="fr-actions">
+        <button class="fr-btn-primary" id="gtSubmitBtn" type="button" onclick="submitGlossaryTerm()">送信🐮</button>
+        <button class="fr-btn" type="button" onclick="clearGlossaryTermForm()">クリア</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fr-modal editor-modal" id="editorModal">
+  <div class="fr-box" onclick="event.stopPropagation()">
+    <div class="fr-header">
+      <div class="fr-title">👤 編集メンバーを追加</div>
+      <button class="fr-close" type="button" onclick="closeEditorModal()">×</button>
+    </div>
+
+    <div class="fr-fields">
+      <input id="epId" type="hidden" value="">
+
+      <label class="fr-label" for="epName">表示名</label>
+      <input class="fr-input" id="epName" type="text" inputmode="text" maxlength="60" placeholder="例）こーちゃん">
+
+      <label class="fr-label" for="epRole">役割</label>
+      <input class="fr-input" id="epRole" type="text" inputmode="text" maxlength="80" placeholder="例）プロダクトディレクター">
+
+      <label class="fr-label" for="epX">Xアカウント</label>
+      <input class="fr-input" id="epX" type="text" inputmode="text" maxlength="100" placeholder="@username または https://x.com/username">
+      <div class="fr-actions">
+        <button class="fr-btn" type="button" onclick="fillEditorProfileFromX()">Xから取得</button>
+      </div>
+
+      <label class="fr-label" for="epBio">プロフィール</label>
+      <textarea class="fr-input fr-textarea" id="epBio" maxlength="500" placeholder="プロフィール文を入力"></textarea>
+
+      <label class="fr-label" for="epAvatar">画像URL（任意）</label>
+      <input class="fr-input" id="epAvatar" type="url" inputmode="url" maxlength="300" placeholder="未入力ならXアカウントから自動表示">
+
+      <div id="epNotice" class="fr-notice"></div>
+      <div class="fr-actions">
+        <button class="fr-btn-primary" type="button" onclick="submitEditorProfile()">保存</button>
+        <button class="fr-btn" type="button" onclick="clearEditorForm()">クリア</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div class="admin-modal" id="adminModal">
+  <div class="admin-box" onclick="event.stopPropagation()">
+    <div class="admin-head">
+      <div class="admin-title">🔑 管理者</div>
+      <button class="admin-close" type="button" onclick="closeAdmin()" aria-label="閉じる">×</button>
+    </div>
+    <div class="admin-sub">管理者キーで編集機能を有効化できます。</div>
+    <div class="admin-status off" id="adminModeStatus">EDIT MODE OFF</div>
+    <div class="admin-input-wrap">
+      <input class="admin-input" type="password" id="adminKeyInput" placeholder="管理者キーを入力" onkeydown="if(event.key==='Enter')verifyAdmin()">
+    </div>
+    <div class="admin-error" id="adminError">パスワードが正しくありません</div>
+    <div class="admin-key-toggle-wrap" id="adminKeyToggleWrap" style="display:none;">
+      <button class="admin-btn cancel admin-btn-inline" type="button" id="adminKeyToggleBtn" onclick="toggleAdminKeyChangeBox()">管理者キーを変更</button>
+    </div>
+    <div class="admin-key-change" id="adminKeyChangeBox" style="display:none;">
+      <div class="admin-key-title">管理者キーを変更</div>
+      <div class="admin-key-grid">
+        <input class="admin-input" type="password" id="adminCurrentKeyInput" placeholder="現在の管理者キー（省略可）">
+        <input class="admin-input" type="password" id="adminNewKeyInput" placeholder="新しい管理者キー（4文字以上）">
+        <input class="admin-input" type="password" id="adminNewKeyConfirmInput" placeholder="新しい管理者キー（確認）">
+      </div>
+      <div class="admin-key-notice" id="adminKeyChangeNotice"></div>
+      <div class="admin-buttons">
+        <button class="admin-btn cancel" type="button" onclick="clearAdminKeyChangeForm()">クリア</button>
+        <button class="admin-btn primary" type="button" onclick="changeAdminKey()">キーを変更</button>
+      </div>
+    </div>
+    <div class="admin-buttons">
+      <button class="admin-btn cancel" type="button" onclick="closeAdmin()">キャンセル</button>
+      <button class="admin-btn" type="button" onclick="exitAdminMode()">解除</button>
+      <button class="admin-btn primary" type="button" onclick="verifyAdmin()">ログイン</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-modal" id="articleCreateModal">
+  <div class="admin-box" onclick="event.stopPropagation()">
+    <div class="admin-head">
+      <div class="admin-title">📝 記事作成</div>
+      <button class="admin-close" type="button" onclick="closeCreateArticleModal()" aria-label="閉じる">×</button>
+    </div>
+    <div class="article-edit-mode-tabs" style="margin:6px 0 10px;">
+      <button id="articleCreateModeSource" class="article-edit-mode-btn" type="button" onclick="setArticleCreateMode('source')">URLを読ませる</button>
+      <button id="articleCreateModeManual" class="article-edit-mode-btn" type="button" onclick="setArticleCreateMode('manual')">新規で書く</button>
+    </div>
+    <div class="admin-sub" id="articleCreateModeHint">まっさらな本文テンプレートを作成します。</div>
+    <div class="article-create-grid" id="articleCreateManualFields">
+      <input class="admin-input" type="text" id="articleCreateTitleInput" maxlength="120" placeholder="記事タイトル">
+      <input class="admin-input" type="text" id="articleCreateIdInput" maxlength="120" placeholder="記事ID（任意: 未入力なら自動生成）">
+      <select class="admin-input" id="articleCreateCategoryInput" aria-label="カテゴリ選択"></select>
+      <input class="admin-input" type="text" id="articleCreateEyebrowInput" maxlength="80" placeholder="上部ラベル（任意: 例 DICTIONARY BASICS）">
+      <input class="admin-input" type="text" id="articleCreateTagsInput" maxlength="180" placeholder="ハッシュタグ（例: #ux #要件定義）">
+    </div>
+    <div id="articleCreateSourceWrap" style="display:none; margin-top:8px;">
+      <input class="admin-input" type="url" id="articleCreateSourceUrlInput" maxlength="400" placeholder="参考URL（必須: https://...）">
+    </div>
+    <div class="admin-key-notice" id="articleCreateNotice"></div>
+    <div class="admin-buttons">
+      <button class="admin-btn cancel" type="button" onclick="closeCreateArticleModal()">キャンセル</button>
+      <button class="admin-btn primary" type="button" id="articleCreateSubmitBtn" onclick="submitCreateArticle()">作成して編集</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-modal article-edit-modal" id="articleEditModal">
+  <div class="admin-box article-edit-box" onclick="event.stopPropagation()">
+    <div class="admin-title">記事編集</div>
+    <div class="article-edit-tool" id="articleEditToolLabel"></div>
+    <label class="article-edit-tag-label" for="articleEditTitleInput">記事タイトル</label>
+    <input id="articleEditTitleInput" class="article-edit-tag-input" type="text" maxlength="160" placeholder="記事タイトルを入力">
+    <label class="article-edit-tag-label" for="articleEditCategorySelect">カテゴリ</label>
+    <select id="articleEditCategorySelect" class="article-edit-editor-select"></select>
+    <label class="article-edit-tag-label" for="articleEditTagsInput">ハッシュタグ（例: #ux #要件定義 #vibe）</label>
+    <input id="articleEditTagsInput" class="article-edit-tag-input" type="text" placeholder="#ux #wbs #進行管理">
+    <div class="article-edit-editor-wrap">
+      <label class="article-edit-tag-label" for="articleEditEditorSelect">担当編集メンバー（選択）</label>
+      <select id="articleEditEditorSelect" class="article-edit-editor-select" onchange="applySelectedEditorToArticleForm()">
+        <option value="">未設定</option>
+      </select>
+      <div class="article-edit-editor-grid">
+        <input id="articleEditEditorName" class="article-edit-tag-input" type="text" placeholder="表示名（例: すけさん）">
+        <input id="articleEditEditorRole" class="article-edit-tag-input" type="text" placeholder="肩書き（例: 編集責任者）">
+        <input id="articleEditEditorX" class="article-edit-tag-input" type="text" placeholder="Xハンドル（例: @disa_pr）">
+        <input id="articleEditEditorAvatar" class="article-edit-tag-input" type="text" placeholder="アイコンURL（任意）">
+        <input id="articleEditEditorBio" class="article-edit-tag-input is-full" type="text" placeholder="プロフィール（任意）">
+      </div>
+    </div>
+    <div class="article-edit-mode-tabs">
+      <button id="articleEditModeMarkdown" class="article-edit-mode-btn" type="button" onclick="setArticleEditorMode('markdown')">Markdown</button>
+      <button id="articleEditModeRich" class="article-edit-mode-btn" type="button" onclick="setArticleEditorMode('rich')">リッチ</button>
+    </div>
+    <div class="article-edit-toolbar">
+      <button class="article-edit-btn" type="button" onclick="editorFormat('h3')">見出し</button>
+      <button class="article-edit-btn" type="button" onclick="editorCommand('bold')">太字</button>
+      <button class="article-edit-btn" type="button" onclick="editorCommand('insertUnorderedList')">箇条書き</button>
+      <button class="article-edit-btn" type="button" onclick="editorInsertLink()">リンク</button>
+      <button class="article-edit-btn" type="button" onclick="editorInsertImage()">画像追加</button>
+      <button class="article-edit-btn" type="button" onclick="editorPickImageFromDevice()">PC画像追加</button>
+      <button class="article-edit-btn" type="button" onclick="removeSelectedEditorImage()">画像削除</button>
+      <button class="article-edit-btn" type="button" onclick="editorInsertHighlight()">ハイライト枠</button>
+      <button class="article-edit-btn" type="button" onclick="editorInsertYouTube()">YouTube埋め込み</button>
+    </div>
+    <input id="articleEditImageFileInput" type="file" accept="image/*" class="is-hidden">
+    <div class="article-edit-main">
+      <div id="articleEditContent" class="article-edit-wysiwyg" contenteditable="true" spellcheck="false" aria-label="記事本文エディター"></div>
+      <textarea id="articleEditMarkdown" class="article-edit-markdown" spellcheck="false" aria-label="記事本文Markdownエディター"></textarea>
+    </div>
+    <div class="admin-buttons admin-buttons-top">
+      <button class="admin-btn cancel" type="button" onclick="closeArticleEditor()">キャンセル</button>
+      <button class="admin-btn primary" type="button" onclick="saveArticleEdits()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="kun-fab-ring-wrap">
+  <svg class="kun-fab-ring-text" viewBox="0 0 120 120" aria-hidden="true">
+    <defs>
+      <path id="kunFabRingPath" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"></path>
+    </defs>
+    <text>
+      <textPath href="#kunFabRingPath" startOffset="50%" text-anchor="middle">辞書くんに聞く・迷ったらサポート・</textPath>
+    </text>
+  </svg>
+  <span class="kun-fab-mobile-label" aria-hidden="true">＼検索／</span>
+  <svg class="kun-fab-mobile-arc" viewBox="0 0 100 50" aria-hidden="true">
+    <defs>
+      <path id="kunFabMobileArcPath" d="M10,45 A40,40 0 0,1 90,45"></path>
+    </defs>
+    <text>
+      <textPath href="#kunFabMobileArcPath" startOffset="50%" text-anchor="middle">＼検索／</textPath>
+    </text>
+  </svg>
+  <button class="kun-fab" type="button" onclick="openDictionaryKunChat()" aria-label="辞書くんに聞く">
+    <img src="./img/dictionary-kun.svg" alt="辞書くん">
+  </button>
+</div>
+
+<div class="admin-modal" id="dictKunModal">
+  <div class="dict-chat-modal">
+    <div class="dict-chat-head">
+      <div class="dict-chat-title"><img class="dict-chat-title-icon" src="./img/dictionary-kun.svg" alt="辞書くん">辞書くんに聞く</div>
+      <button class="dict-chat-close" type="button" onclick="closeDictionaryKunChat()" aria-label="閉じる">×</button>
+    </div>
+    <div class="dict-chat-log" id="dictKunLog"></div>
+    <div class="dict-chat-input">
+      <input id="dictKunInput" type="text" placeholder="例）要件定義ってどこから始める？" onkeydown="handleDictionaryKunKey(event)">
+      <button class="dict-chat-send" type="button" onclick="sendDictionaryKunQuestion()">送信</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-modal" id="homeUpdateDetailModal" onclick="if(event.target===this)closeHomeUpdateDetail()">
+  <div class="home-update-detail-card">
+    <div class="dict-chat-head">
+      <div class="dict-chat-title">最近の機能アップデート</div>
+      <button class="dict-chat-close" type="button" onclick="closeHomeUpdateDetail()" aria-label="閉じる">×</button>
+    </div>
+    <div class="home-update-detail-date" id="homeUpdateDetailDate"></div>
+    <div class="home-update-detail-body" id="homeUpdateDetailBody"></div>
+    <div class="home-update-detail-actions">
+      <button class="home-update-share-btn" id="homeUpdateDetailShareBtn" type="button">Xでポスト</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-modal" id="hashtagModal" onclick="if(event.target===this)closeHashtagModal()">
+  <div class="hashtag-modal-card">
+    <div class="hashtag-modal-head">
+      <div class="hashtag-modal-title">
+        <div class="hashtag-modal-kicker">Hashtag Related</div>
+        <div class="hashtag-modal-name" id="hashtagModalTitle">#タグ</div>
+        <div class="hashtag-modal-sub" id="hashtagModalSub">関連記事を表示します</div>
+      </div>
+      <button class="dict-chat-close" type="button" onclick="closeHashtagModal()" aria-label="閉じる">×</button>
+    </div>
+    <div class="hashtag-related-list" id="hashtagModalList"></div>
+    <div class="hashtag-modal-actions">
+      <button class="btn-ghost" id="hashtagModalMoreBtn" type="button">このタグで一覧を見る</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-modal" id="glossaryInlineModal" onclick="if(event.target===this)closeGlossaryTermDetailModal()">
+  <div class="glossary-inline-modal-card">
+    <div class="glossary-inline-modal-head">
+      <div class="glossary-inline-modal-title">
+        <div class="glossary-inline-modal-kicker">Glossary</div>
+        <div class="glossary-inline-modal-name" id="glossaryInlineTitle">用語</div>
+      </div>
+      <button class="dict-chat-close" type="button" onclick="closeGlossaryTermDetailModal()" aria-label="閉じる">×</button>
+    </div>
+    <div class="glossary-inline-modal-desc" id="glossaryInlineDesc">用語の説明を表示します。</div>
+  </div>
+</div>
+
+<div class="admin-modal image-viewer-modal" id="articleImageModal" onclick="if(event.target===this)closeArticleImageModal()">
+  <div class="image-viewer-frame">
+    <button class="image-viewer-close" type="button" onclick="closeArticleImageModal()" aria-label="閉じる">×</button>
+    <img id="articleImageModalImg" class="image-viewer-img" src="" alt="記事画像">
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div id="glossaryTooltip" class="glossary-tooltip" role="tooltip" aria-hidden="true">
+  <div class="glossary-tooltip-term" id="glossaryTooltipTerm"></div>
+  <div class="glossary-tooltip-desc" id="glossaryTooltipDesc"></div>
+</div>
+
+
+
+<script src="./analytics.js?v=20260327a"></script>
+<script src="./data/data.js"></script>
+<script src="./app.js?v=20260401.1738" defer></script>
+</body>
+</html>
