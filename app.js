@@ -69,7 +69,7 @@ const ADMIN_SESSION_KEY = 'dir_admin_session_key';
 const ADMIN_SESSION_AT = 'dir_admin_session_at';
 const ADMIN_SESSION_TTL_MS = 2 * 60 * 60 * 1000;
 const BASE_CONTENT_UPDATED_AT = '2026-02-17T00:00:00+09:00';
-const CONTENT_ASSET_VERSION = '20260401.1738';
+const CONTENT_ASSET_VERSION = '20260401.1930';
 const SIMPLE_ROUTE_VIEWS = new Set(['learn', 'glossary', 'tools', 'requests', 'editors']);
 const PUBLIC_BASE_URL = 'https://drsp.cc/dic/';
 const DEFAULT_SEO_TITLE = '辞書.app — ディレクションの辞書';
@@ -1805,9 +1805,11 @@ function applyTheme(theme) {
   document.body.setAttribute('data-theme', theme);
   const btn = document.getElementById('themeToggle');
   const menuIcon = document.getElementById('themeToggleMenu');
+  const logo = document.getElementById('brandLogo');
   const icon = theme === 'light' ? '☀︎' : '☾';
   if (btn) btn.textContent = icon;
   if (menuIcon) menuIcon.textContent = icon;
+  if (logo) logo.src = theme === 'dark' ? './img/logo-dictionaryapp-dark.svg' : './img/logo-dictionaryapp-light.svg';
 }
 
 function initTheme() {
