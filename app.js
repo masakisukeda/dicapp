@@ -3319,24 +3319,19 @@ function renderLatestComments() {
     return;
   }
 
-  const titleById = new Map((state.articleIndex || []).map((a) => [a.id, normalizeDisplayText(a.title)]));
   const categoryById = new Map((state.articleIndex || []).map((a) => [a.id, normalizeDisplayText(a.cat || '')]));
   list.innerHTML = recent.map((c) => {
     const date = formatHomeMetaDateTime(c.ts);
-    const rawTitle = titleById.get(c.articleId) || normalizeDisplayText(c.articleId);
-    const rowCatClass = categoryBadgeClass(categoryById.get(c.articleId) || '');
+    const catName = categoryById.get(c.articleId) || '';
     const rawBody = (c.body || '').replace(/\s+/g, ' ').trim();
     const commentTitle = rawBody.length > HOME_COMMENT_EXCERPT_MAX
       ? `${rawBody.slice(0, HOME_COMMENT_EXCERPT_MAX)}…`
       : rawBody;
-    const badgeText = '●';
     const titleText = escapeHtml(commentTitle || 'コメント');
-    const excerptText = '';
     return `
-      <div class="article-row note-row comment-row ${rowCatClass}" onclick="showArticle('${escapeHtml(c.articleId)}')">
-        <span class="article-cat-badge">${badgeText}</span>
+      <div class="article-row note-row recent-row" onclick="showArticle('${escapeHtml(c.articleId)}')">
+        ${renderCategoryBadge(catName)}
         <span class="article-title-row">${titleText}</span>
-        <span class="comment-excerpt">${excerptText}</span>
         <span class="note-meta">${date}</span>
         <span class="article-arrow">›</span>
       </div>
