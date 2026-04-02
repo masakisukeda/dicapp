@@ -2655,7 +2655,7 @@ function renderCategoryView(categoryId) {
       crumb.textContent = `${categoryGroupLabelByKey(state.categoryGroupFilter)} / ${title}`;
     }
   }
-  if (kicker) kicker.textContent = cat.kicker ? String(cat.kicker) : `CATEGORY / ${cat.id.toUpperCase()}`;
+  if (kicker) kicker.textContent = cat.kicker ? String(cat.kicker) : 'CATEGORY / GLOSSARY';
   if (titleEl) titleEl.textContent = title;
   if (sub) sub.textContent = categoryDescription(cat);
   if (count) count.textContent = `${items.length} 項目`;
