@@ -2333,6 +2333,11 @@ function renderCategoryBadge(catName) {
   const cls = categoryBadgeClass(catName);
   return `<span class="article-cat-badge ${cls}">${safeText}</span>`;
 }
+
+function renderAppendixGlossaryChip() {
+  return '<button class="filter-chip" type="button" onclick="setCategoryGroup(\'appendix\'); showGlossaryView()">用語集</button>';
+}
+
 function renderHomeCategoryNav() {
   renderCategoryGroupTabs('homeCategoryGroupTabs', state.categoryGroupFilter);
 
@@ -2345,11 +2350,17 @@ function renderHomeCategoryNav() {
     return;
   }
 
-  nav.innerHTML = visibleCategories.map((c) => {
+  const chips = visibleCategories.map((c) => {
     const label = normalizeDisplayText(c.name);
     const catClass = categoryBadgeClass(label);
     return `<button class="filter-chip ${catClass}" type="button" onclick="showCategory('${c.id}')">${escapeHtml(label)}</button>`;
-  }).join('');
+  });
+
+  if (state.categoryGroupFilter === 'appendix') {
+    chips.unshift(renderAppendixGlossaryChip());
+  }
+
+  nav.innerHTML = chips.join('');
 }
 
 function getHomeUpdates() {
@@ -2668,6 +2679,10 @@ function renderCategoryView(categoryId) {
       }
       return `<button class="filter-chip ${catClass}" type="button" onclick="showCategory('${c.id}')">${escapeHtml(label)}</button>`;
     });
+
+    if (!cat.isCurriculumTrack && state.categoryGroupFilter === 'appendix') {
+      chips.unshift(renderAppendixGlossaryChip());
+    }
 
     if (isMobile && categories.length > limit) {
       const hiddenCount = Math.max(0, categories.length - visibleCategories.length);

@@ -472,7 +472,6 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
       EDIT MODE
     </div>
     <button class="nav-btn ghost requests-btn header-btn-main header-route-btn" data-route="requests" type="button" onclick="goRequestsPage()">要望</button>
-    <button class="nav-btn ghost header-btn-sub header-route-btn" data-route="glossary" type="button" onclick="showGlossaryView()">用語集</button>
     <button class="nav-btn ghost header-btn-sub editors-btn header-route-btn" data-route="editors" type="button" onclick="showEditorsView()">編集メンバー</button>
     <div class="admin-nav-wrap" id="headerAdminMenu">
       <button class="nav-btn ghost admin-login-btn" id="headerAdminMenuBtn" type="button" aria-expanded="false" onclick="toggleHeaderAdminMenu(event)">管理者キー</button>
@@ -661,6 +660,8 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
     <div class="category-view ui-view-stack" id="glossaryView">
       <div class="article-breadcrumb">
         <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-home-link" onclick="setCategoryGroup('appendix'); showView('home')">Appendix</span>
         <span class="breadcrumb-sep">›</span>
         <span>用語集</span>
       </div>
@@ -951,7 +952,6 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
 <div class="mobile-menu-panel" id="mobileMenuPanel" role="dialog" aria-label="モバイルメニュー">
   <button class="mobile-menu-item" type="button" onclick="goRequestsPage(); closeMobileMenu();">要望</button>
-  <button class="mobile-menu-item" type="button" onclick="showGlossaryView(); closeMobileMenu();">用語集</button>
   <button class="mobile-menu-item" type="button" onclick="showEditorsView(); closeMobileMenu();">編集メンバー</button>
   <button class="mobile-menu-item" type="button" id="mobileCreateArticleBtn" style="display:none;" onclick="openCreateArticleModal(); closeMobileMenu();">記事作成</button>
 </div>
