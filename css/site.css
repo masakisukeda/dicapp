@@ -7715,3 +7715,55 @@ body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-gr
   filter: saturate(1.16) contrast(1.08);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.34) inset, 0 8px 16px rgba(0, 0, 0, 0.18);
 }
+
+/* ===== Mobile Home: restore previous category jump style ===== */
+@media (max-width: 900px) {
+  #homeCategoryNavList .category-nav-group {
+    border-color: var(--border2) !important;
+    background: color-mix(in srgb, var(--bg3) 84%, transparent) !important;
+    box-shadow: none !important;
+    padding: 9px !important;
+    gap: 7px !important;
+  }
+
+  #homeCategoryNavList .category-nav-group-title {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+
+  #homeCategoryNavList .category-nav-group-text {
+    color: var(--ink2) !important;
+    letter-spacing: 0.02em !important;
+    text-transform: none !important;
+    font-size: var(--font-ui-sm) !important;
+  }
+
+  #homeCategoryNavList .category-nav-group-chips {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+    gap: 8px !important;
+  }
+
+  #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip {
+    border-color: var(--border2) !important;
+    background: color-mix(in srgb, var(--bg2) 88%, transparent) !important;
+    color: var(--ink) !important;
+    box-shadow: none !important;
+    min-height: 34px !important;
+    padding: 7px 12px !important;
+  }
+
+  #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip:hover {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border2)) !important;
+    background: color-mix(in srgb, var(--bg2) 94%, transparent) !important;
+    color: var(--ink) !important;
+  }
+
+  #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.active {
+    filter: none !important;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 36%, transparent) inset !important;
+  }
+}
