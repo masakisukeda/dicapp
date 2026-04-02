@@ -3766,6 +3766,17 @@ async function loadArticleOverridesFromServer(limit = 500) {
   });
 
   state.articleOverrides = COMMENTS_SERVER_ENABLED ? nextOverrides : { ...state.articleOverrides, ...nextOverrides };
+  // サーバーに存在する記事は、端末ローカルの古い「非表示」フラグを解除する
+  if (state.deletedArticles && state.deletedArticles.size) {
+    let dirty = false;
+    Object.keys(nextOverrides).forEach((id) => {
+      if (state.deletedArticles.has(id)) {
+        state.deletedArticles.delete(id);
+        dirty = true;
+      }
+    });
+    if (dirty) saveSet(STORAGE_KEYS.deletedArticles, state.deletedArticles);
+  }
   saveArticleOverrides();
   return true;
 }
@@ -5078,10 +5089,9 @@ async function showArticle(id, options = {}) {
 
   const article = await loadArticle(id);
 
-  // 端末ローカルの古い非表示フラグで、配信済み記事が見えなくなる問題を回避する
+  // 端末ローカルの古い非表示フラグで、サーバー配信済み記事が見えなくなる問題を回避する
   if (isArticleDeleted(id) && !state.isAdmin) {
-    const isCatalogArticle = (state.articleIndex || []).some((a) => String(a.id) === String(id));
-    if (isCatalogArticle && article) {
+    if (article) {
       state.deletedArticles.delete(id);
       saveSet(STORAGE_KEYS.deletedArticles, state.deletedArticles);
     } else {
