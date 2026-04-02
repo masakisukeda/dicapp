@@ -5185,13 +5185,22 @@ body:not([data-theme="light"]) button.tag:hover {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.category-top-col-list #dictionaryTopCategoryList,
+.category-top-col-list #appendixTopCategoryList {
+  margin-top: 0;
+  margin-bottom: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 @media (max-width: 900px) {
   .category-top-grid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
 
-  .category-top-col-list #categoryArticleList {
+  .category-top-col-list #categoryArticleList,
+  .category-top-col-list #dictionaryTopCategoryList,
+  .category-top-col-list #appendixTopCategoryList {
     grid-template-columns: 1fr;
   }
 }

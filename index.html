@@ -656,7 +656,18 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
         <p class="cat-sub">辞書カテゴリの一覧から、カテゴリトップページへ移動できます。</p>
       </div>
 
-      <div class="category-jump-groups" id="dictionaryTopCategoryNavList"></div>
+      <div class="category-top-grid" id="dictionaryTopGrid">
+        <section class="category-top-col category-top-col-nav">
+          <div class="category-jump-groups" id="dictionaryTopCategoryNavList"></div>
+        </section>
+
+        <section class="category-top-col category-top-col-list ui-section-panel" aria-labelledby="dictionaryTopListHeading">
+          <div class="ui-section-panel-head">
+            <div class="ui-section-panel-title" id="dictionaryTopListHeading">カテゴリの項目一覧</div>
+          </div>
+          <div class="article-list" id="dictionaryTopCategoryList"></div>
+        </section>
+      </div>
     </div>
 
     <div class="category-view ui-view-stack" id="appendixTopView">
@@ -672,7 +683,18 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
         <p class="cat-sub">Appendixカテゴリの一覧から、カテゴリトップページへ移動できます。</p>
       </div>
 
-      <div class="category-jump-groups" id="appendixTopCategoryNavList"></div>
+      <div class="category-top-grid" id="appendixTopGrid">
+        <section class="category-top-col category-top-col-nav">
+          <div class="category-jump-groups" id="appendixTopCategoryNavList"></div>
+        </section>
+
+        <section class="category-top-col category-top-col-list ui-section-panel" aria-labelledby="appendixTopListHeading">
+          <div class="ui-section-panel-head">
+            <div class="ui-section-panel-title" id="appendixTopListHeading">カテゴリの項目一覧</div>
+          </div>
+          <div class="article-list" id="appendixTopCategoryList"></div>
+        </section>
+      </div>
     </div>
 
     <!-- CATEGORY VIEW -->

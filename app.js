@@ -2502,10 +2502,33 @@ function renderAppendixTopCategoryNav() {
   });
 }
 
+function renderCategoryGroupTopList(target, groupKey) {
+  const root = typeof target === 'string' ? document.getElementById(target) : target;
+  if (!root) return;
+  const categories = getFilteredCategoriesByGroup(groupKey);
+  if (!categories.length) {
+    root.innerHTML = '<div class="article-row note-row is-placeholder"><span class="article-title-row">カテゴリ準備中です</span></div>';
+    return;
+  }
+  root.innerHTML = categories.map((cat) => {
+    const label = normalizeDisplayText(cat.name);
+    const catId = escapeForSingleQuote(cat.id);
+    return `
+      <div class="article-row recent-row" onclick="showCategory('${catId}')">
+        ${renderCategoryBadge(label)}
+        <span class="article-title-row">${escapeHtml(label)}</span>
+        <span class="article-arrow">›</span>
+      </div>
+    `;
+  }).join('');
+}
+
 function renderCategoryTopNavigations() {
   renderHomeCategoryNav();
   renderDictionaryTopCategoryNav();
   renderAppendixTopCategoryNav();
+  renderCategoryGroupTopList('dictionaryTopCategoryList', 'dictionary');
+  renderCategoryGroupTopList('appendixTopCategoryList', 'appendix');
 }
 
 function getHomeUpdates() {
@@ -2769,12 +2792,7 @@ function renderCategoryView(categoryId) {
   if (sub) sub.textContent = categoryDescription(cat);
   if (count) count.textContent = `${items.length} 項目`;
   const phaseBlock = document.getElementById('categoryPhaseBlock');
-  const isAppendixCategory = !cat.isCurriculumTrack && state.categoryGroupFilter === 'appendix';
-  if (cat.isCurriculumTrack || isAppendixCategory) {
-    if (phaseBlock) phaseBlock.style.display = 'none';
-  } else {
-    renderCategoryPhaseGuide(title);
-  }
+  if (phaseBlock) phaseBlock.style.display = 'none';
 
 
   if (nav) {
