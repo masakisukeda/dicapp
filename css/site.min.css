@@ -4249,6 +4249,22 @@ body:not([data-theme="light"]) button.tag:hover {
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
 }
 
+.home-track-grid.is-scroll-mode {
+  display: flex !important;
+  flex-wrap: nowrap;
+  grid-template-columns: none !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+.home-track-grid.is-scroll-mode .home-track-card {
+  flex: 0 0 clamp(240px, 26vw, 320px);
+  scroll-snap-align: start;
+}
+
 .home-track-card .feature-desc {
   -webkit-line-clamp: 3;
 }
@@ -4262,6 +4278,10 @@ body:not([data-theme="light"]) button.tag:hover {
 @media (max-width: 640px) {
   .home-track-grid {
     grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .home-track-grid.is-scroll-mode .home-track-card {
+    flex-basis: min(80vw, 300px);
   }
 }
 

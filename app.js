@@ -2320,7 +2320,9 @@ function getCurriculumCategoryById(categoryId) {
 function renderHomeCurriculumTracks() {
   const root = document.getElementById('homeTrackGrid');
   if (!root) return;
-  root.innerHTML = getVisibleCurriculumTracks().map((track) => `
+  const tracks = getVisibleCurriculumTracks();
+  root.classList.toggle('is-scroll-mode', tracks.length >= 5);
+  root.innerHTML = tracks.map((track) => `
     <button class="feature-card home-track-card" type="button" onclick="openCurriculumTrack('${track.id}')">
       <span class="feature-icon">${track.icon}</span>
       <span class="feature-title">${escapeHtml(normalizeDisplayText(track.name))}</span>
