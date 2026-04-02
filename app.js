@@ -75,6 +75,11 @@ const PUBLIC_BASE_URL = 'https://drsp.cc/dic/';
 const DEFAULT_SEO_TITLE = '辞書.app — ディレクションの辞書';
 const DEFAULT_SEO_DESCRIPTION = 'ディレクションの"わからない"を、なくそう。キャリアチェンジ中のデザイナーも、新人ディレクターも迷ったらすぐ開ける辞書アプリ。';
 const DEFAULT_OG_IMAGE = 'https://drsp.cc/dic/img/ogp-1200x630.png';
+const APPENDIX_CATEGORY_IDS = new Set(['tools', 'hiring', 'failure_cases']);
+const CATEGORY_GROUP_OPTIONS = [
+  { key: 'dictionary', label: '辞書' },
+  { key: 'appendix', label: 'Appendix' },
+];
 
 const API_BASE = (
   window.location.protocol === 'http:' || window.location.protocol === 'https:'
@@ -485,6 +490,7 @@ const state = {
   toolPref: localStorage.getItem(STORAGE_KEYS.toolPref) || '基本',
   currentArticleId: null,
   currentCategoryId: null,
+  categoryGroupFilter: 'dictionary',
   categoryNavExpanded: false,
   currentView: 'home',
   useEmbeddedData: false,
@@ -2239,6 +2245,71 @@ function getVisibleCurriculumTracks() {
   });
 }
 
+function normalizeCategoryGroupFilter(value) {
+  const key = normalizeDisplayText(value).toLocaleLowerCase('en-US');
+  if (key === 'appendix') return 'appendix';
+  return 'dictionary';
+}
+
+function categoryGroupLabelByKey(groupKey) {
+  return normalizeCategoryGroupFilter(groupKey) === 'appendix' ? 'Appendix' : '辞書';
+}
+
+function categoryGroupKeyByCategory(category) {
+  if (!category || typeof category !== 'object') return 'dictionary';
+  const id = String(category.id || '').trim();
+  if (APPENDIX_CATEGORY_IDS.has(id)) return 'appendix';
+  const name = normalizeDisplayText(category.name || '');
+  if (name.includes('ツール') || name.includes('採用') || name.includes('失敗談')) return 'appendix';
+  return 'dictionary';
+}
+
+function categoryGroupKeyByCategoryId(categoryId) {
+  const found = (state.categories || []).find((c) => c && c.id === categoryId);
+  return categoryGroupKeyByCategory(found);
+}
+
+function getFilteredCategoriesByGroup(groupKey) {
+  const safeGroup = normalizeCategoryGroupFilter(groupKey);
+  return (state.categories || []).filter((c) => c && c.id && categoryGroupKeyByCategory(c) === safeGroup);
+}
+
+function renderCategoryGroupTabs(target, activeGroupKey) {
+  const root = typeof target === 'string' ? document.getElementById(target) : target;
+  if (!root) return;
+
+  const active = normalizeCategoryGroupFilter(activeGroupKey);
+  root.style.display = 'flex';
+  root.innerHTML = CATEGORY_GROUP_OPTIONS.map((option) => {
+    const isActive = option.key === active;
+    if (isActive) {
+      return `<button class="filter-chip active" type="button" disabled>${escapeHtml(option.label)}</button>`;
+    }
+    return `<button class="filter-chip" type="button" onclick="setCategoryGroup('${option.key}')">${escapeHtml(option.label)}</button>`;
+  }).join('');
+}
+
+function setCategoryGroup(nextGroupKey) {
+  const next = normalizeCategoryGroupFilter(nextGroupKey);
+  state.categoryGroupFilter = next;
+  renderHomeCategoryNav();
+
+  if (state.currentView === 'category' && state.currentCategoryId) {
+    const currentCategory = getCurriculumCategoryById(state.currentCategoryId);
+    if (currentCategory && !currentCategory.isCurriculumTrack) {
+      const visibleCategories = getFilteredCategoriesByGroup(next);
+      if (!visibleCategories.some((c) => c.id === state.currentCategoryId)) {
+        const fallbackCategory = visibleCategories[0];
+        if (fallbackCategory) {
+          showCategory(fallbackCategory.id);
+          return;
+        }
+      }
+      renderCategoryView(state.currentCategoryId);
+    }
+  }
+}
+
 function getCurriculumCategoryById(categoryId) {
   const track = getVisibleCurriculumTracks().find((x) => x && x.id === categoryId);
   if (track) return { ...track, isCurriculumTrack: true };
@@ -2263,10 +2334,18 @@ function renderCategoryBadge(catName) {
   return `<span class="article-cat-badge ${cls}">${safeText}</span>`;
 }
 function renderHomeCategoryNav() {
+  renderCategoryGroupTabs('homeCategoryGroupTabs', state.categoryGroupFilter);
+
   const nav = document.getElementById('homeCategoryNavList');
   if (!nav) return;
 
-  nav.innerHTML = (state.categories || []).filter((c) => c && c.id).map((c) => {
+  const visibleCategories = getFilteredCategoriesByGroup(state.categoryGroupFilter);
+  if (!visibleCategories.length) {
+    nav.innerHTML = '<span class="filter-chip" aria-disabled="true">カテゴリ準備中</span>';
+    return;
+  }
+
+  nav.innerHTML = visibleCategories.map((c) => {
     const label = normalizeDisplayText(c.name);
     const catClass = categoryBadgeClass(label);
     return `<button class="filter-chip ${catClass}" type="button" onclick="showCategory('${c.id}')">${escapeHtml(label)}</button>`;
@@ -2517,16 +2596,33 @@ function renderCategoryView(categoryId) {
   const titleEl = document.getElementById('categoryTitle');
   const sub = document.getElementById('categorySub');
   const count = document.getElementById('categoryArticleCount');
+  const groupTabs = document.getElementById('categoryGroupTabs');
   const nav = document.getElementById('categoryNavList');
   const list = document.getElementById('categoryArticleList');
   const view = document.getElementById('categoryView');
+
+  if (cat.isCurriculumTrack) {
+    if (groupTabs) {
+      groupTabs.style.display = 'none';
+      groupTabs.innerHTML = '';
+    }
+  } else {
+    state.categoryGroupFilter = categoryGroupKeyByCategory(cat);
+    renderCategoryGroupTabs(groupTabs, state.categoryGroupFilter);
+  }
 
   if (view) {
     CATEGORY_THEME_CLASSES.forEach((cls) => view.classList.remove(cls));
     view.classList.add(viewClass);
   }
 
-  if (crumb) crumb.textContent = title;
+  if (crumb) {
+    if (cat.isCurriculumTrack) {
+      crumb.textContent = title;
+    } else {
+      crumb.textContent = `${categoryGroupLabelByKey(state.categoryGroupFilter)} / ${title}`;
+    }
+  }
   if (kicker) kicker.textContent = cat.kicker ? String(cat.kicker) : `CATEGORY / ${cat.id.toUpperCase()}`;
   if (titleEl) titleEl.textContent = title;
   if (sub) sub.textContent = categoryDescription(cat);
@@ -2542,7 +2638,7 @@ function renderCategoryView(categoryId) {
   if (nav) {
     const categories = cat.isCurriculumTrack
       ? getVisibleCurriculumTracks()
-      : (state.categories || []).filter((c) => c && c.id);
+      : getFilteredCategoriesByGroup(state.categoryGroupFilter);
     const isMobile = isCompactMobileLayout();
     const limit = 4;
     let visibleCategories = categories;
@@ -4805,11 +4901,19 @@ async function showArticle(id, options = {}) {
   const displayCat = canonicalCategoryNameByArticleId(id) || normalizeDisplayText(article.cat);
   const articleForView = { ...article, cat: displayCat };
   const articleCatEl = document.getElementById('articleCat');
-  articleCatEl.textContent = displayCat;
   const catId = findCategoryIdByName(displayCat);
   if (catId) {
+    const groupKey = categoryGroupKeyByCategoryId(catId);
+    articleCatEl.textContent = `${categoryGroupLabelByKey(groupKey)} / ${displayCat}`;
+  } else {
+    articleCatEl.textContent = displayCat;
+  }
+  if (catId) {
     articleCatEl.classList.add('breadcrumb-home-link');
-    articleCatEl.onclick = () => showCategory(catId);
+    articleCatEl.onclick = () => {
+      setCategoryGroup(categoryGroupKeyByCategoryId(catId));
+      showCategory(catId);
+    };
   } else {
     articleCatEl.classList.remove('breadcrumb-home-link');
     articleCatEl.onclick = null;
@@ -8033,6 +8137,7 @@ function selectTagFilter(tag) {
 window.showToolsView = showToolsView;
 window.selectToolFilter = selectToolFilter;
 window.selectTagFilter = selectTagFilter;
+window.setCategoryGroup = setCategoryGroup;
 
 window.openFeatureRequestModal = openFeatureRequestModal;
 window.closeFeatureRequestModal = closeFeatureRequestModal;
