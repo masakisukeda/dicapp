@@ -1100,14 +1100,37 @@ function updateStructuredDataForRoute(view, payload = {}) {
         name: '一般社団法人ディレクションサポート協会',
       },
     };
+    const categoryName = normalizeDisplayText(article.cat || 'ディレクション');
+    const categoryId = findCategoryIdByName(article.cat || '');
+    const groupKey = categoryId ? categoryGroupKeyByCategoryId(categoryId) : '';
+    const groupName = groupKey ? categoryGroupLabelByKey(groupKey) : '';
+    const breadcrumbItems = [
+      { '@type': 'ListItem', position: 1, name: '辞書.app', item: PUBLIC_BASE_URL },
+    ];
+    if (groupName) {
+      breadcrumbItems.push({
+        '@type': 'ListItem',
+        position: breadcrumbItems.length + 1,
+        name: groupName,
+        item: PUBLIC_BASE_URL,
+      });
+    }
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: breadcrumbItems.length + 1,
+      name: categoryName,
+      item: buildPublicRouteUrl('category', categoryId || ''),
+    });
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: breadcrumbItems.length + 1,
+      name: normalizeDisplayText(article.title || articleId),
+      item: url,
+    });
     const breadcrumbLd = {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: '辞書.app', item: PUBLIC_BASE_URL },
-        { '@type': 'ListItem', position: 2, name: normalizeDisplayText(article.cat || 'ディレクション'), item: buildPublicRouteUrl('category', findCategoryIdByName(article.cat || '') || '') },
-        { '@type': 'ListItem', position: 3, name: normalizeDisplayText(article.title || articleId), item: url },
-      ],
+      itemListElement: breadcrumbItems,
     };
     upsertJsonLd('jsonld-website', website);
     upsertJsonLd('jsonld-page', articleLd);
@@ -4867,6 +4890,46 @@ async function showArticle(id, options = {}) {
   closeMobileSidebar();
   closeMobileMenu();
   state.currentArticleId = id;
+  const articleGroupEl = document.getElementById('articleGroup');
+  const articleGroupSepEl = document.getElementById('articleGroupSep');
+  const articleCatEl = document.getElementById('articleCat');
+  const articleCatSepEl = document.getElementById('articleCatSep');
+
+  const setCrumbLinkState = (el, active, onclick) => {
+    if (!el) return;
+    if (active) {
+      el.classList.add('breadcrumb-home-link');
+      el.onclick = onclick;
+    } else {
+      el.classList.remove('breadcrumb-home-link');
+      el.onclick = null;
+    }
+  };
+
+  const setArticleBreadcrumb = ({
+    groupLabel = '',
+    groupOnclick = null,
+    catLabel = '',
+    catOnclick = null,
+  } = {}) => {
+    const hasGroup = !!groupLabel;
+    const hasCat = !!catLabel;
+
+    if (articleGroupEl) {
+      articleGroupEl.textContent = groupLabel || '';
+      articleGroupEl.style.display = hasGroup ? '' : 'none';
+    }
+    setCrumbLinkState(articleGroupEl, hasGroup && typeof groupOnclick === 'function', groupOnclick);
+
+    if (articleCatEl) {
+      articleCatEl.textContent = catLabel || '';
+      articleCatEl.style.display = hasCat ? '' : 'none';
+    }
+    setCrumbLinkState(articleCatEl, hasCat && typeof catOnclick === 'function', catOnclick);
+
+    if (articleGroupSepEl) articleGroupSepEl.style.display = hasGroup && hasCat ? '' : 'none';
+    if (articleCatSepEl) articleCatSepEl.style.display = (hasGroup || hasCat) ? '' : 'none';
+  };
 
   const article = await loadArticle(id);
 
@@ -4884,7 +4947,13 @@ async function showArticle(id, options = {}) {
   }
 
   if (!article) {
-    document.getElementById('articleCat').textContent = '辞書';
+    setArticleBreadcrumb({
+      groupLabel: '辞書',
+      groupOnclick: () => {
+        setCategoryGroup('dictionary');
+        showView('home');
+      },
+    });
     document.getElementById('articleName').textContent = id;
     document.getElementById('articleEyebrow').textContent = 'DIRECTION';
     document.getElementById('articleTitle').textContent = id;
@@ -4912,23 +4981,25 @@ async function showArticle(id, options = {}) {
 
   const displayCat = canonicalCategoryNameByArticleId(id) || normalizeDisplayText(article.cat);
   const articleForView = { ...article, cat: displayCat };
-  const articleCatEl = document.getElementById('articleCat');
   const catId = findCategoryIdByName(displayCat);
   if (catId) {
     const groupKey = categoryGroupKeyByCategoryId(catId);
-    articleCatEl.textContent = `${categoryGroupLabelByKey(groupKey)} / ${displayCat}`;
+    setArticleBreadcrumb({
+      groupLabel: categoryGroupLabelByKey(groupKey),
+      groupOnclick: () => {
+        setCategoryGroup(groupKey);
+        showView('home');
+      },
+      catLabel: displayCat,
+      catOnclick: () => {
+        setCategoryGroup(groupKey);
+        showCategory(catId);
+      },
+    });
   } else {
-    articleCatEl.textContent = displayCat;
-  }
-  if (catId) {
-    articleCatEl.classList.add('breadcrumb-home-link');
-    articleCatEl.onclick = () => {
-      setCategoryGroup(categoryGroupKeyByCategoryId(catId));
-      showCategory(catId);
-    };
-  } else {
-    articleCatEl.classList.remove('breadcrumb-home-link');
-    articleCatEl.onclick = null;
+    setArticleBreadcrumb({
+      catLabel: displayCat,
+    });
   }
   document.getElementById('articleName').textContent = normalizeDisplayText(article.title);
   document.getElementById('articleEyebrow').textContent = normalizeEyebrow(articleForView);
