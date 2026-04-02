@@ -2466,9 +2466,11 @@ function renderCategoryJumpGroups(target, options = {}) {
       chips.push('<span class="filter-chip" aria-disabled="true">カテゴリ準備中</span>');
     }
 
-    const groupTitle = `${normalizeDisplayText(group.label)}カテゴリ`;
-    const isMobileHomeTop = root.id === 'homeCategoryNavList' && window.innerWidth <= 900;
-    const groupTitleLinkAttrs = isMobileHomeTop
+    const isHomeTop = root.id === 'homeCategoryNavList';
+    const groupTitle = isHomeTop
+      ? (group.key === 'appendix' ? 'Appendixトップ' : '辞書トップ')
+      : `${normalizeDisplayText(group.label)}カテゴリ`;
+    const groupTitleLinkAttrs = isHomeTop
       ? ` data-group-top-link="1" role="button" tabindex="0" onclick="showCategoryGroupTopView('${escapeHtml(group.key)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showCategoryGroupTopView('${escapeHtml(group.key)}');}"`
       : '';
     return `

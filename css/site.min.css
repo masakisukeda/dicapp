@@ -7934,3 +7934,61 @@ body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-gr
     filter: none !important;
   }
 }
+
+/* ===== Home Top: group header/top-link + distinct 10-color chips ===== */
+#homeCategoryNavList .category-nav-group-title[data-group-top-link="1"] {
+  cursor: pointer;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#homeCategoryNavList .category-nav-group-title[data-group-top-link="1"]:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  outline-offset: 2px;
+}
+
+body[data-theme="light"] #homeCategoryNavList .category-nav-group[data-group-key="dictionary"] .category-nav-group-title {
+  background: #dcebff !important;
+}
+
+body[data-theme="light"] #homeCategoryNavList .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
+  background: #ffe7d2 !important;
+}
+
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-title .category-nav-group-text {
+  color: #111111 !important;
+}
+
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group[data-group-key="dictionary"] .category-nav-group-title {
+  background: color-mix(in srgb, #63a7ff 28%, var(--bg2)) !important;
+}
+
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
+  background: color-mix(in srgb, #ffb173 30%, var(--bg2)) !important;
+}
+
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-title .category-nav-group-text {
+  color: #eef5ff !important;
+}
+
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-planning { border-color: #e0b44a !important; background: #ffefb5 !important; color: #111111 !important; }
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-ia { border-color: #6bb3df !important; background: #d7f1ff !important; color: #111111 !important; }
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-production { border-color: #8b73d8 !important; background: #e4dcff !important; color: #111111 !important; }
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-operation { border-color: #6cbc7b !important; background: #dbf7de !important; color: #111111 !important; }
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-promotion { border-color: #e19661 !important; background: #ffe3cb !important; color: #111111 !important; }
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-writing { border-color: #d987b2 !important; background: #ffdced !important; color: #111111 !important; }
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-glossary { border-color: #60beb2 !important; background: #dbf6f2 !important; color: #111111 !important; }
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-tools { border-color: #6f90d9 !important; background: #dce8ff !important; color: #111111 !important; }
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-recruit { border-color: #9fbc50 !important; background: #e8f8cc !important; color: #111111 !important; }
+body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-failure { border-color: #d98073 !important; background: #ffd9d3 !important; color: #111111 !important; }
+
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-planning { border-color: #b99231 !important; background: #5d4b1f !important; color: #fff4d4 !important; }
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-ia { border-color: #4f98bf !important; background: #1f4c60 !important; color: #daf4ff !important; }
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-production { border-color: #7762be !important; background: #3c2f6d !important; color: #ece5ff !important; }
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-operation { border-color: #59a969 !important; background: #1f4e2b !important; color: #defbe2 !important; }
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-promotion { border-color: #be7e4e !important; background: #5d3a20 !important; color: #ffe6d4 !important; }
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-writing { border-color: #ba6c95 !important; background: #5e2744 !important; color: #ffe1f2 !important; }
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-glossary { border-color: #52a89d !important; background: #1f4f48 !important; color: #defcf6 !important; }
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-tools { border-color: #5d81c7 !important; background: #243f6f !important; color: #e3ecff !important; }
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-recruit { border-color: #8cab41 !important; background: #3a5320 !important; color: #efffd4 !important; }
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-failure { border-color: #b96f64 !important; background: #5f2d29 !important; color: #ffe0dc !important; }
