@@ -1878,6 +1878,14 @@ async function init() {
     initStep = 'load-content';
     const isFileProtocol = window.location.protocol === 'file:';
     const embedded = window.DIR_DATA;
+    const hydrateEmbeddedArticles = (embeddedData) => {
+      if (!embeddedData || !embeddedData.articles || typeof embeddedData.articles !== 'object') return;
+      Object.keys(embeddedData.articles).forEach((id) => {
+        if (!id || state.articleMap.has(id)) return;
+        state.articleMap.set(id, embeddedData.articles[id]);
+      });
+    };
+    hydrateEmbeddedArticles(embedded);
 
     if (isFileProtocol && embedded) {
       state.useEmbeddedData = true;
@@ -1907,6 +1915,7 @@ async function init() {
         state.recentArticles = Array.isArray(articleIndex) ? articleIndex : [];
         state.articleIndex = Array.isArray(articleIndex) ? articleIndex : [];
         state.curriculumByLevel = (curriculum && curriculum.levels) ? curriculum.levels : {};
+        hydrateEmbeddedArticles(embedded);
       } catch (loadErr) {
         const embeddedFallback = window.DIR_DATA;
         if (embeddedFallback) {
