@@ -173,6 +173,25 @@ const RECOMMENDED_CURRICULUM_CATEGORIES = [
       { title: 'インフルエンサーマーケティング', id: '2bdd0f0a002680efb175d1092e92a6db' },
     ],
   },
+  {
+    id: 'track_reiwa_latest_direction',
+    icon: '✨',
+    name: '令和最新ディレクション',
+    kicker: 'RECOMMENDED TRACK',
+    description: 'AI時代の実務で今すぐ効くテーマを横断し、企画から運用改善までを最短で押さえる最新カリキュラムです。',
+    items: [
+      { title: 'AI時代のディレクションについて', id: '2c3d0f0a00268005a02bd61646318b64' },
+      { title: 'AI協業ディレクション', id: 'ai_collaboration_direction' },
+      { title: '要件定義', id: '2bdd0f0a0026801094baf17661e44931' },
+      { title: '進行管理', id: '2bdd0f0a00268003bc2fe091cf130299' },
+      { title: 'スケジュール計画', id: '2bdd0f0a00268062b887e05e3ef35637' },
+      { title: 'リリース計画', id: '2bdd0f0a002680559d49efa52d2b5323' },
+      { title: 'AI運用ガバナンス', id: 'ai_operation_governance' },
+      { title: 'LLMO（大規模言語モデル最適化）', id: '2bdd0f0a002680c89340c0a45f5268d1' },
+      { title: 'GoogleAnalyticsを使った改善提案', id: '2bdd0f0a00268031abb4c3c931a0382d' },
+      { title: 'ヒートマップ/BIツール分析', id: '2bdd0f0a0026802bb695d70a3d08db75' },
+    ],
+  },
 ];
 
 const GLOSSARY_TERMS = [
