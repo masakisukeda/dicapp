@@ -946,35 +946,47 @@ button.tag.keyword:hover {
 
 .comment-row {
   overflow: hidden;
+  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(0, 84px) minmax(0, 1fr) auto 24px;
+  gap: 10px;
 }
 
 .comment-row > * {
   min-width: 0;
 }
 
-.comment-row .comment-excerpt {
-  font-size: var(--font-ui-sm);
-  color: var(--ink2);
-  line-height: 1.4;
-  flex: 0 1 min(44ch, 42vw);
-  max-width: min(44ch, 42vw);
+.comment-row .article-cat-badge {
+  max-width: 84px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.comment-row .comment-excerpt {
+  display: none;
 }
 
 .comment-row .note-meta {
   font-size: var(--font-ui-sm);
   line-height: 1.25;
   font-weight: 600;
+  margin-left: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .comment-row .article-title-row {
-  flex: 0 1 min(34ch, 34vw);
-  max-width: min(34ch, 34vw);
+  min-width: 0;
+  max-width: none;
+  flex: unset;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.comment-row .article-arrow {
+  margin-left: 0;
 }
 
 .note-row.is-placeholder {
