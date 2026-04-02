@@ -1302,13 +1302,6 @@ button.tag.keyword:hover {
 
 #articleView #articleGroup,
 #articleView #articleCat {
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-  padding: 2px 8px;
-  border: 1px solid var(--border2);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--bg3) 82%, transparent);
   color: var(--ink2);
   max-width: min(40vw, 260px);
   overflow: hidden;
@@ -1318,8 +1311,7 @@ button.tag.keyword:hover {
 
 #articleView #articleGroup.breadcrumb-home-link,
 #articleView #articleCat.breadcrumb-home-link {
-  border-color: color-mix(in srgb, var(--accent) 46%, var(--border2));
-  background: color-mix(in srgb, var(--accent) 14%, var(--bg3));
+  color: var(--accent);
 }
 
 #articleView #articleName {
@@ -6216,10 +6208,6 @@ body:not([data-theme="light"]) .header {
 @media (max-width: 640px) {
   .article-breadcrumb {
     margin-bottom: 14px !important;
-    padding: 6px 10px !important;
-    border-radius: 999px !important;
-    border: 1px solid var(--border) !important;
-    background: color-mix(in srgb, var(--bg2) 92%, transparent) !important;
     display: flex !important;
     align-items: center !important;
     gap: 6px !important;
@@ -6235,12 +6223,7 @@ body:not([data-theme="light"]) .header {
   }
 
   .article-breadcrumb .breadcrumb-home-link {
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--border));
-    background: color-mix(in srgb, var(--accent) 14%, var(--bg2));
     color: var(--accent);
-    font-weight: 700;
   }
 
   .article-breadcrumb .breadcrumb-sep {
@@ -6265,8 +6248,6 @@ body:not([data-theme="light"]) .header {
   }
 
   #articleView .article-breadcrumb {
-    padding: 8px 10px !important;
-    border-radius: 12px !important;
     white-space: normal !important;
     overflow: visible !important;
     flex-wrap: wrap !important;
