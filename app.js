@@ -2628,7 +2628,7 @@ function renderHomeUpdates() {
         </span>
         <span class="home-update-side">
           <span class="note-meta">${date}</span>
-          <button class="home-update-share-btn" type="button" onclick="postSingleHomeUpdateOnX(${idx})">Xでポスト</button>
+          <button class="home-update-share-btn ui-x-post-btn" type="button" onclick="postSingleHomeUpdateOnX(${idx})">Xでポスト</button>
         </span>
       </li>
     `;

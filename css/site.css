@@ -6970,6 +6970,24 @@ body:not([data-theme="light"]) .header {
   background: color-mix(in srgb, var(--accent) 26%, var(--bg2)) !important;
 }
 
+/* ===== UI Component: X Post Button ===== */
+.ui-x-post-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .ui-x-post-btn {
+    font-size: 10px !important;
+  }
+}
+
 /* ===== UI System: Shared View Rhythm ===== */
 .ui-view-stack {
   --ui-block-gap: var(--space-md);
