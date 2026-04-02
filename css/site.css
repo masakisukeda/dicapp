@@ -7595,3 +7595,60 @@ body:not([data-theme="light"]) .header {
     filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.16));
   }
 }
+
+/* ===== Category Jump: Group Color Variants ===== */
+.category-jump-groups .category-nav-group[data-group-key="dictionary"] {
+  border-color: color-mix(in srgb, #3a8dff 44%, var(--border2)) !important;
+  background: linear-gradient(180deg, color-mix(in srgb, #3a8dff 14%, var(--bg2)), color-mix(in srgb, #3a8dff 6%, var(--bg3))) !important;
+}
+
+.category-jump-groups .category-nav-group[data-group-key="appendix"] {
+  border-color: color-mix(in srgb, #ff8f43 44%, var(--border2)) !important;
+  background: linear-gradient(180deg, color-mix(in srgb, #ff8f43 15%, var(--bg2)), color-mix(in srgb, #ff8f43 7%, var(--bg3))) !important;
+}
+
+.category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-title,
+.category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
+  border-radius: 9px;
+  border: 1px solid transparent;
+  min-height: 34px;
+  padding: 5px 10px;
+}
+
+.category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-title {
+  border-color: color-mix(in srgb, #3a8dff 56%, var(--border2));
+  background: color-mix(in srgb, #3a8dff 18%, var(--bg2));
+}
+
+.category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
+  border-color: color-mix(in srgb, #ff8f43 58%, var(--border2));
+  background: color-mix(in srgb, #ff8f43 20%, var(--bg2));
+}
+
+.category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-text {
+  color: color-mix(in srgb, #3a8dff 74%, var(--ink)) !important;
+}
+
+.category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-text {
+  color: color-mix(in srgb, #ff8f43 78%, var(--ink)) !important;
+}
+
+body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-group-key="dictionary"] {
+  border-color: rgba(95, 164, 255, 0.52) !important;
+  background: linear-gradient(180deg, rgba(58, 141, 255, 0.20), rgba(19, 35, 55, 0.38)) !important;
+}
+
+body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-group-key="appendix"] {
+  border-color: rgba(255, 166, 102, 0.52) !important;
+  background: linear-gradient(180deg, rgba(255, 143, 67, 0.22), rgba(52, 33, 22, 0.38)) !important;
+}
+
+body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-title {
+  background: rgba(58, 141, 255, 0.22);
+  border-color: rgba(115, 174, 255, 0.52);
+}
+
+body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
+  background: rgba(255, 143, 67, 0.24);
+  border-color: rgba(255, 181, 125, 0.56);
+}
