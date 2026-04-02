@@ -7691,10 +7691,17 @@ body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-gr
   color: var(--ink) !important;
 }
 
-/* ===== Mobile: hide Dictionary-kun UI ===== */
-@media (max-width: 900px) {
+/* ===== Mobile/Touch: hide Dictionary-kun UI ===== */
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
   .kun-fab-ring-wrap,
   .home-view > .home-hero.home-hero-with-kun .home-hero-kun {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .home-view > .home-hero.home-hero-with-kun .home-main {
+    max-width: 100% !important;
   }
 }
