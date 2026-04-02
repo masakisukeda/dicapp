@@ -2364,10 +2364,7 @@ button.tag.keyword:hover {
 
 .category-phase-guide {
   margin-top: 14px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--bg3);
-  padding: 12px;
+  padding: 0;
 }
 
 .category-phase-head {
@@ -2375,7 +2372,7 @@ button.tag.keyword:hover {
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .category-phase-label {
@@ -2407,32 +2404,29 @@ button.tag.keyword:hover {
 }
 
 .category-phase-diagram {
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--bg2) 86%, #0a1320);
-  padding: 12px;
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .phase-table-wrap {
-  border: 1px solid var(--border);
+  border: 1px solid var(--border2);
   border-radius: 10px;
   background: var(--bg2);
-  padding: 8px;
+  padding: 10px;
   overflow-x: auto;
 }
 
 .phase-lane {
-  min-width: 640px;
+  display: grid;
+  gap: 8px;
 }
 
 .phase-lane-title {
-  margin: 0 0 8px;
+  margin: 0;
   font-family: var(--mono);
   font-size: var(--font-ui-sm);
   letter-spacing: 0.03em;
-  color: var(--ink2);
+  color: var(--ink);
 }
 
 .phase-table-row {
@@ -2440,6 +2434,7 @@ button.tag.keyword:hover {
   align-items: center;
   gap: 8px;
   margin-top: 8px;
+  min-width: 640px;
 }
 
 .phase-table-row:first-of-type {
@@ -2485,7 +2480,7 @@ button.tag.keyword:hover {
 }
 
 @media (max-width: 768px) {
-  .phase-lane {
+  .phase-table-row {
     min-width: 560px;
   }
 }
