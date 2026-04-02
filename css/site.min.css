@@ -7608,59 +7608,63 @@ body:not([data-theme="light"]) .header {
 
 /* ===== Category Jump: Group Color Variants ===== */
 .category-jump-groups .category-nav-group[data-group-key="dictionary"] {
-  border-color: color-mix(in srgb, #3a8dff 44%, var(--border2)) !important;
-  background: linear-gradient(180deg, color-mix(in srgb, #3a8dff 14%, var(--bg2)), color-mix(in srgb, #3a8dff 6%, var(--bg3))) !important;
+  border-color: color-mix(in srgb, var(--border2) 92%, transparent) !important;
+  background: color-mix(in srgb, var(--bg3) 90%, transparent) !important;
 }
 
 .category-jump-groups .category-nav-group[data-group-key="appendix"] {
-  border-color: color-mix(in srgb, #ff8f43 44%, var(--border2)) !important;
-  background: linear-gradient(180deg, color-mix(in srgb, #ff8f43 15%, var(--bg2)), color-mix(in srgb, #ff8f43 7%, var(--bg3))) !important;
+  border-color: color-mix(in srgb, var(--border2) 92%, transparent) !important;
+  background: color-mix(in srgb, var(--bg3) 90%, transparent) !important;
 }
 
 .category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-title,
 .category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
-  border-radius: 9px;
+  border-radius: 10px;
   border: 1px solid transparent;
-  min-height: 34px;
-  padding: 5px 10px;
+  min-height: 36px;
+  padding: 6px 12px;
 }
 
 .category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-title {
-  border-color: color-mix(in srgb, #3a8dff 56%, var(--border2));
-  background: color-mix(in srgb, #3a8dff 18%, var(--bg2));
+  border-color: #2e74ea;
+  background: linear-gradient(180deg, #59b0ff, #2f79ec);
+  box-shadow: 0 6px 14px rgba(36, 92, 176, 0.28);
 }
 
 .category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
-  border-color: color-mix(in srgb, #ff8f43 58%, var(--border2));
-  background: color-mix(in srgb, #ff8f43 20%, var(--bg2));
+  border-color: #d86f22;
+  background: linear-gradient(180deg, #ffbb75, #ff8d2f);
+  box-shadow: 0 6px 14px rgba(161, 85, 29, 0.28);
 }
 
 .category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-text {
-  color: color-mix(in srgb, #3a8dff 74%, var(--ink)) !important;
+  color: #ffffff !important;
 }
 
 .category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-text {
-  color: color-mix(in srgb, #ff8f43 78%, var(--ink)) !important;
+  color: #ffffff !important;
 }
 
 body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-group-key="dictionary"] {
-  border-color: rgba(95, 164, 255, 0.52) !important;
-  background: linear-gradient(180deg, rgba(58, 141, 255, 0.20), rgba(19, 35, 55, 0.38)) !important;
+  border-color: color-mix(in srgb, var(--border2) 92%, transparent) !important;
+  background: color-mix(in srgb, var(--bg3) 92%, transparent) !important;
 }
 
 body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-group-key="appendix"] {
-  border-color: rgba(255, 166, 102, 0.52) !important;
-  background: linear-gradient(180deg, rgba(255, 143, 67, 0.22), rgba(52, 33, 22, 0.38)) !important;
+  border-color: color-mix(in srgb, var(--border2) 92%, transparent) !important;
+  background: color-mix(in srgb, var(--bg3) 92%, transparent) !important;
 }
 
 body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-title {
-  background: rgba(58, 141, 255, 0.22);
-  border-color: rgba(115, 174, 255, 0.52);
+  border-color: #6ab8ff;
+  background: linear-gradient(180deg, #5db5ff, #3382f6);
+  box-shadow: 0 6px 14px rgba(16, 40, 73, 0.42);
 }
 
 body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
-  background: rgba(255, 143, 67, 0.24);
-  border-color: rgba(255, 181, 125, 0.56);
+  border-color: #ffc28f;
+  background: linear-gradient(180deg, #ffbe79, #ff9340);
+  box-shadow: 0 6px 14px rgba(72, 38, 15, 0.44);
 }
 
 /* ===== Article X Quote Post: align with shared X component ===== */
