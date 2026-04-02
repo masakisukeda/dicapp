@@ -54,7 +54,8 @@
   justify-content: space-between;
   gap: 10px;
 }
-.home-update-x-btn {
+.home-update-x-btn,
+.home-update-share-btn {
   border: 1px solid var(--line, rgba(255,255,255,0.12));
   background: transparent;
   color: var(--text-sub, rgba(235,240,255,.74));
@@ -63,8 +64,15 @@
   font-size: 12px;
   line-height: 1.2;
   cursor: pointer;
+  min-height: 28px;
+  min-width: 84px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
-.home-update-x-btn:hover {
+.home-update-x-btn:hover,
+.home-update-share-btn:hover {
   color: var(--text, #fff);
 }
 body[data-theme="light"] .home-update-x-btn,
@@ -151,19 +159,6 @@ body[data-theme="light"] .home-update-item {
   flex-direction: row;
   align-items: center;
   gap: 8px;
-}
-.home-update-share-btn {
-  border: 1px solid var(--line, rgba(255,255,255,0.12));
-  background: transparent;
-  color: var(--text-sub, rgba(235,240,255,.74));
-  border-radius: 999px;
-  padding: 4px 8px;
-  font-size: 11px;
-  line-height: 1.2;
-  cursor: pointer;
-}
-.home-update-share-btn:hover {
-  color: var(--text, #fff);
 }
 .home-note-link-row {
   color: inherit;
@@ -253,7 +248,10 @@ body[data-theme="light"] .home-update-item {
     align-items: center;
     gap: 5px;
   }
+  .home-update-x-btn,
   .home-update-share-btn {
+    min-height: 24px;
+    min-width: 76px;
     padding: 3px 7px;
     font-size: 10px;
   }
