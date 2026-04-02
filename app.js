@@ -2650,11 +2650,11 @@ function renderCategoryView(categoryId) {
   if (sub) sub.textContent = categoryDescription(cat);
   if (count) count.textContent = `${items.length} 項目`;
   const phaseBlock = document.getElementById('categoryPhaseBlock');
-  if (cat.isCurriculumTrack) {
+  const isAppendixCategory = !cat.isCurriculumTrack && state.categoryGroupFilter === 'appendix';
+  if (cat.isCurriculumTrack || isAppendixCategory) {
     if (phaseBlock) phaseBlock.style.display = 'none';
   } else {
-    const hideDiagram = state.categoryGroupFilter === 'appendix';
-    renderCategoryPhaseGuide(title, { hideDiagram });
+    renderCategoryPhaseGuide(title);
   }
 
 
