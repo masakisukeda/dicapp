@@ -2351,7 +2351,7 @@ function renderCategoryJumpGroups(target, options = {}) {
     glossaryActive = false,
   } = options;
 
-  const sections = CATEGORY_GROUP_OPTIONS.map((group) => {
+  const sections = CATEGORY_GROUP_OPTIONS.map((group, index) => {
     const cats = getFilteredCategoriesByGroup(group.key);
     const chips = cats.map((c) => {
       const label = normalizeDisplayText(c.name);
@@ -2370,15 +2370,28 @@ function renderCategoryJumpGroups(target, options = {}) {
       chips.push('<span class="filter-chip" aria-disabled="true">カテゴリ準備中</span>');
     }
 
+    const groupTitle = `${normalizeDisplayText(group.label)}カテゴリ`;
     return `
       <section class="category-nav-group" data-group-key="${escapeHtml(group.key)}">
-        <div class="category-nav-group-title">${escapeHtml(group.label)}</div>
+        <div class="category-nav-group-title">
+          <span class="category-nav-group-index">${index + 1}</span>
+          <span class="category-nav-group-text">${escapeHtml(groupTitle)}</span>
+        </div>
         <div class="filter-chip-group category-chip-nav category-nav-group-chips">${chips.join('')}</div>
       </section>
     `;
   });
 
-  root.innerHTML = sections.join('');
+  root.innerHTML = `
+    <section class="category-jump-panel" aria-label="カテゴリへジャンプ">
+      <div class="category-jump-panel-head">
+        <div class="category-jump-panel-title">カテゴリへジャンプ</div>
+      </div>
+      <div class="category-jump-panel-grid">
+        ${sections.join('')}
+      </div>
+    </section>
+  `;
 }
 
 function renderHomeCategoryNav() {
