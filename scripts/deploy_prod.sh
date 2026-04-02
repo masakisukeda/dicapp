@@ -37,12 +37,13 @@ files=(
 )
 
 for file in "${files[@]}"; do
-  name="$(basename "$file")"
-  echo "- upload: $name"
+  rel="${file#$ROOT_DIR/}"
+  echo "- upload: $rel"
   curl --fail --silent --show-error \
+    --ftp-create-dirs \
     -T "$file" \
     -u "$FTP_USER:$FTP_PASS" \
-    "$FTP_BASE/$name" >/dev/null
+    "$FTP_BASE/$rel" >/dev/null
  done
 
 echo "Deploy complete"
