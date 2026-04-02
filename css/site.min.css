@@ -5772,42 +5772,42 @@ body:not([data-theme="light"]) .home-main::after {
 }
 
 #homeCategoryNavList .filter-chip.cat-planning,
-#categoryNavList .filter-chip.cat-planning { border-color: rgba(245, 158, 11, 0.62) !important; background: rgba(245, 158, 11, 0.2) !important; color: #7a3f00 !important; }
+#categoryNavList .filter-chip.cat-planning { border-color: color-mix(in srgb, var(--cat-planning) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-planning) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-planning) 72%, #111) !important; }
 #homeCategoryNavList .filter-chip.cat-ia,
-#categoryNavList .filter-chip.cat-ia { border-color: rgba(6, 182, 212, 0.62) !important; background: rgba(6, 182, 212, 0.2) !important; color: #005d70 !important; }
+#categoryNavList .filter-chip.cat-ia { border-color: color-mix(in srgb, var(--cat-ia) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-ia) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-ia) 72%, #111) !important; }
 #homeCategoryNavList .filter-chip.cat-production,
-#categoryNavList .filter-chip.cat-production { border-color: rgba(139, 92, 246, 0.62) !important; background: rgba(139, 92, 246, 0.2) !important; color: #4f2ea9 !important; }
+#categoryNavList .filter-chip.cat-production { border-color: color-mix(in srgb, var(--cat-production) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-production) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-production) 72%, #111) !important; }
 #homeCategoryNavList .filter-chip.cat-failure,
-#categoryNavList .filter-chip.cat-failure { border-color: rgba(239, 68, 68, 0.62) !important; background: rgba(239, 68, 68, 0.18) !important; color: #8f1f1f !important; }
+#categoryNavList .filter-chip.cat-failure { border-color: color-mix(in srgb, var(--cat-failure) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-failure) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-failure) 72%, #111) !important; }
 #homeCategoryNavList .filter-chip.cat-operation,
-#categoryNavList .filter-chip.cat-operation { border-color: rgba(16, 185, 129, 0.62) !important; background: rgba(16, 185, 129, 0.2) !important; color: #0e6a4a !important; }
+#categoryNavList .filter-chip.cat-operation { border-color: color-mix(in srgb, var(--cat-operation) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-operation) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-operation) 72%, #111) !important; }
 #homeCategoryNavList .filter-chip.cat-promotion,
-#categoryNavList .filter-chip.cat-promotion { border-color: rgba(249, 115, 22, 0.62) !important; background: rgba(249, 115, 22, 0.2) !important; color: #8a3f00 !important; }
+#categoryNavList .filter-chip.cat-promotion { border-color: color-mix(in srgb, var(--cat-promotion) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-promotion) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-promotion) 72%, #111) !important; }
 #homeCategoryNavList .filter-chip.cat-writing,
-#categoryNavList .filter-chip.cat-writing { border-color: rgba(236, 72, 153, 0.62) !important; background: rgba(236, 72, 153, 0.18) !important; color: #8f1858 !important; }
+#categoryNavList .filter-chip.cat-writing { border-color: color-mix(in srgb, var(--cat-writing) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-writing) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-writing) 72%, #111) !important; }
 #homeCategoryNavList .filter-chip.cat-tools,
-#categoryNavList .filter-chip.cat-tools { border-color: rgba(37, 99, 235, 0.62) !important; background: rgba(37, 99, 235, 0.2) !important; color: #173b8f !important; }
+#categoryNavList .filter-chip.cat-tools { border-color: color-mix(in srgb, var(--cat-tools) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-tools) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-tools) 72%, #111) !important; }
 #homeCategoryNavList .filter-chip.cat-recruit,
-#categoryNavList .filter-chip.cat-recruit { border-color: rgba(244, 63, 94, 0.64) !important; background: rgba(244, 63, 94, 0.18) !important; color: #8f1732 !important; }
+#categoryNavList .filter-chip.cat-recruit { border-color: color-mix(in srgb, var(--cat-recruit) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-recruit) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-recruit) 72%, #111) !important; }
 
 body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-planning,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-planning { border-color: rgba(245, 158, 11, 0.68) !important; background: rgba(245, 158, 11, 0.18) !important; color: #ffe1b0 !important; }
+body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-planning { border-color: color-mix(in srgb, var(--cat-planning) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-planning) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-planning) 25%, white) !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-ia,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-ia { border-color: rgba(6, 182, 212, 0.68) !important; background: rgba(6, 182, 212, 0.18) !important; color: #c7f4ff !important; }
+body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-ia { border-color: color-mix(in srgb, var(--cat-ia) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-ia) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-ia) 25%, white) !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-production,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-production { border-color: rgba(139, 92, 246, 0.68) !important; background: rgba(139, 92, 246, 0.18) !important; color: #e4d8ff !important; }
+body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-production { border-color: color-mix(in srgb, var(--cat-production) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-production) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-production) 25%, white) !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-failure,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-failure { border-color: rgba(239, 68, 68, 0.68) !important; background: rgba(239, 68, 68, 0.18) !important; color: #ffd7d7 !important; }
+body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-failure { border-color: color-mix(in srgb, var(--cat-failure) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-failure) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-failure) 25%, white) !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-operation,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-operation { border-color: rgba(16, 185, 129, 0.68) !important; background: rgba(16, 185, 129, 0.18) !important; color: #ccf8e8 !important; }
+body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-operation { border-color: color-mix(in srgb, var(--cat-operation) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-operation) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-operation) 25%, white) !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-promotion,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-promotion { border-color: rgba(249, 115, 22, 0.68) !important; background: rgba(249, 115, 22, 0.18) !important; color: #ffd9bc !important; }
+body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-promotion { border-color: color-mix(in srgb, var(--cat-promotion) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-promotion) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-promotion) 25%, white) !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-writing,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-writing { border-color: rgba(236, 72, 153, 0.68) !important; background: rgba(236, 72, 153, 0.18) !important; color: #ffd3ea !important; }
+body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-writing { border-color: color-mix(in srgb, var(--cat-writing) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-writing) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-writing) 25%, white) !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-tools,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-tools { border-color: rgba(37, 99, 235, 0.68) !important; background: rgba(37, 99, 235, 0.18) !important; color: #d5e4ff !important; }
+body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-tools { border-color: color-mix(in srgb, var(--cat-tools) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-tools) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-tools) 25%, white) !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-recruit,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-recruit { border-color: rgba(244, 63, 94, 0.68) !important; background: rgba(244, 63, 94, 0.18) !important; color: #ffd3dc !important; }
+body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-recruit { border-color: color-mix(in srgb, var(--cat-recruit) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-recruit) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-recruit) 25%, white) !important; }
 
 /* ===== Home Block Rhythm Unify ===== */
 .home-view > .desktop-inline-nav,
@@ -6232,25 +6232,25 @@ body:not([data-theme="light"]) .header {
   }
 
 
-  .comment-row.cat-planning .article-cat-badge { background: rgba(245, 158, 11, 0.85) !important; border-color: rgba(245, 158, 11, 0.98) !important; }
-  .comment-row.cat-ia .article-cat-badge { background: rgba(6, 182, 212, 0.85) !important; border-color: rgba(6, 182, 212, 0.98) !important; }
-  .comment-row.cat-production .article-cat-badge { background: rgba(139, 92, 246, 0.85) !important; border-color: rgba(139, 92, 246, 0.98) !important; }
-  .comment-row.cat-failure .article-cat-badge { background: rgba(239, 68, 68, 0.85) !important; border-color: rgba(239, 68, 68, 0.98) !important; }
-  .comment-row.cat-operation .article-cat-badge { background: rgba(16, 185, 129, 0.85) !important; border-color: rgba(16, 185, 129, 0.98) !important; }
-  .comment-row.cat-promotion .article-cat-badge { background: rgba(249, 115, 22, 0.85) !important; border-color: rgba(249, 115, 22, 0.98) !important; }
-  .comment-row.cat-writing .article-cat-badge { background: rgba(236, 72, 153, 0.85) !important; border-color: rgba(236, 72, 153, 0.98) !important; }
-  .comment-row.cat-tools .article-cat-badge { background: rgba(37, 99, 235, 0.85) !important; border-color: rgba(37, 99, 235, 0.98) !important; }
-  .comment-row.cat-recruit .article-cat-badge { background: rgba(244, 63, 94, 0.85) !important; border-color: rgba(244, 63, 94, 0.98) !important; }
+  .comment-row.cat-planning .article-cat-badge { background: color-mix(in srgb, var(--cat-planning) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-planning) 98%, white) !important; }
+  .comment-row.cat-ia .article-cat-badge { background: color-mix(in srgb, var(--cat-ia) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-ia) 98%, white) !important; }
+  .comment-row.cat-production .article-cat-badge { background: color-mix(in srgb, var(--cat-production) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-production) 98%, white) !important; }
+  .comment-row.cat-failure .article-cat-badge { background: color-mix(in srgb, var(--cat-failure) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-failure) 98%, white) !important; }
+  .comment-row.cat-operation .article-cat-badge { background: color-mix(in srgb, var(--cat-operation) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-operation) 98%, white) !important; }
+  .comment-row.cat-promotion .article-cat-badge { background: color-mix(in srgb, var(--cat-promotion) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-promotion) 98%, white) !important; }
+  .comment-row.cat-writing .article-cat-badge { background: color-mix(in srgb, var(--cat-writing) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-writing) 98%, white) !important; }
+  .comment-row.cat-tools .article-cat-badge { background: color-mix(in srgb, var(--cat-tools) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-tools) 98%, white) !important; }
+  .comment-row.cat-recruit .article-cat-badge { background: color-mix(in srgb, var(--cat-recruit) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-recruit) 98%, white) !important; }
 
-  .recent-row .article-cat-badge.cat-planning { background: rgba(245, 158, 11, 0.85) !important; border-color: rgba(245, 158, 11, 0.98) !important; }
-  .recent-row .article-cat-badge.cat-ia { background: rgba(6, 182, 212, 0.85) !important; border-color: rgba(6, 182, 212, 0.98) !important; }
-  .recent-row .article-cat-badge.cat-production { background: rgba(139, 92, 246, 0.85) !important; border-color: rgba(139, 92, 246, 0.98) !important; }
-  .recent-row .article-cat-badge.cat-failure { background: rgba(239, 68, 68, 0.85) !important; border-color: rgba(239, 68, 68, 0.98) !important; }
-  .recent-row .article-cat-badge.cat-operation { background: rgba(16, 185, 129, 0.85) !important; border-color: rgba(16, 185, 129, 0.98) !important; }
-  .recent-row .article-cat-badge.cat-promotion { background: rgba(249, 115, 22, 0.85) !important; border-color: rgba(249, 115, 22, 0.98) !important; }
-  .recent-row .article-cat-badge.cat-writing { background: rgba(236, 72, 153, 0.85) !important; border-color: rgba(236, 72, 153, 0.98) !important; }
-  .recent-row .article-cat-badge.cat-tools { background: rgba(37, 99, 235, 0.85) !important; border-color: rgba(37, 99, 235, 0.98) !important; }
-  .recent-row .article-cat-badge.cat-recruit { background: rgba(244, 63, 94, 0.85) !important; border-color: rgba(244, 63, 94, 0.98) !important; }
+  .recent-row .article-cat-badge.cat-planning { background: color-mix(in srgb, var(--cat-planning) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-planning) 98%, white) !important; }
+  .recent-row .article-cat-badge.cat-ia { background: color-mix(in srgb, var(--cat-ia) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-ia) 98%, white) !important; }
+  .recent-row .article-cat-badge.cat-production { background: color-mix(in srgb, var(--cat-production) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-production) 98%, white) !important; }
+  .recent-row .article-cat-badge.cat-failure { background: color-mix(in srgb, var(--cat-failure) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-failure) 98%, white) !important; }
+  .recent-row .article-cat-badge.cat-operation { background: color-mix(in srgb, var(--cat-operation) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-operation) 98%, white) !important; }
+  .recent-row .article-cat-badge.cat-promotion { background: color-mix(in srgb, var(--cat-promotion) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-promotion) 98%, white) !important; }
+  .recent-row .article-cat-badge.cat-writing { background: color-mix(in srgb, var(--cat-writing) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-writing) 98%, white) !important; }
+  .recent-row .article-cat-badge.cat-tools { background: color-mix(in srgb, var(--cat-tools) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-tools) 98%, white) !important; }
+  .recent-row .article-cat-badge.cat-recruit { background: color-mix(in srgb, var(--cat-recruit) 86%, transparent) !important; border-color: color-mix(in srgb, var(--cat-recruit) 98%, white) !important; }
 
   .recent-row,
   .comment-row {
@@ -6760,15 +6760,15 @@ body:not([data-theme="light"]) .header {
 
 /* ===== Category Colors: Crisp Separation ===== */
 :root {
-  --cat-planning: #f59e0b;
-  --cat-ia: #06b6d4;
-  --cat-production: #8b5cf6;
+  --cat-planning: #facc15;
+  --cat-ia: #0ea5e9;
+  --cat-production: #7c3aed;
   --cat-failure: #ef4444;
-  --cat-operation: #10b981;
-  --cat-promotion: #f97316;
+  --cat-operation: #22c55e;
+  --cat-promotion: #fb923c;
   --cat-writing: #ec4899;
   --cat-tools: #2563eb;
-  --cat-recruit: #f43f5e;
+  --cat-recruit: #84cc16;
 }
 
 .article-cat-badge.cat-planning { border-color: var(--cat-planning) !important; background: color-mix(in srgb, var(--cat-planning) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-planning) 75%, #111) !important; }

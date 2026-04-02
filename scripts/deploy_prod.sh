@@ -29,6 +29,8 @@ echo "[3/3] 本番アップロード"
 files=(
   "$ROOT_DIR/index.html"
   "$ROOT_DIR/app.js"
+  "$ROOT_DIR/css/site.css"
+  "$ROOT_DIR/css/site.min.css"
   "$ROOT_DIR/robots.txt"
   "$ROOT_DIR/sitemap.xml"
   "$ROOT_DIR/llms.txt"
