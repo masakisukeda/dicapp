@@ -2467,9 +2467,13 @@ function renderCategoryJumpGroups(target, options = {}) {
     }
 
     const groupTitle = `${normalizeDisplayText(group.label)}カテゴリ`;
+    const isMobileHomeTop = root.id === 'homeCategoryNavList' && window.innerWidth <= 900;
+    const groupTitleLinkAttrs = isMobileHomeTop
+      ? ` data-group-top-link="1" role="button" tabindex="0" onclick="showCategoryGroupTopView('${escapeHtml(group.key)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showCategoryGroupTopView('${escapeHtml(group.key)}');}"`
+      : '';
     return `
       <section class="category-nav-group" data-group-key="${escapeHtml(group.key)}">
-        <div class="category-nav-group-title">
+        <div class="category-nav-group-title"${groupTitleLinkAttrs}>
           <span class="category-nav-group-text">${escapeHtml(groupTitle)}</span>
         </div>
         <div class="filter-chip-group category-chip-nav category-nav-group-chips">${chips.join('')}</div>
