@@ -3315,18 +3315,15 @@ function renderLatestComments() {
 
   const titleById = new Map((state.articleIndex || []).map((a) => [a.id, normalizeDisplayText(a.title)]));
   const categoryById = new Map((state.articleIndex || []).map((a) => [a.id, normalizeDisplayText(a.cat || '')]));
-  const isMobile = window.innerWidth <= 640;
-
   list.innerHTML = recent.map((c) => {
     const date = formatHomeMetaDateTime(c.ts);
     const rawTitle = titleById.get(c.articleId) || normalizeDisplayText(c.articleId);
     const rowCatClass = categoryBadgeClass(categoryById.get(c.articleId) || '');
-    const author = escapeHtml(c.name || '匿名');
     const rawBody = (c.body || '').replace(/\s+/g, ' ').trim();
     const commentTitle = rawBody.length > HOME_COMMENT_EXCERPT_MAX
       ? `${rawBody.slice(0, HOME_COMMENT_EXCERPT_MAX)}…`
       : rawBody;
-    const badgeText = isMobile ? '●' : author;
+    const badgeText = '●';
     const titleText = escapeHtml(commentTitle || 'コメント');
     const excerptText = '';
     return `
