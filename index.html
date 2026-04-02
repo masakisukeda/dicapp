@@ -569,7 +569,23 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
         </div>
       </div>
 
-      <div class="category-jump-groups" id="homeCategoryNavList"></div>
+      <section class="home-section-panel home-top-hub-panel" aria-labelledby="homeTopHubHeading">
+        <div class="home-section-panel-head">
+          <div class="home-section-panel-title" id="homeTopHubHeading">カテゴリトップへ</div>
+        </div>
+        <div class="feature-grid home-top-hub-grid">
+          <button class="feature-card home-top-hub-card" type="button" onclick="showDictionaryTopView()">
+            <span class="feature-icon">📘</span>
+            <span class="feature-title">辞書トップ</span>
+            <span class="feature-desc">基礎用語や進行管理など、実務カテゴリから探す。</span>
+          </button>
+          <button class="feature-card home-top-hub-card" type="button" onclick="showAppendixTopView()">
+            <span class="feature-icon">🧰</span>
+            <span class="feature-title">Appendixトップ</span>
+            <span class="feature-desc">ツール・採用・失敗談・用語集など補助カテゴリへ。</span>
+          </button>
+        </div>
+      </section>
 
       <section class="home-section-panel home-curriculum-panel" aria-labelledby="homeCurriculumHeading">
         <div class="home-section-panel-head">
@@ -624,6 +640,38 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
       </div>
     </div>
 
+    <div class="category-view ui-view-stack" id="dictionaryTopView">
+      <div class="article-breadcrumb">
+        <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>辞書</span>
+      </div>
+
+      <div class="category-hero">
+        <div class="cat-kicker">CATEGORY TOP</div>
+        <h2 class="cat-title">辞書トップ</h2>
+        <p class="cat-sub">辞書カテゴリの一覧から、カテゴリトップページへ移動できます。</p>
+      </div>
+
+      <div class="category-jump-groups" id="dictionaryTopCategoryNavList"></div>
+    </div>
+
+    <div class="category-view ui-view-stack" id="appendixTopView">
+      <div class="article-breadcrumb">
+        <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>Appendix</span>
+      </div>
+
+      <div class="category-hero">
+        <div class="cat-kicker">APPENDIX TOP</div>
+        <h2 class="cat-title">Appendixトップ</h2>
+        <p class="cat-sub">Appendixカテゴリの一覧から、カテゴリトップページへ移動できます。</p>
+      </div>
+
+      <div class="category-jump-groups" id="appendixTopCategoryNavList"></div>
+    </div>
+
     <!-- CATEGORY VIEW -->
     <!-- TOOLS VIEW -->
     <div class="tools-view ui-view-stack" id="toolsView">
@@ -676,7 +724,7 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
       <div class="article-breadcrumb">
         <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
         <span class="breadcrumb-sep">›</span>
-        <span class="breadcrumb-home-link" onclick="setCategoryGroup('appendix'); showView('home')">Appendix</span>
+        <span class="breadcrumb-home-link" onclick="showAppendixTopView()">Appendix</span>
         <span class="breadcrumb-sep">›</span>
         <span>用語集</span>
       </div>
@@ -738,6 +786,8 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
       <div class="article-breadcrumb">
         <span class="breadcrumb-home-link" onclick="showView('home')">辞書.app</span>
         <span class="breadcrumb-sep">›</span>
+        <span id="categoryGroupCrumb"></span>
+        <span class="breadcrumb-sep" id="categoryGroupSep">›</span>
         <span id="categoryNameCrumb"></span>
       </div>
 

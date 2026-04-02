@@ -69,7 +69,7 @@ const ADMIN_SESSION_AT = 'dir_admin_session_at';
 const ADMIN_SESSION_TTL_MS = 2 * 60 * 60 * 1000;
 const BASE_CONTENT_UPDATED_AT = '2026-02-17T00:00:00+09:00';
 const CONTENT_ASSET_VERSION = '20260401.1930';
-const SIMPLE_ROUTE_VIEWS = new Set(['learn', 'glossary', 'tools', 'requests', 'editors']);
+const SIMPLE_ROUTE_VIEWS = new Set(['learn', 'glossary', 'tools', 'requests', 'editors', 'dictionary', 'appendix']);
 const PUBLIC_BASE_URL = 'https://drsp.cc/dic/';
 const DEFAULT_SEO_TITLE = '辞書.app — ディレクションの辞書';
 const DEFAULT_SEO_DESCRIPTION = 'ディレクションの"わからない"を、なくそう。キャリアチェンジ中のデザイナーも、新人ディレクターも迷ったらすぐ開ける辞書アプリ。';
@@ -696,6 +696,8 @@ function routeFromInlineOnclick(rawOnclick) {
   if (categoryMatch && categoryMatch[1]) return buildRoute('category', categoryMatch[1]);
 
   if (/showGlossaryView\(/.test(raw)) return buildRoute('glossary', null);
+  if (/showDictionaryTopView\(/.test(raw)) return buildRoute('dictionary', null);
+  if (/showAppendixTopView\(/.test(raw)) return buildRoute('appendix', null);
   if (/showFeatureRequestsView\(/.test(raw) || /goRequestsPage\(/.test(raw)) return buildRoute('requests', null);
   if (/showEditorsView\(/.test(raw)) return buildRoute('editors', null);
 
@@ -706,6 +708,8 @@ function routeFromInlineOnclick(rawOnclick) {
     if (view === 'learn') return buildRoute('learn', null);
     if (view === 'tools') return buildRoute('tools', null);
     if (view === 'glossary') return buildRoute('glossary', null);
+    if (view === 'dictionary') return buildRoute('dictionary', null);
+    if (view === 'appendix') return buildRoute('appendix', null);
     if (view === 'requests') return buildRoute('requests', null);
     if (view === 'editors') return buildRoute('editors', null);
   }
@@ -819,6 +823,16 @@ async function applyRouteState(route, { sync = false, replace = false } = {}) {
   if (safeRoute.view === 'glossary') {
     showGlossaryView({ skipHistory: true });
     if (sync) syncHistory('glossary', null, replace);
+    return;
+  }
+  if (safeRoute.view === 'dictionary') {
+    showDictionaryTopView({ skipHistory: true, replaceHistory: replace });
+    if (sync) syncHistory('dictionary', null, replace);
+    return;
+  }
+  if (safeRoute.view === 'appendix') {
+    showAppendixTopView({ skipHistory: true, replaceHistory: replace });
+    if (sync) syncHistory('appendix', null, replace);
     return;
   }
   if (safeRoute.view === 'requests') {
@@ -1103,6 +1117,7 @@ function updateStructuredDataForRoute(view, payload = {}) {
     const categoryId = findCategoryIdByName(article.cat || '');
     const groupKey = categoryId ? categoryGroupKeyByCategoryId(categoryId) : '';
     const groupName = groupKey ? categoryGroupLabelByKey(groupKey) : '';
+    const groupTopUrl = groupKey ? buildPublicRouteUrl(categoryGroupTopViewByKey(groupKey)) : PUBLIC_BASE_URL;
     const breadcrumbItems = [
       { '@type': 'ListItem', position: 1, name: '辞書.app', item: PUBLIC_BASE_URL },
     ];
@@ -1111,7 +1126,7 @@ function updateStructuredDataForRoute(view, payload = {}) {
         '@type': 'ListItem',
         position: breadcrumbItems.length + 1,
         name: groupName,
-        item: PUBLIC_BASE_URL,
+        item: groupTopUrl,
       });
     }
     breadcrumbItems.push({
@@ -1152,6 +1167,24 @@ function updateStructuredDataForRoute(view, payload = {}) {
     return;
   }
 
+  if (view === 'dictionary' || view === 'appendix') {
+    const isAppendix = view === 'appendix';
+    const collectionLd = {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: `${isAppendix ? 'Appendix' : '辞書'}トップ | 辞書.app`,
+      url: buildPublicRouteUrl(view),
+      description: isAppendix
+        ? 'Appendixカテゴリの一覧ページです。'
+        : '辞書カテゴリの一覧ページです。',
+      inLanguage: 'ja',
+    };
+    upsertJsonLd('jsonld-website', website);
+    upsertJsonLd('jsonld-page', collectionLd);
+    upsertJsonLd('jsonld-breadcrumb', null);
+    return;
+  }
+
   upsertJsonLd('jsonld-website', website);
   upsertJsonLd('jsonld-page', null);
   upsertJsonLd('jsonld-breadcrumb', null);
@@ -1178,6 +1211,12 @@ function updateSeoForRoute(view, payload = {}) {
   } else if (view === 'requests') {
     title = '要望一覧 | 辞書.app';
     description = '辞書.app に寄せられた要望一覧です。改善アイデアや追加してほしい項目を確認できます。';
+  } else if (view === 'dictionary') {
+    title = '辞書トップ | 辞書.app';
+    description = '辞書カテゴリの一覧からカテゴリトップへ移動できます。';
+  } else if (view === 'appendix') {
+    title = 'Appendixトップ | 辞書.app';
+    description = 'Appendixカテゴリと用語集への導線をまとめたトップページです。';
   } else if (view === 'learn') {
     title = '学ぶ | 辞書.app';
     description = 'ディレクションを"わかる"まで学ぶための学習導線です。進捗を見ながらカテゴリ横断で学べます。';
@@ -1942,7 +1981,7 @@ async function init() {
 
     initStep = 'render-core';
     safeRun('cat-list', () => renderCatList());
-    safeRun('home-category-nav', () => renderHomeCategoryNav());
+    safeRun('category-top-nav', () => renderCategoryTopNavigations());
     safeRun('home-curriculum-tracks', () => renderHomeCurriculumTracks());
     safeRun('home-updates', () => renderHomeUpdates());
     safeRun('recent-list', () => renderRecentList());
@@ -2292,6 +2331,10 @@ function categoryGroupLabelByKey(groupKey) {
   return normalizeCategoryGroupFilter(groupKey) === 'appendix' ? 'Appendix' : '辞書';
 }
 
+function categoryGroupTopViewByKey(groupKey) {
+  return normalizeCategoryGroupFilter(groupKey) === 'appendix' ? 'appendix' : 'dictionary';
+}
+
 function categoryGroupKeyByCategory(category) {
   if (!category || typeof category !== 'object') return 'dictionary';
   const id = String(category.id || '').trim();
@@ -2314,10 +2357,27 @@ function getFilteredCategoriesByGroup(groupKey) {
 function setCategoryGroup(nextGroupKey) {
   const next = normalizeCategoryGroupFilter(nextGroupKey);
   state.categoryGroupFilter = next;
-  renderHomeCategoryNav();
+  renderCategoryTopNavigations();
 
   if (state.currentView === 'category' && state.currentCategoryId) renderCategoryView(state.currentCategoryId);
   if (state.currentView === 'glossary') renderCurrentGlossaryView();
+}
+
+function showCategoryGroupTopView(groupKey, options = {}) {
+  const { skipHistory = false, replaceHistory = false } = options;
+  const normalizedGroup = normalizeCategoryGroupFilter(groupKey);
+  const view = categoryGroupTopViewByKey(normalizedGroup);
+  setCategoryGroup(normalizedGroup);
+  showView(view, { skipHistory: true });
+  if (!skipHistory) syncHistory(view, null, replaceHistory);
+}
+
+function showDictionaryTopView(options = {}) {
+  showCategoryGroupTopView('dictionary', options);
+}
+
+function showAppendixTopView(options = {}) {
+  showCategoryGroupTopView('appendix', options);
 }
 
 function getCurriculumCategoryById(categoryId) {
@@ -2373,9 +2433,18 @@ function renderCategoryJumpGroups(target, options = {}) {
     activeCategoryId = '',
     includeGlossaryInAppendix = false,
     glossaryActive = false,
+    groupKeys = null,
   } = options;
 
-  const sections = CATEGORY_GROUP_OPTIONS.map((group) => {
+  const allowedGroupSet = Array.isArray(groupKeys) && groupKeys.length
+    ? new Set(groupKeys.map((x) => normalizeCategoryGroupFilter(x)))
+    : null;
+
+  const groupOptions = allowedGroupSet
+    ? CATEGORY_GROUP_OPTIONS.filter((group) => allowedGroupSet.has(group.key))
+    : CATEGORY_GROUP_OPTIONS;
+
+  const sections = groupOptions.map((group) => {
     const cats = getFilteredCategoriesByGroup(group.key);
     const chips = cats.map((c) => {
       const label = normalizeDisplayText(c.name);
@@ -2420,6 +2489,23 @@ function renderHomeCategoryNav() {
   const nav = document.getElementById('homeCategoryNavList');
   if (!nav) return;
   renderCategoryJumpGroups(nav, { includeGlossaryInAppendix: true });
+}
+
+function renderDictionaryTopCategoryNav() {
+  renderCategoryJumpGroups('dictionaryTopCategoryNavList', { groupKeys: ['dictionary'] });
+}
+
+function renderAppendixTopCategoryNav() {
+  renderCategoryJumpGroups('appendixTopCategoryNavList', {
+    groupKeys: ['appendix'],
+    includeGlossaryInAppendix: true,
+  });
+}
+
+function renderCategoryTopNavigations() {
+  renderHomeCategoryNav();
+  renderDictionaryTopCategoryNav();
+  renderAppendixTopCategoryNav();
 }
 
 function getHomeUpdates() {
@@ -2644,6 +2730,8 @@ function renderCategoryView(categoryId) {
   const title = normalizeDisplayText(cat.name);
   const viewClass = categoryBadgeClass(title);
   const crumb = document.getElementById('categoryNameCrumb');
+  const groupCrumb = document.getElementById('categoryGroupCrumb');
+  const groupSep = document.getElementById('categoryGroupSep');
   const kicker = document.getElementById('categoryKicker');
   const titleEl = document.getElementById('categoryTitle');
   const sub = document.getElementById('categorySub');
@@ -2661,13 +2749,21 @@ function renderCategoryView(categoryId) {
     view.classList.add(viewClass);
   }
 
-  if (crumb) {
+  if (crumb) crumb.textContent = title;
+  if (groupCrumb) {
     if (cat.isCurriculumTrack) {
-      crumb.textContent = title;
+      groupCrumb.textContent = '';
+      groupCrumb.style.display = 'none';
+      groupCrumb.classList.remove('breadcrumb-home-link');
+      groupCrumb.onclick = null;
     } else {
-      crumb.textContent = `${categoryGroupLabelByKey(state.categoryGroupFilter)} / ${title}`;
+      groupCrumb.textContent = categoryGroupLabelByKey(state.categoryGroupFilter);
+      groupCrumb.style.display = '';
+      groupCrumb.classList.add('breadcrumb-home-link');
+      groupCrumb.onclick = () => showCategoryGroupTopView(state.categoryGroupFilter);
     }
   }
+  if (groupSep) groupSep.style.display = cat.isCurriculumTrack ? 'none' : '';
   if (kicker) kicker.textContent = cat.kicker ? String(cat.kicker) : 'CATEGORY / GLOSSARY';
   if (titleEl) titleEl.textContent = title;
   if (sub) sub.textContent = categoryDescription(cat);
@@ -3063,7 +3159,7 @@ function setGlossarySort(mode) {
 function showGlossaryView(options = {}) {
   const { skipHistory = false } = options;
   state.categoryGroupFilter = 'appendix';
-  renderHomeCategoryNav();
+  renderCategoryTopNavigations();
   renderCurrentGlossaryView();
   updateSeoForRoute('glossary');
   showView('glossary', { skipHistory: true });
@@ -3681,7 +3777,7 @@ function renderUnifiedViews(options = {}) {
   if (stats) renderStats();
   if (categoryLists) {
     renderCatList();
-    renderHomeCategoryNav();
+    renderCategoryTopNavigations();
     renderHomeCurriculumTracks();
   }
   if (recent) renderRecentList();
@@ -4967,8 +5063,7 @@ async function showArticle(id, options = {}) {
     setArticleBreadcrumb({
       groupLabel: '辞書',
       groupOnclick: () => {
-        setCategoryGroup('dictionary');
-        showView('home');
+        showDictionaryTopView();
       },
     });
     document.getElementById('articleName').textContent = id;
@@ -5004,8 +5099,7 @@ async function showArticle(id, options = {}) {
     setArticleBreadcrumb({
       groupLabel: categoryGroupLabelByKey(groupKey),
       groupOnclick: () => {
-        setCategoryGroup(groupKey);
-        showView('home');
+        showCategoryGroupTopView(groupKey);
       },
       catLabel: displayCat,
       catOnclick: () => {
@@ -5260,6 +5354,8 @@ function showView(view, options = {}) {
   const homeViewEl = document.getElementById('homeView');
   const articleViewEl = document.getElementById('articleView');
   const categoryViewEl = document.getElementById('categoryView');
+  const dictionaryTopViewEl = document.getElementById('dictionaryTopView');
+  const appendixTopViewEl = document.getElementById('appendixTopView');
   const learnViewEl = document.getElementById('learnView');
   const toolsViewEl = document.getElementById('toolsView');
   const requestsViewEl = document.getElementById('requestsView');
@@ -5269,6 +5365,8 @@ function showView(view, options = {}) {
   if (homeViewEl) homeViewEl.style.display = 'none';
   if (articleViewEl) articleViewEl.classList.remove('visible');
   if (categoryViewEl) categoryViewEl.classList.remove('visible');
+  if (dictionaryTopViewEl) dictionaryTopViewEl.classList.remove('visible');
+  if (appendixTopViewEl) appendixTopViewEl.classList.remove('visible');
   if (learnViewEl) learnViewEl.classList.remove('visible');
   if (toolsViewEl) toolsViewEl.classList.remove('visible');
   if (requestsViewEl) requestsViewEl.classList.remove('visible');
@@ -5278,6 +5376,8 @@ function showView(view, options = {}) {
   if (view === 'home' && homeViewEl) homeViewEl.style.display = 'block';
   else if (view === 'article' && articleViewEl) articleViewEl.classList.add('visible');
   else if (view === 'category' && categoryViewEl) categoryViewEl.classList.add('visible');
+  else if (view === 'dictionary' && dictionaryTopViewEl) dictionaryTopViewEl.classList.add('visible');
+  else if (view === 'appendix' && appendixTopViewEl) appendixTopViewEl.classList.add('visible');
   else if (view === 'learn' && learnViewEl) learnViewEl.classList.add('visible');
   else if (view === 'glossary' && glossaryViewEl) glossaryViewEl.classList.add('visible');
   else if (view === 'tools' && toolsViewEl) toolsViewEl.classList.add('visible');
@@ -5288,6 +5388,8 @@ function showView(view, options = {}) {
   syncHeaderRouteButtons();
   if (view === 'home') updateSeoForRoute('home');
   else if (view === 'learn') updateSeoForRoute('learn');
+  else if (view === 'dictionary') updateSeoForRoute('dictionary');
+  else if (view === 'appendix') updateSeoForRoute('appendix');
   else if (view === 'requests') updateSeoForRoute('requests');
   else if (view === 'editors') updateSeoForRoute('editors');
   scrollViewportTop();
@@ -8250,6 +8352,8 @@ window.submitGlossaryTerm = submitGlossaryTerm;
 window.showFeatureRequestsView = showFeatureRequestsView;
 window.goRequestsPage = goRequestsPage;
 window.showEditorsView = showEditorsView;
+window.showDictionaryTopView = showDictionaryTopView;
+window.showAppendixTopView = showAppendixTopView;
 window.openEditorModal = openEditorModal;
 window.closeEditorModal = closeEditorModal;
 window.clearEditorForm = clearEditorForm;
