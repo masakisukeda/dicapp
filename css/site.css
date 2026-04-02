@@ -1295,6 +1295,43 @@ button.tag.keyword:hover {
 
 .breadcrumb-sep { color: var(--border2); }
 
+#articleView .article-breadcrumb {
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+#articleView #articleGroup,
+#articleView #articleCat {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 8px;
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg3) 82%, transparent);
+  color: var(--ink2);
+  max-width: min(40vw, 260px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#articleView #articleGroup.breadcrumb-home-link,
+#articleView #articleCat.breadcrumb-home-link {
+  border-color: color-mix(in srgb, var(--accent) 46%, var(--border2));
+  background: color-mix(in srgb, var(--accent) 14%, var(--bg3));
+}
+
+#articleView #articleName {
+  color: var(--ink);
+  font-weight: 700;
+  min-width: 0;
+  max-width: min(70vw, 460px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .article-header {
   margin-bottom: 20px;
   padding-bottom: 24px;
@@ -6138,12 +6175,37 @@ body:not([data-theme="light"]) .header {
   }
 
   #categoryNameCrumb,
+  #articleGroup,
   #articleCat,
   #articleName {
     max-width: 44vw;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  #articleView .article-breadcrumb {
+    padding: 8px 10px !important;
+    border-radius: 12px !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    flex-wrap: wrap !important;
+    row-gap: 6px !important;
+  }
+
+  #articleView #articleGroup,
+  #articleView #articleCat {
+    max-width: calc(100vw - 150px);
+  }
+
+  #articleView #articleName {
+    flex: 1 1 100%;
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
   }
 }
 
