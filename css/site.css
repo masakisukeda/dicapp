@@ -5098,7 +5098,7 @@ body:not([data-theme="light"]) button.tag:hover {
   margin-top: 0;
 }
 
-.category-top-col-nav #categoryNavList.filter-chip-group {
+.category-top-col-nav #categoryNavList {
   margin-bottom: 0 !important;
 }
 
@@ -5726,18 +5726,43 @@ body:not([data-theme="light"]) .home-main::after {
 
 /* ===== Category Chip Nav Unified (Hard Override) ===== */
 #homeCategoryNavList,
-#categoryNavList {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
+#categoryNavList,
+#glossaryCategoryNavList {
+  display: grid !important;
+  gap: 10px !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
 }
 
+#homeCategoryNavList .filter-chip-group,
+#categoryNavList .filter-chip-group,
+#glossaryCategoryNavList .filter-chip-group {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-bottom: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.category-nav-group {
+  display: grid;
+  gap: 8px;
+}
+
+.category-nav-group-title {
+  font-size: var(--font-ui-sm);
+  font-weight: 700;
+  color: var(--ink2);
+}
+
 #homeCategoryNavList .filter-chip,
-#categoryNavList .filter-chip {
+#categoryNavList .filter-chip,
+#glossaryCategoryNavList .filter-chip {
   border-radius: 999px !important;
   padding: 5px 12px !important;
   font-size: var(--font-ui-sm) !important;
@@ -5748,13 +5773,15 @@ body:not([data-theme="light"]) .home-main::after {
 }
 
 #homeCategoryNavList .filter-chip:hover,
-#categoryNavList .filter-chip:hover {
+#categoryNavList .filter-chip:hover,
+#glossaryCategoryNavList .filter-chip:hover {
   transform: none !important;
   filter: brightness(1.02);
 }
 
 #homeCategoryNavList .filter-chip.active,
-#categoryNavList .filter-chip.active {
+#categoryNavList .filter-chip.active,
+#glossaryCategoryNavList .filter-chip.active {
   box-shadow: 0 0 0 1px rgba(103,185,255,0.28) inset !important;
 }
 
@@ -5771,43 +5798,25 @@ body:not([data-theme="light"]) .home-main::after {
   color: var(--accent) !important;
 }
 
-#homeCategoryNavList .filter-chip.cat-planning,
-#categoryNavList .filter-chip.cat-planning { border-color: color-mix(in srgb, var(--cat-planning) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-planning) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-planning) 72%, #111) !important; }
-#homeCategoryNavList .filter-chip.cat-ia,
-#categoryNavList .filter-chip.cat-ia { border-color: color-mix(in srgb, var(--cat-ia) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-ia) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-ia) 72%, #111) !important; }
-#homeCategoryNavList .filter-chip.cat-production,
-#categoryNavList .filter-chip.cat-production { border-color: color-mix(in srgb, var(--cat-production) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-production) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-production) 72%, #111) !important; }
-#homeCategoryNavList .filter-chip.cat-failure,
-#categoryNavList .filter-chip.cat-failure { border-color: color-mix(in srgb, var(--cat-failure) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-failure) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-failure) 72%, #111) !important; }
-#homeCategoryNavList .filter-chip.cat-operation,
-#categoryNavList .filter-chip.cat-operation { border-color: color-mix(in srgb, var(--cat-operation) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-operation) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-operation) 72%, #111) !important; }
-#homeCategoryNavList .filter-chip.cat-promotion,
-#categoryNavList .filter-chip.cat-promotion { border-color: color-mix(in srgb, var(--cat-promotion) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-promotion) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-promotion) 72%, #111) !important; }
-#homeCategoryNavList .filter-chip.cat-writing,
-#categoryNavList .filter-chip.cat-writing { border-color: color-mix(in srgb, var(--cat-writing) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-writing) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-writing) 72%, #111) !important; }
-#homeCategoryNavList .filter-chip.cat-tools,
-#categoryNavList .filter-chip.cat-tools { border-color: color-mix(in srgb, var(--cat-tools) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-tools) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-tools) 72%, #111) !important; }
-#homeCategoryNavList .filter-chip.cat-recruit,
-#categoryNavList .filter-chip.cat-recruit { border-color: color-mix(in srgb, var(--cat-recruit) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-recruit) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-recruit) 72%, #111) !important; }
+.category-jump-groups .filter-chip.cat-planning { border-color: color-mix(in srgb, var(--cat-planning) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-planning) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-planning) 72%, #111) !important; }
+.category-jump-groups .filter-chip.cat-ia { border-color: color-mix(in srgb, var(--cat-ia) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-ia) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-ia) 72%, #111) !important; }
+.category-jump-groups .filter-chip.cat-production { border-color: color-mix(in srgb, var(--cat-production) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-production) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-production) 72%, #111) !important; }
+.category-jump-groups .filter-chip.cat-failure { border-color: color-mix(in srgb, var(--cat-failure) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-failure) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-failure) 72%, #111) !important; }
+.category-jump-groups .filter-chip.cat-operation { border-color: color-mix(in srgb, var(--cat-operation) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-operation) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-operation) 72%, #111) !important; }
+.category-jump-groups .filter-chip.cat-promotion { border-color: color-mix(in srgb, var(--cat-promotion) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-promotion) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-promotion) 72%, #111) !important; }
+.category-jump-groups .filter-chip.cat-writing { border-color: color-mix(in srgb, var(--cat-writing) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-writing) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-writing) 72%, #111) !important; }
+.category-jump-groups .filter-chip.cat-tools { border-color: color-mix(in srgb, var(--cat-tools) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-tools) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-tools) 72%, #111) !important; }
+.category-jump-groups .filter-chip.cat-recruit { border-color: color-mix(in srgb, var(--cat-recruit) 76%, transparent) !important; background: color-mix(in srgb, var(--cat-recruit) 20%, transparent) !important; color: color-mix(in srgb, var(--cat-recruit) 72%, #111) !important; }
 
-body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-planning,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-planning { border-color: color-mix(in srgb, var(--cat-planning) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-planning) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-planning) 25%, white) !important; }
-body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-ia,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-ia { border-color: color-mix(in srgb, var(--cat-ia) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-ia) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-ia) 25%, white) !important; }
-body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-production,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-production { border-color: color-mix(in srgb, var(--cat-production) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-production) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-production) 25%, white) !important; }
-body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-failure,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-failure { border-color: color-mix(in srgb, var(--cat-failure) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-failure) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-failure) 25%, white) !important; }
-body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-operation,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-operation { border-color: color-mix(in srgb, var(--cat-operation) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-operation) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-operation) 25%, white) !important; }
-body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-promotion,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-promotion { border-color: color-mix(in srgb, var(--cat-promotion) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-promotion) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-promotion) 25%, white) !important; }
-body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-writing,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-writing { border-color: color-mix(in srgb, var(--cat-writing) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-writing) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-writing) 25%, white) !important; }
-body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-tools,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-tools { border-color: color-mix(in srgb, var(--cat-tools) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-tools) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-tools) 25%, white) !important; }
-body:not([data-theme="light"]) #homeCategoryNavList .filter-chip.cat-recruit,
-body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-recruit { border-color: color-mix(in srgb, var(--cat-recruit) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-recruit) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-recruit) 25%, white) !important; }
+body:not([data-theme="light"]) .category-jump-groups .filter-chip.cat-planning { border-color: color-mix(in srgb, var(--cat-planning) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-planning) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-planning) 25%, white) !important; }
+body:not([data-theme="light"]) .category-jump-groups .filter-chip.cat-ia { border-color: color-mix(in srgb, var(--cat-ia) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-ia) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-ia) 25%, white) !important; }
+body:not([data-theme="light"]) .category-jump-groups .filter-chip.cat-production { border-color: color-mix(in srgb, var(--cat-production) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-production) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-production) 25%, white) !important; }
+body:not([data-theme="light"]) .category-jump-groups .filter-chip.cat-failure { border-color: color-mix(in srgb, var(--cat-failure) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-failure) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-failure) 25%, white) !important; }
+body:not([data-theme="light"]) .category-jump-groups .filter-chip.cat-operation { border-color: color-mix(in srgb, var(--cat-operation) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-operation) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-operation) 25%, white) !important; }
+body:not([data-theme="light"]) .category-jump-groups .filter-chip.cat-promotion { border-color: color-mix(in srgb, var(--cat-promotion) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-promotion) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-promotion) 25%, white) !important; }
+body:not([data-theme="light"]) .category-jump-groups .filter-chip.cat-writing { border-color: color-mix(in srgb, var(--cat-writing) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-writing) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-writing) 25%, white) !important; }
+body:not([data-theme="light"]) .category-jump-groups .filter-chip.cat-tools { border-color: color-mix(in srgb, var(--cat-tools) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-tools) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-tools) 25%, white) !important; }
+body:not([data-theme="light"]) .category-jump-groups .filter-chip.cat-recruit { border-color: color-mix(in srgb, var(--cat-recruit) 82%, transparent) !important; background: color-mix(in srgb, var(--cat-recruit) 22%, transparent) !important; color: color-mix(in srgb, var(--cat-recruit) 25%, white) !important; }
 
 /* ===== Home Block Rhythm Unify ===== */
 .home-view > .desktop-inline-nav,
@@ -5825,7 +5834,7 @@ body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-recruit { borde
   padding-bottom: 0;
 }
 
-#homeCategoryNavList.filter-chip-group {
+#homeCategoryNavList {
   margin-bottom: 18px;
 }
 
@@ -5857,7 +5866,7 @@ body:not([data-theme="light"]) #categoryNavList .filter-chip.cat-recruit { borde
 .home-view > .stats-unified { margin-bottom: 18px !important; }
 .home-view > .desktop-inline-nav { margin-bottom: 14px !important; }
 .home-view > .section-label { margin-top: 0 !important; margin-bottom: 10px !important; }
-#homeCategoryNavList.filter-chip-group { margin-bottom: 18px !important; }
+#homeCategoryNavList { margin-bottom: 18px !important; }
 .home-view > .home-columns { margin-top: 0 !important; }
 
 @media (min-width: 901px) {
@@ -6183,7 +6192,7 @@ body:not([data-theme="light"]) .header {
     font-size: 9px;
   }
 
-  #categoryNavList.filter-chip-group {
+  #categoryNavList {
     gap: 6px !important;
     margin-bottom: 14px !important;
   }

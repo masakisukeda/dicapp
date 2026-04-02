@@ -196,18 +196,19 @@ body[data-theme="light"] .home-update-item {
   justify-content: flex-end;
   margin-top: 12px;
 }
-#homeCategoryGroupTabs,
-#categoryGroupTabs {
+#homeCategoryNavList,
+#categoryNavList,
+#glossaryCategoryNavList {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
 }
-#homeCategoryGroupTabs .filter-chip,
-#categoryGroupTabs .filter-chip,
-#homeCategoryGroupTabs .filter-chip:hover,
-#categoryGroupTabs .filter-chip:hover,
-#homeCategoryGroupTabs .filter-chip.active,
-#categoryGroupTabs .filter-chip.active {
+#homeCategoryNavList .filter-chip-group,
+#categoryNavList .filter-chip-group,
+#glossaryCategoryNavList .filter-chip-group,
+#homeCategoryNavList .filter-chip-group:hover,
+#categoryNavList .filter-chip-group:hover,
+#glossaryCategoryNavList .filter-chip-group:hover {
   background: transparent !important;
   backdrop-filter: none !important;
   box-shadow: none !important;
@@ -571,8 +572,7 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
       </div>
 
       <div class="section-label">カテゴリへジャンプ</div>
-      <div class="filter-chip-group category-chip-nav" id="homeCategoryGroupTabs"></div>
-      <div class="filter-chip-group category-chip-nav" id="homeCategoryNavList"></div>
+      <div class="category-jump-groups" id="homeCategoryNavList"></div>
 
       <div class="section-label">目的別おすすめカリキュラム</div>
       <div class="feature-grid home-track-grid" id="homeTrackGrid"></div>
@@ -685,19 +685,29 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
         </div>
       </div>
 
-      <div class="search-wrap glossary-search-wrap">
-        <span class="search-icon">⌕</span>
-        <input id="glossarySearchInput" class="search-input" type="text" placeholder="用語を検索..." oninput="renderGlossaryPage(this.value)" autocomplete="off">
-      </div>
+      <div class="category-top-grid glossary-top-grid" id="glossaryTopGrid">
+        <section class="category-top-col category-top-col-nav" aria-labelledby="glossaryNavHeading">
+          <div class="section-label" id="glossaryNavHeading">カテゴリへジャンプ</div>
+          <div class="category-jump-groups" id="glossaryCategoryNavList"></div>
+        </section>
 
-      <div class="glossary-sort-row">
-        <span class="glossary-sort-label">並び順</span>
-        <button class="filter-chip active" type="button" data-glossary-sort="freq" onclick="setGlossarySort('freq')">頻出順</button>
-        <button class="filter-chip" type="button" data-glossary-sort="kana" onclick="setGlossarySort('kana')">五十音順</button>
-      </div>
+        <section class="category-top-col category-top-col-list" aria-labelledby="glossaryListHeading">
+          <div class="section-label" id="glossaryListHeading">用語一覧</div>
 
-      <div class="section-label">用語一覧</div>
-      <div class="article-list" id="glossaryArticleList"></div>
+          <div class="search-wrap glossary-search-wrap">
+            <span class="search-icon">⌕</span>
+            <input id="glossarySearchInput" class="search-input" type="text" placeholder="用語を検索..." oninput="renderGlossaryPage(this.value)" autocomplete="off">
+          </div>
+
+          <div class="glossary-sort-row">
+            <span class="glossary-sort-label">並び順</span>
+            <button class="filter-chip active" type="button" data-glossary-sort="freq" onclick="setGlossarySort('freq')">頻出順</button>
+            <button class="filter-chip" type="button" data-glossary-sort="kana" onclick="setGlossarySort('kana')">五十音順</button>
+          </div>
+
+          <div class="article-list" id="glossaryArticleList"></div>
+        </section>
+      </div>
     </div>
 
     <div class="category-view editors-view ui-view-stack" id="editorsView">
@@ -791,8 +801,7 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
       <div class="category-top-grid" id="categoryTopGrid">
         <section class="category-top-col category-top-col-nav" aria-labelledby="categoryNavHeading">
           <div class="section-label" id="categoryNavHeading">他カテゴリへ</div>
-          <div class="filter-chip-group category-chip-nav" id="categoryGroupTabs"></div>
-          <div class="filter-chip-group category-chip-nav" id="categoryNavList"></div>
+          <div class="category-jump-groups" id="categoryNavList"></div>
         </section>
 
         <section class="category-top-col category-top-col-list" aria-labelledby="categoryListHeading">

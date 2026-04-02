@@ -752,6 +752,10 @@ function safeWindowOpen(url, target = '_blank', features = 'noopener,noreferrer'
 }
 
 function renderCurrentGlossaryView() {
+  renderCategoryJumpGroups('glossaryCategoryNavList', {
+    includeGlossaryInAppendix: true,
+    glossaryActive: true,
+  });
   const input = document.getElementById('glossarySearchInput');
   renderGlossaryPage(input ? input.value : '');
 }
@@ -2209,7 +2213,8 @@ function categoryPhaseMeta(catName) {
   return CATEGORY_PHASE_META.default;
 }
 
-function renderCategoryPhaseGuide(catName) {
+function renderCategoryPhaseGuide(catName, options = {}) {
+  const { hideDiagram = false } = options;
   const block = document.getElementById('categoryPhaseBlock');
   const chips = document.getElementById('categoryPhaseChips');
   const note = document.getElementById('categoryPhaseNote');
@@ -2225,6 +2230,7 @@ function renderCategoryPhaseGuide(catName) {
     const active = activeKeys.has('all') || (key && activeKeys.has(key));
     el.classList.toggle('is-active', active);
   });
+  diagram.style.display = hideDiagram ? 'none' : '';
   block.style.display = 'block';
 }
 
@@ -2274,40 +2280,13 @@ function getFilteredCategoriesByGroup(groupKey) {
   return (state.categories || []).filter((c) => c && c.id && categoryGroupKeyByCategory(c) === safeGroup);
 }
 
-function renderCategoryGroupTabs(target, activeGroupKey) {
-  const root = typeof target === 'string' ? document.getElementById(target) : target;
-  if (!root) return;
-
-  const active = normalizeCategoryGroupFilter(activeGroupKey);
-  root.style.display = 'flex';
-  root.innerHTML = CATEGORY_GROUP_OPTIONS.map((option) => {
-    const isActive = option.key === active;
-    if (isActive) {
-      return `<button class="filter-chip active" type="button" disabled>${escapeHtml(option.label)}</button>`;
-    }
-    return `<button class="filter-chip" type="button" onclick="setCategoryGroup('${option.key}')">${escapeHtml(option.label)}</button>`;
-  }).join('');
-}
-
 function setCategoryGroup(nextGroupKey) {
   const next = normalizeCategoryGroupFilter(nextGroupKey);
   state.categoryGroupFilter = next;
   renderHomeCategoryNav();
 
-  if (state.currentView === 'category' && state.currentCategoryId) {
-    const currentCategory = getCurriculumCategoryById(state.currentCategoryId);
-    if (currentCategory && !currentCategory.isCurriculumTrack) {
-      const visibleCategories = getFilteredCategoriesByGroup(next);
-      if (!visibleCategories.some((c) => c.id === state.currentCategoryId)) {
-        const fallbackCategory = visibleCategories[0];
-        if (fallbackCategory) {
-          showCategory(fallbackCategory.id);
-          return;
-        }
-      }
-      renderCategoryView(state.currentCategoryId);
-    }
-  }
+  if (state.currentView === 'category' && state.currentCategoryId) renderCategoryView(state.currentCategoryId);
+  if (state.currentView === 'glossary') renderCurrentGlossaryView();
 }
 
 function getCurriculumCategoryById(categoryId) {
@@ -2334,33 +2313,55 @@ function renderCategoryBadge(catName) {
   return `<span class="article-cat-badge ${cls}">${safeText}</span>`;
 }
 
-function renderAppendixGlossaryChip() {
+function renderAppendixGlossaryChip(active = false) {
+  if (active) return '<button class="filter-chip active" type="button" disabled>用語集</button>';
   return '<button class="filter-chip" type="button" onclick="setCategoryGroup(\'appendix\'); showGlossaryView()">用語集</button>';
 }
 
-function renderHomeCategoryNav() {
-  renderCategoryGroupTabs('homeCategoryGroupTabs', state.categoryGroupFilter);
+function renderCategoryJumpGroups(target, options = {}) {
+  const root = typeof target === 'string' ? document.getElementById(target) : target;
+  if (!root) return;
 
-  const nav = document.getElementById('homeCategoryNavList');
-  if (!nav) return;
+  const {
+    activeCategoryId = '',
+    includeGlossaryInAppendix = false,
+    glossaryActive = false,
+  } = options;
 
-  const visibleCategories = getFilteredCategoriesByGroup(state.categoryGroupFilter);
-  if (!visibleCategories.length) {
-    nav.innerHTML = '<span class="filter-chip" aria-disabled="true">カテゴリ準備中</span>';
-    return;
-  }
+  const sections = CATEGORY_GROUP_OPTIONS.map((group) => {
+    const cats = getFilteredCategoriesByGroup(group.key);
+    const chips = cats.map((c) => {
+      const label = normalizeDisplayText(c.name);
+      const catClass = categoryBadgeClass(label);
+      if (String(c.id) === String(activeCategoryId || '')) {
+        return `<button class="filter-chip ${catClass} active" type="button" disabled>${escapeHtml(label)}</button>`;
+      }
+      return `<button class="filter-chip ${catClass}" type="button" onclick="showCategory('${escapeForSingleQuote(c.id)}')">${escapeHtml(label)}</button>`;
+    });
 
-  const chips = visibleCategories.map((c) => {
-    const label = normalizeDisplayText(c.name);
-    const catClass = categoryBadgeClass(label);
-    return `<button class="filter-chip ${catClass}" type="button" onclick="showCategory('${c.id}')">${escapeHtml(label)}</button>`;
+    if (group.key === 'appendix' && includeGlossaryInAppendix) {
+      chips.unshift(renderAppendixGlossaryChip(glossaryActive));
+    }
+
+    if (!chips.length) {
+      chips.push('<span class="filter-chip" aria-disabled="true">カテゴリ準備中</span>');
+    }
+
+    return `
+      <section class="category-nav-group" data-group-key="${escapeHtml(group.key)}">
+        <div class="category-nav-group-title">${escapeHtml(group.label)}</div>
+        <div class="filter-chip-group category-chip-nav category-nav-group-chips">${chips.join('')}</div>
+      </section>
+    `;
   });
 
-  if (state.categoryGroupFilter === 'appendix') {
-    chips.unshift(renderAppendixGlossaryChip());
-  }
+  root.innerHTML = sections.join('');
+}
 
-  nav.innerHTML = chips.join('');
+function renderHomeCategoryNav() {
+  const nav = document.getElementById('homeCategoryNavList');
+  if (!nav) return;
+  renderCategoryJumpGroups(nav, { includeGlossaryInAppendix: true });
 }
 
 function getHomeUpdates() {
@@ -2607,19 +2608,12 @@ function renderCategoryView(categoryId) {
   const titleEl = document.getElementById('categoryTitle');
   const sub = document.getElementById('categorySub');
   const count = document.getElementById('categoryArticleCount');
-  const groupTabs = document.getElementById('categoryGroupTabs');
   const nav = document.getElementById('categoryNavList');
   const list = document.getElementById('categoryArticleList');
   const view = document.getElementById('categoryView');
 
-  if (cat.isCurriculumTrack) {
-    if (groupTabs) {
-      groupTabs.style.display = 'none';
-      groupTabs.innerHTML = '';
-    }
-  } else {
+  if (!cat.isCurriculumTrack) {
     state.categoryGroupFilter = categoryGroupKeyByCategory(cat);
-    renderCategoryGroupTabs(groupTabs, state.categoryGroupFilter);
   }
 
   if (view) {
@@ -2642,55 +2636,56 @@ function renderCategoryView(categoryId) {
   if (cat.isCurriculumTrack) {
     if (phaseBlock) phaseBlock.style.display = 'none';
   } else {
-    renderCategoryPhaseGuide(title);
+    const hideDiagram = state.categoryGroupFilter === 'appendix';
+    renderCategoryPhaseGuide(title, { hideDiagram });
   }
 
 
   if (nav) {
-    const categories = cat.isCurriculumTrack
-      ? getVisibleCurriculumTracks()
-      : getFilteredCategoriesByGroup(state.categoryGroupFilter);
-    const isMobile = isCompactMobileLayout();
-    const limit = 4;
-    let visibleCategories = categories;
+    if (cat.isCurriculumTrack) {
+      const categories = getVisibleCurriculumTracks();
+      const isMobile = isCompactMobileLayout();
+      const limit = 4;
+      let visibleCategories = categories;
 
-    if (isMobile && !state.categoryNavExpanded && categories.length > limit) {
-      visibleCategories = categories.slice(0, limit);
-      if (!visibleCategories.some((c) => c.id === categoryId)) {
-        const activeCat = categories.find((c) => c.id === categoryId);
-        if (activeCat) {
-          visibleCategories = [...visibleCategories.slice(0, Math.max(0, limit - 1)), activeCat];
+      if (isMobile && !state.categoryNavExpanded && categories.length > limit) {
+        visibleCategories = categories.slice(0, limit);
+        if (!visibleCategories.some((c) => c.id === categoryId)) {
+          const activeCat = categories.find((c) => c.id === categoryId);
+          if (activeCat) {
+            visibleCategories = [...visibleCategories.slice(0, Math.max(0, limit - 1)), activeCat];
+          }
         }
+        const seen = new Set();
+        visibleCategories = visibleCategories.filter((c) => {
+          if (seen.has(c.id)) return false;
+          seen.add(c.id);
+          return true;
+        });
       }
-      const seen = new Set();
-      visibleCategories = visibleCategories.filter((c) => {
-        if (seen.has(c.id)) return false;
-        seen.add(c.id);
-        return true;
+
+      const chips = visibleCategories.map((c) => {
+        const active = c.id === categoryId;
+        const label = normalizeDisplayText(c.name);
+        if (active) {
+          return `<button class="filter-chip active" type="button" disabled>${escapeHtml(label)}</button>`;
+        }
+        return `<button class="filter-chip" type="button" onclick="showCategory('${c.id}')">${escapeHtml(label)}</button>`;
+      });
+
+      if (isMobile && categories.length > limit) {
+        const hiddenCount = Math.max(0, categories.length - visibleCategories.length);
+        const moreLabel = state.categoryNavExpanded ? '閉じる' : `もっと見る${hiddenCount > 0 ? `（+${hiddenCount}）` : ''}`;
+        chips.push(`<button class="filter-chip category-nav-more" type="button" onclick="toggleCategoryNavExpanded()">${moreLabel}</button>`);
+      }
+
+      nav.innerHTML = chips.join('');
+    } else {
+      renderCategoryJumpGroups(nav, {
+        activeCategoryId: categoryId,
+        includeGlossaryInAppendix: true,
       });
     }
-
-    const chips = visibleCategories.map((c) => {
-      const active = c.id === categoryId;
-      const label = normalizeDisplayText(c.name);
-      const catClass = categoryBadgeClass(label);
-      if (active) {
-        return `<button class="filter-chip ${catClass} active" type="button" disabled>${escapeHtml(label)}</button>`;
-      }
-      return `<button class="filter-chip ${catClass}" type="button" onclick="showCategory('${c.id}')">${escapeHtml(label)}</button>`;
-    });
-
-    if (!cat.isCurriculumTrack && state.categoryGroupFilter === 'appendix') {
-      chips.unshift(renderAppendixGlossaryChip());
-    }
-
-    if (isMobile && categories.length > limit) {
-      const hiddenCount = Math.max(0, categories.length - visibleCategories.length);
-      const moreLabel = state.categoryNavExpanded ? '閉じる' : `もっと見る${hiddenCount > 0 ? `（+${hiddenCount}）` : ''}`;
-      chips.push(`<button class="filter-chip category-nav-more" type="button" onclick="toggleCategoryNavExpanded()">${moreLabel}</button>`);
-    }
-
-    nav.innerHTML = chips.join('');
   }
 
   if (list) {
@@ -3027,6 +3022,8 @@ function setGlossarySort(mode) {
 
 function showGlossaryView(options = {}) {
   const { skipHistory = false } = options;
+  state.categoryGroupFilter = 'appendix';
+  renderHomeCategoryNav();
   renderCurrentGlossaryView();
   updateSeoForRoute('glossary');
   showView('glossary', { skipHistory: true });
