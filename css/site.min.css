@@ -7938,7 +7938,8 @@ body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-gr
 /* ===== Home Top: group header/top-link + distinct 10-color chips ===== */
 #homeCategoryNavList .category-nav-group-title[data-group-top-link="1"] {
   cursor: pointer;
-  border: none !important;
+  border: 1px solid color-mix(in srgb, var(--border2) 88%, transparent) !important;
+  background: transparent !important;
   box-shadow: none !important;
 }
 
@@ -7947,24 +7948,20 @@ body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-gr
   outline-offset: 2px;
 }
 
-body[data-theme="light"] #homeCategoryNavList .category-nav-group[data-group-key="dictionary"] .category-nav-group-title {
-  background: #dcebff !important;
-}
-
+body[data-theme="light"] #homeCategoryNavList .category-nav-group[data-group-key="dictionary"] .category-nav-group-title,
 body[data-theme="light"] #homeCategoryNavList .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
-  background: #ffe7d2 !important;
+  background: transparent !important;
+  border-color: rgba(95, 110, 128, 0.52) !important;
 }
 
 body[data-theme="light"] #homeCategoryNavList .category-nav-group .category-nav-group-title .category-nav-group-text {
   color: #111111 !important;
 }
 
-body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group[data-group-key="dictionary"] .category-nav-group-title {
-  background: color-mix(in srgb, #63a7ff 28%, var(--bg2)) !important;
-}
-
+body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group[data-group-key="dictionary"] .category-nav-group-title,
 body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
-  background: color-mix(in srgb, #ffb173 30%, var(--bg2)) !important;
+  background: transparent !important;
+  border-color: rgba(162, 172, 188, 0.56) !important;
 }
 
 body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-title .category-nav-group-text {

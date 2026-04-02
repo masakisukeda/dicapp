@@ -2502,9 +2502,11 @@ function renderCategoryJumpGroups(target, options = {}) {
     `;
   });
 
+  const panelAriaLabel = root.id === 'homeCategoryNavList' ? 'カテゴリクイックナビ' : 'カテゴリへジャンプ';
+
   root.innerHTML = renderSectionPanel({
     title: '',
-    ariaLabel: 'カテゴリへジャンプ',
+    ariaLabel: panelAriaLabel,
     panelClass: 'category-jump-panel',
     bodyHtml: `
       <div class="category-jump-panel-grid">
