@@ -5815,7 +5815,7 @@ body:not([data-theme="light"]) .home-main::after {
 
 .category-jump-panel-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 10px;
 }
 
@@ -5827,6 +5827,13 @@ body:not([data-theme="light"]) .home-main::after {
   border-radius: 12px;
   background: color-mix(in srgb, var(--bg3) 84%, transparent);
   padding: 10px;
+}
+
+.category-nav-group-chips {
+  height: 78px;
+  overflow-y: auto;
+  align-content: flex-start;
+  padding-right: 2px !important;
 }
 
 .category-nav-group-title {

@@ -2352,7 +2352,7 @@ function renderCategoryJumpGroups(target, options = {}) {
     glossaryActive = false,
   } = options;
 
-  const sections = CATEGORY_GROUP_OPTIONS.map((group, index) => {
+  const sections = CATEGORY_GROUP_OPTIONS.map((group) => {
     const cats = getFilteredCategoriesByGroup(group.key);
     const chips = cats.map((c) => {
       const label = normalizeDisplayText(c.name);
@@ -2375,7 +2375,6 @@ function renderCategoryJumpGroups(target, options = {}) {
     return `
       <section class="category-nav-group" data-group-key="${escapeHtml(group.key)}">
         <div class="category-nav-group-title">
-          <span class="category-nav-group-index">${index + 1}</span>
           <span class="category-nav-group-text">${escapeHtml(groupTitle)}</span>
         </div>
         <div class="filter-chip-group category-chip-nav category-nav-group-chips">${chips.join('')}</div>
