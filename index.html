@@ -573,13 +573,17 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
 
       <div class="category-jump-groups" id="homeCategoryNavList"></div>
 
-      <div class="section-label">目的別おすすめカリキュラム</div>
-      <div class="feature-grid home-track-grid" id="homeTrackGrid"></div>
+      <section class="home-section-panel home-curriculum-panel" aria-labelledby="homeCurriculumHeading">
+        <div class="home-section-panel-head">
+          <div class="home-section-panel-title" id="homeCurriculumHeading">目的別おすすめカリキュラム</div>
+        </div>
+        <div class="feature-grid home-track-grid" id="homeTrackGrid"></div>
+      </section>
 
       <div class="home-columns">
-        <section class="home-col-item home-col-full">
-          <div class="section-label section-label-row">
-            <span>最近の機能アップデート</span>
+        <section class="home-col-item home-col-full home-section-panel">
+          <div class="home-section-panel-head section-label-row">
+            <span class="home-section-panel-title">最近の機能アップデート</span>
             <button class="home-update-x-btn" type="button" onclick="postHomeUpdatesOnX()">Xでポスト</button>
           </div>
           <div class="article-list" id="homeUpdateList">
@@ -589,15 +593,19 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
           </div>
         </section>
 
-        <section class="home-col-item">
-          <div class="section-label">最近更新された記事</div>
+        <section class="home-col-item home-section-panel">
+          <div class="home-section-panel-head">
+            <div class="home-section-panel-title">最近更新された記事</div>
+          </div>
           <div class="article-list" id="recentList">
             <!-- injected -->
           </div>
         </section>
 
-        <section class="home-col-item">
-          <div class="section-label">新着コメント</div>
+        <section class="home-col-item home-section-panel">
+          <div class="home-section-panel-head">
+            <div class="home-section-panel-title">新着コメント</div>
+          </div>
           <div class="article-list" id="latestCommentList">
             <div class="article-row note-row is-placeholder">
               <span class="article-title-row">まだコメントはありません</span>
@@ -605,8 +613,10 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
           </div>
         </section>
 
-        <section class="home-col-item home-col-full">
-          <div class="section-label">最新のDiSAのnote</div>
+        <section class="home-col-item home-col-full home-section-panel">
+          <div class="home-section-panel-head">
+            <div class="home-section-panel-title">最新のDiSAのnote</div>
+          </div>
           <div class="article-list" id="noteList">
             <div class="article-row note-row is-placeholder">
               <span class="article-title-row">note記事を読み込み中...</span>
