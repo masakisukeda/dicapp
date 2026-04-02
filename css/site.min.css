@@ -5803,16 +5803,14 @@ body:not([data-theme="light"]) .home-main::after {
 }
 
 .ui-section-panel-head,
-.home-section-panel-head,
-.category-jump-panel-head {
+.home-section-panel-head {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
 .ui-section-panel-title,
-.home-section-panel-title,
-.category-jump-panel-title {
+.home-section-panel-title {
   font-size: var(--font-ui-sm);
   font-weight: 800;
   color: var(--ink2);
@@ -5883,15 +5881,15 @@ body:not([data-theme="light"]) .home-main::after {
     padding: 0;
   }
 
-  #homeCategoryNavList .category-jump-panel-head,
-  #categoryNavList .category-jump-panel-head,
-  #glossaryCategoryNavList .category-jump-panel-head {
+  #homeCategoryNavList .ui-section-panel-head,
+  #categoryNavList .ui-section-panel-head,
+  #glossaryCategoryNavList .ui-section-panel-head {
     margin-bottom: 10px;
   }
 
-  #homeCategoryNavList .category-jump-panel-title,
-  #categoryNavList .category-jump-panel-title,
-  #glossaryCategoryNavList .category-jump-panel-title {
+  #homeCategoryNavList .ui-section-panel-title,
+  #categoryNavList .ui-section-panel-title,
+  #glossaryCategoryNavList .ui-section-panel-title {
     letter-spacing: 0.06em;
     font-weight: 800;
     text-transform: uppercase;
@@ -6039,11 +6037,20 @@ body:not([data-theme="light"]) .home-main::after {
   padding: 0 !important;
 }
 
+#homeCategoryNavList .category-nav-group-chips,
+#categoryNavList .category-nav-group-chips,
+#glossaryCategoryNavList .category-nav-group-chips {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px !important;
+}
+
 #homeCategoryNavList .filter-chip,
 #categoryNavList .filter-chip,
 #glossaryCategoryNavList .filter-chip {
-  border-radius: 999px !important;
-  padding: 5px 12px !important;
+  border-radius: 8px !important;
+  padding: 7px 12px !important;
+  min-height: 34px;
   font-size: var(--font-ui-sm) !important;
   font-weight: 700 !important;
   line-height: 1.3 !important;
@@ -6051,6 +6058,12 @@ body:not([data-theme="light"]) .home-main::after {
   transform: none !important;
   text-align: center;
   justify-content: center;
+}
+
+#homeCategoryNavList .category-nav-group-chips .filter-chip,
+#categoryNavList .category-nav-group-chips .filter-chip,
+#glossaryCategoryNavList .category-nav-group-chips .filter-chip {
+  width: 100%;
 }
 
 #homeCategoryNavList .filter-chip:hover,
@@ -6520,6 +6533,12 @@ body:not([data-theme="light"]) .header {
   .category-nav-group {
     padding: 9px;
     gap: 7px;
+  }
+
+  #homeCategoryNavList .category-nav-group-chips,
+  #categoryNavList .category-nav-group-chips,
+  #glossaryCategoryNavList .category-nav-group-chips {
+    grid-template-columns: 1fr;
   }
 
   .comment-row .comment-excerpt {

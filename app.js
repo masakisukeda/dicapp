@@ -2351,6 +2351,20 @@ function renderAppendixGlossaryChip(active = false) {
   return '<button class="filter-chip" type="button" onclick="setCategoryGroup(\'appendix\'); showGlossaryView()">用語集</button>';
 }
 
+function renderSectionPanel({ title = '', panelClass = '', bodyHtml = '', ariaLabel = '' } = {}) {
+  const panelClasses = ['ui-section-panel', panelClass].filter(Boolean).join(' ');
+  const normalizedTitle = normalizeDisplayText(title || '');
+  const normalizedAria = normalizeDisplayText(ariaLabel || normalizedTitle || 'セクション');
+  return `
+    <section class="${panelClasses}" aria-label="${escapeHtml(normalizedAria)}">
+      <div class="ui-section-panel-head">
+        <div class="ui-section-panel-title">${escapeHtml(normalizedTitle)}</div>
+      </div>
+      ${bodyHtml}
+    </section>
+  `;
+}
+
 function renderCategoryJumpGroups(target, options = {}) {
   const root = typeof target === 'string' ? document.getElementById(target) : target;
   if (!root) return;
@@ -2391,16 +2405,15 @@ function renderCategoryJumpGroups(target, options = {}) {
     `;
   });
 
-  root.innerHTML = `
-    <section class="category-jump-panel" aria-label="カテゴリへジャンプ">
-      <div class="category-jump-panel-head">
-        <div class="category-jump-panel-title">カテゴリへジャンプ</div>
-      </div>
+  root.innerHTML = renderSectionPanel({
+    title: 'カテゴリへジャンプ',
+    panelClass: 'category-jump-panel',
+    bodyHtml: `
       <div class="category-jump-panel-grid">
         ${sections.join('')}
       </div>
-    </section>
-  `;
+    `,
+  });
 }
 
 function renderHomeCategoryNav() {
