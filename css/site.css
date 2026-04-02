@@ -7574,14 +7574,15 @@ body:not([data-theme="light"]) .header {
   }
 
   .home-view > .home-hero.home-hero-with-kun .home-main {
-    max-width: min(620px, calc(100% - 220px));
+    max-width: min(620px, calc(100% - 236px));
   }
 
   .home-view > .home-hero.home-hero-with-kun .home-hero-kun {
     display: block;
     position: absolute;
     right: 24px;
-    bottom: 14px;
+    top: 50%;
+    transform: translateY(-50%);
     width: clamp(132px, 14vw, 184px);
     pointer-events: none;
     opacity: 0.96;
