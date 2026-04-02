@@ -7767,3 +7767,92 @@ body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-gr
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 36%, transparent) inset !important;
   }
 }
+
+/* ===== Desktop Category Jump: white group labels + distinct chip colors ===== */
+@media (min-width: 901px) {
+  .category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-title,
+  .category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  .category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-title {
+    border-color: #5d9df2 !important;
+  }
+
+  .category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-title {
+    border-color: #eea165 !important;
+  }
+
+  .category-jump-groups .category-nav-group[data-group-key="dictionary"] .category-nav-group-text,
+  .category-jump-groups .category-nav-group[data-group-key="appendix"] .category-nav-group-text {
+    color: #111111 !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip[class*="cat-"] {
+    color: #111111 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-planning {
+    border-color: #e8c05e !important;
+    background: #fff0b8 !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-ia {
+    border-color: #78b9e0 !important;
+    background: #d8f1ff !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-production {
+    border-color: #9a85e3 !important;
+    background: #e3dbff !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-operation {
+    border-color: #7fc78c !important;
+    background: #dcf7df !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-promotion {
+    border-color: #e8a06f !important;
+    background: #ffe2cc !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-writing {
+    border-color: #df92ba !important;
+    background: #ffdced !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-glossary {
+    border-color: #7bcac0 !important;
+    background: #dff7f4 !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-tools {
+    border-color: #809fdd !important;
+    background: #dce8ff !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-recruit {
+    border-color: #aac55f !important;
+    background: #e8f7ce !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip.cat-failure {
+    border-color: #dd9288 !important;
+    background: #ffd9d6 !important;
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip[class*="cat-"]:hover {
+    color: #111111 !important;
+    filter: brightness(0.98);
+  }
+
+  .category-jump-groups .category-nav-group .category-nav-group-chips .filter-chip[class*="cat-"].active {
+    color: #111111 !important;
+    box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.12) inset, 0 3px 10px rgba(0, 0, 0, 0.12) !important;
+    filter: none !important;
+  }
+}

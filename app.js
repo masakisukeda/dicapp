@@ -2407,8 +2407,8 @@ function renderCategoryBadge(catName) {
 }
 
 function renderAppendixGlossaryChip(active = false) {
-  if (active) return '<button class="filter-chip active" type="button" disabled>用語集</button>';
-  return '<button class="filter-chip" type="button" onclick="setCategoryGroup(\'appendix\'); showGlossaryView()">用語集</button>';
+  if (active) return '<button class="filter-chip cat-glossary active" type="button" disabled>用語集</button>';
+  return '<button class="filter-chip cat-glossary" type="button" onclick="setCategoryGroup(\'appendix\'); showGlossaryView()">用語集</button>';
 }
 
 function renderSectionPanel({ title = '', panelClass = '', bodyHtml = '', ariaLabel = '' } = {}) {
