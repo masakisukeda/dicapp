@@ -2506,15 +2506,22 @@ function renderAppendixTopCategoryNav() {
   });
 }
 
-function renderCategoryGroupTopList(target, groupKey) {
+function renderCategoryGroupTopList(target, groupKey, options = {}) {
+  const { includeGlossary = false } = options;
   const root = typeof target === 'string' ? document.getElementById(target) : target;
   if (!root) return;
   const categories = getFilteredCategoriesByGroup(groupKey);
-  if (!categories.length) {
-    root.innerHTML = '<div class="article-row note-row is-placeholder"><span class="article-title-row">カテゴリ準備中です</span></div>';
-    return;
+  const rows = [];
+  if (includeGlossary) {
+    rows.push(`
+      <div class="article-row recent-row" onclick="setCategoryGroup('appendix'); showGlossaryView()">
+        <span class="article-cat-badge cat-tools">用語</span>
+        <span class="article-title-row">用語集</span>
+        <span class="article-arrow">›</span>
+      </div>
+    `);
   }
-  root.innerHTML = categories.map((cat) => {
+  rows.push(...categories.map((cat) => {
     const label = normalizeDisplayText(cat.name);
     const catId = escapeForSingleQuote(cat.id);
     return `
@@ -2524,7 +2531,12 @@ function renderCategoryGroupTopList(target, groupKey) {
         <span class="article-arrow">›</span>
       </div>
     `;
-  }).join('');
+  }));
+  if (!rows.length) {
+    root.innerHTML = '<div class="article-row note-row is-placeholder"><span class="article-title-row">カテゴリ準備中です</span></div>';
+    return;
+  }
+  root.innerHTML = rows.join('');
 }
 
 function renderCategoryTopNavigations() {
@@ -2532,7 +2544,7 @@ function renderCategoryTopNavigations() {
   renderDictionaryTopCategoryNav();
   renderAppendixTopCategoryNav();
   renderCategoryGroupTopList('dictionaryTopCategoryList', 'dictionary');
-  renderCategoryGroupTopList('appendixTopCategoryList', 'appendix');
+  renderCategoryGroupTopList('appendixTopCategoryList', 'appendix', { includeGlossary: true });
 }
 
 function getHomeUpdates() {
