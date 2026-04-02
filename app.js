@@ -25,7 +25,6 @@ const HOME_COMMENT_LIMIT = 6;
 const HOME_COMMENT_EXCERPT_MAX = 20;
 const HOME_COMMENT_TITLE_MAX = 16;
 const HOME_UPDATE_LIMIT = 3;
-const HOME_UPDATE_AUTO_LIMIT = 3;
 const HOME_UPDATES = [
   {
     date: '2026/04/01',
@@ -2415,25 +2414,7 @@ function getHomeUpdates() {
     link: String(u && u.link ? u.link : '').trim(),
   })).filter((u) => u.title || u.body);
 
-  const manualLinkSet = new Set(manual.map((u) => u.link).filter(Boolean));
-  const recent = (state.articleIndex || [])
-    .filter((a) => a && a.id && !isArticleDeleted(a.id))
-    .slice()
-    .sort((a, b) => new Date(b.updatedAt || b.updated_at || b.ts || 0).getTime() - new Date(a.updatedAt || a.updated_at || a.ts || 0).getTime())
-    .slice(0, HOME_UPDATE_AUTO_LIMIT)
-    .map((a) => {
-      const link = buildPublicArticleUrl(a.id);
-      if (manualLinkSet.has(link)) return null;
-      return {
-        date: formatPostDateTime(a.updatedAt || a.updated_at || a.ts || BASE_CONTENT_UPDATED_AT).slice(0, 10).replace(/\//g, '/'),
-        title: `記事更新：${normalizeDisplayText(a.title || a.id)}`,
-        body: `${normalizeDisplayText(a.cat || 'カテゴリ未設定')} の記事を更新しました。`,
-        link,
-      };
-    })
-    .filter(Boolean);
-
-  return [...manual, ...recent]
+  return manual
     .map((u, i) => ({ ...u, __ts: toDateTs(u.date), __i: i }))
     .sort((a, b) => {
       if (b.__ts !== a.__ts) return b.__ts - a.__ts;
