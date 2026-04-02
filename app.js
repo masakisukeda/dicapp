@@ -2415,11 +2415,14 @@ function renderSectionPanel({ title = '', panelClass = '', bodyHtml = '', ariaLa
   const panelClasses = ['ui-section-panel', panelClass].filter(Boolean).join(' ');
   const normalizedTitle = normalizeDisplayText(title || '');
   const normalizedAria = normalizeDisplayText(ariaLabel || normalizedTitle || 'セクション');
-  return `
-    <section class="${panelClasses}" aria-label="${escapeHtml(normalizedAria)}">
+  const panelHead = normalizedTitle ? `
       <div class="ui-section-panel-head">
         <div class="ui-section-panel-title">${escapeHtml(normalizedTitle)}</div>
       </div>
+  ` : '';
+  return `
+    <section class="${panelClasses}" aria-label="${escapeHtml(normalizedAria)}">
+      ${panelHead}
       ${bodyHtml}
     </section>
   `;
@@ -2475,7 +2478,8 @@ function renderCategoryJumpGroups(target, options = {}) {
   });
 
   root.innerHTML = renderSectionPanel({
-    title: 'カテゴリへジャンプ',
+    title: '',
+    ariaLabel: 'カテゴリへジャンプ',
     panelClass: 'category-jump-panel',
     bodyHtml: `
       <div class="category-jump-panel-grid">
