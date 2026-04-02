@@ -7681,3 +7681,11 @@ body:not([data-theme="light"]) .category-jump-groups .category-nav-group[data-gr
   background: color-mix(in srgb, var(--accent) 26%, var(--bg2)) !important;
   color: var(--ink) !important;
 }
+
+/* ===== Mobile: hide Dictionary-kun UI ===== */
+@media (max-width: 900px) {
+  .kun-fab-ring-wrap,
+  .home-view > .home-hero.home-hero-with-kun .home-hero-kun {
+    display: none !important;
+  }
+}
