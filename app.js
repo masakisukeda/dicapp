@@ -68,7 +68,7 @@ const ADMIN_SESSION_KEY = 'dir_admin_session_key';
 const ADMIN_SESSION_AT = 'dir_admin_session_at';
 const ADMIN_SESSION_TTL_MS = 2 * 60 * 60 * 1000;
 const BASE_CONTENT_UPDATED_AT = '2026-02-17T00:00:00+09:00';
-const CONTENT_ASSET_VERSION = '20260403.1040';
+const CONTENT_ASSET_VERSION = '20260403.1046';
 const SIMPLE_ROUTE_VIEWS = new Set(['glossary', 'tools', 'requests', 'editors', 'dictionary', 'appendix']);
 const PUBLIC_BASE_URL = 'https://drsp.cc/dic/';
 const DEFAULT_SEO_TITLE = '辞書.app — ディレクションの辞書';
@@ -1945,7 +1945,7 @@ async function init() {
       state.categories = embedded.categories || [];
       state.recentArticles = embedded.articleIndex || [];
       state.articleIndex = embedded.articleIndex || [];
-      state.curriculumByLevel = (embedded.curriculum && embedded.curriculum.levels) || {};
+      state.curriculumByLevel = {};
 
       if (embedded.articles) {
         Object.keys(embedded.articles).forEach((id) => {
@@ -1958,16 +1958,15 @@ async function init() {
           ? loadArticleIndexFromServer(500).then((rows) => rows || loadJson('./data/articles/index.json'))
           : loadJson('./data/articles/index.json');
 
-        const [categories, articleIndex, curriculum] = await Promise.all([
+        const [categories, articleIndex] = await Promise.all([
           loadJson('./data/categories.json'),
           articleIndexPromise,
-          loadJson('./data/curriculum.json'),
         ]);
 
         state.categories = Array.isArray(categories) ? categories : [];
         state.recentArticles = Array.isArray(articleIndex) ? articleIndex : [];
         state.articleIndex = Array.isArray(articleIndex) ? articleIndex : [];
-        state.curriculumByLevel = (curriculum && curriculum.levels) ? curriculum.levels : {};
+        state.curriculumByLevel = {};
         hydrateEmbeddedArticles(embedded);
       } catch (loadErr) {
         const embeddedFallback = window.DIR_DATA;
@@ -1976,7 +1975,7 @@ async function init() {
           state.categories = Array.isArray(embeddedFallback.categories) ? embeddedFallback.categories : [];
           state.recentArticles = Array.isArray(embeddedFallback.articleIndex) ? embeddedFallback.articleIndex : [];
           state.articleIndex = Array.isArray(embeddedFallback.articleIndex) ? embeddedFallback.articleIndex : [];
-          state.curriculumByLevel = (embeddedFallback.curriculum && embeddedFallback.curriculum.levels) || {};
+          state.curriculumByLevel = {};
           if (embeddedFallback.articles) {
             Object.keys(embeddedFallback.articles).forEach((id) => {
               state.articleMap.set(id, embeddedFallback.articles[id]);
@@ -2001,7 +2000,6 @@ async function init() {
     safeRun('recent-list', () => renderRecentList());
     safeRun('editors', () => renderEditorsView());
     renderNoteFeed().catch((err) => console.error('[render:note-feed]', err));
-    safeRun('curriculum', () => renderCurriculum());
 
     if (COMMENTS_SERVER_ENABLED) {
       state.glossaryBaseOverrides = {};
