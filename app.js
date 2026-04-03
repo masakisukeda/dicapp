@@ -2712,7 +2712,6 @@ function unlockBodyScroll() {
 }
 
 function openHomeUpdateDetail(index) {
-  if (window.innerWidth > 768) return;
   const updates = getHomeUpdates();
   const safeIndex = Number(index);
   const item = updates[safeIndex];
@@ -2758,27 +2757,17 @@ function renderHomeUpdates() {
   const rows = updates.map((u, idx) => {
     const date = escapeHtml(String(u.date || '').trim() || formatPostDateTime(new Date().toISOString()));
     const line = escapeHtml(buildHomeUpdateLine(u));
-    const lineHtml = `<span class="home-update-marquee"><button class="home-update-detail-btn" type="button" onclick="openHomeUpdateDetail(${idx})"><span class="home-update-link no-cursor">${line}</span></button></span>`;
-
-    return `
-      <li class="home-update-item">
-        <span class="home-update-dot" aria-hidden="true">●</span>
-        <span class="home-update-main">
-          <span class="home-update-headline">${lineHtml}</span>
-        </span>
-        <span class="home-update-side">
-          <span class="note-meta">${date}</span>
-          <button class="ui-x-post-btn ui-x-post-btn--compact" type="button" onclick="postSingleHomeUpdateOnX(${idx})">Xでポスト</button>
-        </span>
-      </li>
-    `;
+    const lineHtml = `<span class="home-update-marquee"><span class="home-update-link">${line}</span></span>`;
+    return renderUnifiedListRow({
+      rowClasses: 'recent-row home-update-item',
+      onClick: `openHomeUpdateDetail(${idx})`,
+      badgeHtml: '<span class="article-cat-badge home-update-dot-badge">更新</span>',
+      titleHtml: lineHtml,
+      metaHtml: `<span class="note-meta list-row-meta">${date}</span>`,
+    });
   }).join('');
 
-  list.innerHTML = `
-    <div class="article-row note-row home-update-panel no-cursor">
-      <ul class="home-update-list">${rows}</ul>
-    </div>
-  `;
+  list.innerHTML = `<div class="home-update-list">${rows}</div>`;
 }
 
 function postHomeUpdatesOnX() {
