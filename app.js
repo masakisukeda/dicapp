@@ -3459,7 +3459,7 @@ function renderLatestComments() {
       ? `${rawBody.slice(0, HOME_COMMENT_EXCERPT_MAX)}…`
       : rawBody;
     return renderUnifiedListRow({
-      rowClasses: `recent-row comment-row ${catClass}`,
+      rowClasses: `recent-row ${catClass}`,
       onClick: `showArticle('${escapeForSingleQuote(String(c.articleId || ''))}')`,
       badgeHtml: renderCategoryBadge(catName),
       titleHtml: escapeHtml(commentTitle || 'コメント'),
