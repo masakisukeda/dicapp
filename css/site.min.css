@@ -868,11 +868,65 @@ button.tag.keyword:hover {
   line-height: 1.25;
 }
 
+.list-row-main {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.list-row-title {
+  min-width: 0;
+}
+
+.list-row-right {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.list-row-meta {
+  margin-left: 0;
+  white-space: nowrap;
+}
+
+.list-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.list-row-head-actions {
+  margin-left: auto;
+}
+
+.list-row--stack {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: flex-start;
+}
+
+.list-row-main-block {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 6px;
+}
+
+.list-row-right-wrap {
+  margin-left: 0;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
 /* Recent list layout unified with mobile: category dot + title + date + arrow */
 .recent-row {
   align-items: center;
   display: grid;
-  grid-template-columns: 10px minmax(0, 1fr) auto 24px;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
   gap: 10px;
 }
 
@@ -900,13 +954,12 @@ button.tag.keyword:hover {
 }
 
 .recent-row .note-meta {
-  margin-left: 0;
   flex-shrink: 0;
   font-weight: 600;
 }
 
 .recent-row .article-arrow {
-  margin-left: 0;
+  margin-left: 2px;
 }
 
 .category-item-row {
@@ -6575,7 +6628,7 @@ body:not([data-theme="light"]) .header {
   .comment-row {
     align-items: center !important;
     display: grid !important;
-    grid-template-columns: 10px minmax(0, 1fr) auto 24px;
+    grid-template-columns: 10px minmax(0, 1fr) auto;
     gap: 10px !important;
   }
 

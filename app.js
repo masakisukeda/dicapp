@@ -3021,6 +3021,42 @@ function openCurriculumTrack(categoryId) {
   showCategory(categoryId);
 }
 
+function renderUnifiedListRow({
+  rowClasses = '',
+  badgeHtml = '',
+  titleHtml = '',
+  metaHtml = '',
+  actionHtml = '',
+  arrow = '›',
+  onClick = '',
+  href = '',
+  external = false,
+} = {}) {
+  const tag = href ? 'a' : 'div';
+  const attrs = [];
+  if (href) {
+    attrs.push(`href="${escapeHtml(href)}"`);
+    if (external) attrs.push('target="_blank" rel="noopener noreferrer"');
+  } else if (onClick) {
+    attrs.push(`onclick="${onClick}"`);
+  }
+  const className = ['article-row', 'note-row', 'list-row', rowClasses].filter(Boolean).join(' ');
+  const rightHtml = [
+    metaHtml || '',
+    actionHtml || '',
+    arrow ? `<span class="article-arrow list-row-arrow">${escapeHtml(arrow)}</span>` : '',
+  ].join('');
+  return `
+    <${tag} class="${className}" ${attrs.join(' ')}>
+      ${badgeHtml}
+      <span class="list-row-main">
+        <span class="article-title-row list-row-title">${titleHtml}</span>
+      </span>
+      <span class="list-row-right">${rightHtml}</span>
+    </${tag}>
+  `;
+}
+
 function renderRecentList() {
   const list = document.getElementById('recentList');
   if (!list) return;
@@ -3056,14 +3092,13 @@ function renderRecentList() {
   const rows = visibleArticles.map((a) => {
     const rawTs = a.__recentTs || a.updatedAt || a.updated_at || a.ts || BASE_CONTENT_UPDATED_AT;
     const date = formatHomeMetaDateTime(rawTs);
-    return `
-      <div class="article-row note-row recent-row" onclick="showArticle('${a.id}')">
-        ${renderCategoryBadge(a.cat)}
-        <span class="article-title-row">${normalizeDisplayText(a.title)}</span>
-        <span class="note-meta">${escapeHtml(date)}</span>
-        <span class="article-arrow">›</span>
-      </div>
-    `;
+    return renderUnifiedListRow({
+      rowClasses: 'recent-row',
+      onClick: `showArticle('${escapeForSingleQuote(String(a.id || ''))}')`,
+      badgeHtml: renderCategoryBadge(a.cat),
+      titleHtml: escapeHtml(normalizeDisplayText(a.title)),
+      metaHtml: `<span class="note-meta list-row-meta">${escapeHtml(date)}</span>`,
+    });
   }).join('');
 
   const empty = '<div class="article-row note-row is-placeholder"><span class="article-title-row">該当する記事がありません</span></div>';
@@ -3418,19 +3453,18 @@ function renderLatestComments() {
   list.innerHTML = recent.map((c) => {
     const date = formatHomeMetaDateTime(c.ts);
     const catName = categoryById.get(c.articleId) || '';
+    const catClass = categoryBadgeClass(catName);
     const rawBody = (c.body || '').replace(/\s+/g, ' ').trim();
     const commentTitle = rawBody.length > HOME_COMMENT_EXCERPT_MAX
       ? `${rawBody.slice(0, HOME_COMMENT_EXCERPT_MAX)}…`
       : rawBody;
-    const titleText = escapeHtml(commentTitle || 'コメント');
-    return `
-      <div class="article-row note-row recent-row" onclick="showArticle('${escapeHtml(c.articleId)}')">
-        ${renderCategoryBadge(catName)}
-        <span class="article-title-row">${titleText}</span>
-        <span class="note-meta">${date}</span>
-        <span class="article-arrow">›</span>
-      </div>
-    `;
+    return renderUnifiedListRow({
+      rowClasses: `recent-row comment-row ${catClass}`,
+      onClick: `showArticle('${escapeForSingleQuote(String(c.articleId || ''))}')`,
+      badgeHtml: renderCategoryBadge(catName),
+      titleHtml: escapeHtml(commentTitle || 'コメント'),
+      metaHtml: `<span class="note-meta list-row-meta">${escapeHtml(date)}</span>`,
+    });
   }).join('');
 }
 
@@ -3471,24 +3505,26 @@ function renderNoteList(items, loading = false) {
   }
 
   if (!items.length) {
-    list.innerHTML = `
-      <a class="article-row note-row recent-row" href="https://note.com/disa_pr" target="_blank" rel="noopener noreferrer">
-        <span class="article-cat-badge">note</span>
-        <span class="article-title-row">最新記事はnoteプロフィールから確認できます</span>
-        <span class="article-arrow">↗</span>
-      </a>
-    `;
+    list.innerHTML = renderUnifiedListRow({
+      rowClasses: 'recent-row',
+      href: 'https://note.com/disa_pr',
+      external: true,
+      badgeHtml: '<span class="article-cat-badge">note</span>',
+      titleHtml: '最新記事はnoteプロフィールから確認できます',
+      arrow: '↗',
+    });
     return;
   }
 
-  list.innerHTML = items.map((item) => `
-    <a class="article-row note-row recent-row" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">
-      <span class="article-cat-badge">note</span>
-      <span class="article-title-row">${escapeHtml(sanitizeNoteTitle(item.title))}</span>
-      <span class="note-meta">${item.date ? escapeHtml(item.date) : ''}</span>
-      <span class="article-arrow">↗</span>
-    </a>
-  `).join('');
+  list.innerHTML = items.map((item) => renderUnifiedListRow({
+    rowClasses: 'recent-row',
+    href: String(item.link || ''),
+    external: true,
+    badgeHtml: '<span class="article-cat-badge">note</span>',
+    titleHtml: escapeHtml(sanitizeNoteTitle(item.title)),
+    metaHtml: `<span class="note-meta list-row-meta">${item.date ? escapeHtml(item.date) : ''}</span>`,
+    arrow: '↗',
+  })).join('');
 }
 
 function normalizeForNoteMatch(text) {
@@ -7790,22 +7826,22 @@ async function renderFeatureRequestsView() {
       ? `<a class="request-meta-link" href="${safeLink}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">参考URL ↗</a>`
       : '';
     const adminActions = state.isAdmin
-      ? `<span class="request-row-actions admin-row-actions">
+      ? `<span class="request-row-actions admin-row-actions list-row-head-actions">
           <button class="admin-article-btn admin-row-btn" type="button" onclick="event.stopPropagation();editFeatureRequest('${escapeForSingleQuote(String(item.id))}')">編集</button>
           <button class="admin-article-btn danger admin-row-btn" type="button" onclick="event.stopPropagation();deleteFeatureRequest('${escapeForSingleQuote(String(item.id))}')">削除</button>
         </span>`
       : '';
     return `
-      <div class="article-row note-row request-row">
-        <span class="request-row-head">
+      <div class="article-row note-row request-row list-row list-row--stack">
+        <span class="request-row-head list-row-head">
           <span class="article-cat-badge">${safeCategory}</span>
           ${adminActions}
         </span>
-        <span class="request-row-main">
+        <span class="request-row-main list-row-main-block">
           <span class="article-title-row">${safeTitle}</span>
           <span class="request-row-body">${safeBody}</span>
         </span>
-        <span class="request-row-meta">
+        <span class="request-row-meta list-row-right list-row-right-wrap">
           <span class="request-meta-text">${safeName}</span>
           <span class="request-meta-sep" aria-hidden="true">•</span>
           <span class="request-meta-text">${escapeHtml(date)}</span>
