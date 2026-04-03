@@ -103,14 +103,9 @@ body[data-theme="light"] .ui-x-post-btn--compact:hover {
 .home-update-item {
   list-style: none;
 }
-.home-update-item .list-row-main {
-  min-width: 0;
-}
-.home-update-item .list-row-right {
-  gap: 8px;
-}
-.home-update-headline,
-.home-update-item .article-title-row {
+.home-update-item .list-row-main,
+.home-update-item .article-title-row,
+.home-update-marquee {
   min-width: 0;
 }
 .home-update-link {
@@ -119,12 +114,6 @@ body[data-theme="light"] .ui-x-post-btn--compact:hover {
   font-weight: 600;
   font-size: 13px;
   line-height: 1.35;
-}
-.home-update-item .note-meta {
-  white-space: nowrap;
-  font-size: 11px;
-  line-height: 1.25;
-  font-weight: 600;
 }
 .home-update-item.recent-row .home-update-dot-badge {
   background: color-mix(in srgb, var(--ink3) 45%, transparent) !important;
@@ -195,26 +184,14 @@ body[data-theme="light"] .home-update-item.recent-row .home-update-dot-badge {
   .section-label-row {
     align-items: flex-end;
   }
-  .home-update-item {
-    gap: 8px;
-  }
-  .home-update-item .article-title-row {
-    overflow: hidden;
-    white-space: nowrap;
-  }
   .home-update-marquee {
-    display: inline-block;
+    display: block;
     max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    animation: none;
-    transform: none;
-    padding-right: 0;
+    min-width: 0;
   }
-  .home-update-side {
-    display: none;
-  }
+  .home-update-item .list-row-right { gap: 6px; }
+  .home-update-item .note-meta { font-size: 11px; }
+  .home-update-item .article-arrow { width: 22px; height: 22px; }
   .home-update-x-btn,
   .home-update-share-btn,
   .ui-x-post-btn--compact {
