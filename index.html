@@ -43,7 +43,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./css/site.min.css?v=20260403.cssmin20">
+<link rel="stylesheet" href="./css/site.min.css?v=20260403.cssmin21">
 <style>
 .home-update-panel {
   padding: 0;
@@ -109,11 +109,39 @@ body[data-theme="light"] .ui-x-post-btn--compact:hover {
   min-width: 0;
 }
 .home-update-link {
-  color: inherit;
+  color: var(--ink) !important;
+  background: transparent !important;
   text-decoration: none !important;
   font-weight: 600;
   font-size: 13px;
   line-height: 1.35;
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body[data-theme="light"] .home-update-link {
+  color: #183148 !important;
+}
+.home-update-detail-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+.home-update-dot {
+  color: color-mix(in srgb, var(--ink3) 74%, transparent);
+  font-size: 10px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .home-update-item.recent-row .home-update-dot-badge {
   background: color-mix(in srgb, var(--ink3) 45%, transparent) !important;
@@ -188,6 +216,9 @@ body[data-theme="light"] .home-update-item.recent-row .home-update-dot-badge {
     display: block;
     max-width: 100%;
     min-width: 0;
+  }
+  .home-update-side {
+    display: none !important;
   }
   .home-update-item .list-row-right { gap: 6px; }
   .home-update-item .note-meta { font-size: 11px; }
@@ -1193,6 +1224,6 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
 
 
 <script src="./analytics.js?v=20260327a"></script>
-<script src="./app.js?v=20260403.1101" defer></script>
+<script src="./app.js?v=20260403.1416" defer></script>
 </body>
 </html>
