@@ -68,7 +68,7 @@ const ADMIN_SESSION_KEY = 'dir_admin_session_key';
 const ADMIN_SESSION_AT = 'dir_admin_session_at';
 const ADMIN_SESSION_TTL_MS = 2 * 60 * 60 * 1000;
 const BASE_CONTENT_UPDATED_AT = '2026-02-17T00:00:00+09:00';
-const CONTENT_ASSET_VERSION = '20260403.1101';
+const CONTENT_ASSET_VERSION = '20260403.1658';
 const SIMPLE_ROUTE_VIEWS = new Set(['glossary', 'tools', 'requests', 'editors', 'dictionary', 'appendix']);
 const PUBLIC_BASE_URL = 'https://drsp.cc/dic/';
 const DEFAULT_SEO_TITLE = '辞書.app — ディレクションの辞書';
@@ -1881,7 +1881,13 @@ async function loadArticleIndexFromServer(limit = 500) {
 async function loadStaticArticleFromServer(articleId) {
   if (!COMMENTS_SERVER_ENABLED || !articleId) return null;
   const data = await fetchCommentsApi(`?action=article_static_get&article_id=${encodeURIComponent(String(articleId))}`);
-  if (!data || !data.ok || !data.article || typeof data.article !== 'object') return null;
+  if (!data || typeof data !== 'object') {
+    throw new Error('failed to load static article');
+  }
+  if (data.ok !== true) {
+    throw new Error(String(data.error || 'failed to load static article'));
+  }
+  if (!data.article || typeof data.article !== 'object') return null;
   return data.article;
 }
 
@@ -3925,6 +3931,26 @@ async function upsertArticleOverrideToServer(articleId, article) {
   return data || { ok: false, error: 'unknown error' };
 }
 
+async function deleteArticleOverrideFromServer(articleId) {
+  if (!COMMENTS_SERVER_ENABLED) return { ok: false, error: 'server disabled' };
+  const editorKey = state.isAdmin ? state.adminKey : '';
+  const data = await fetchCommentsApi('', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(editorKey ? { 'X-Editor-Key': editorKey } : {}),
+    },
+    body: JSON.stringify({
+      action: 'article_delete',
+      payload: {
+        article_id: articleId,
+        ...(editorKey ? { editor_key: editorKey } : {}),
+      },
+    }),
+  });
+  return data || { ok: false, error: 'unknown error' };
+}
+
 
 function renderUnifiedViews(options = {}) {
   const {
@@ -4896,13 +4922,15 @@ async function loadArticle(id) {
             state.articleMap.set(id, sourceArticle);
             updateArticleIndexEntry(id, sourceArticle);
           }
+        } else if (COMMENTS_SERVER_ENABLED) {
+          state.articleMap.delete(id);
         }
       } catch {
         // noop: keep current cached article when static file is unavailable
       }
     }
     await applyServerOverrideIfNeeded();
-    return state.articleMap.get(id);
+    return state.articleMap.get(id) || null;
   }
 
   if (state.useEmbeddedData && window.DIR_DATA && window.DIR_DATA.articles) {
@@ -6928,18 +6956,52 @@ function editorInsertYouTube() {
   document.execCommand('insertHTML', false, `<p>${escapeHtml(safe)}</p>`);
 }
 
-function deleteCurrentArticle() {
+async function deleteCurrentArticle() {
   if (!state.isAdmin || !state.currentArticleId) return;
   const ok = window.confirm('この記事を削除しますか？（一覧から非表示になります）');
   if (!ok) return;
 
-  state.deletedArticles.add(state.currentArticleId);
+  const articleId = String(state.currentArticleId);
+  if (COMMENTS_SERVER_ENABLED) {
+    const deleted = await deleteArticleOverrideFromServer(articleId);
+    if (!(deleted && deleted.ok)) {
+      const reason = deleted && deleted.error ? `（${deleted.error}）` : '';
+      toast(`記事の削除に失敗しました${reason}`, 'error');
+      return;
+    }
+  }
+
+  state.deletedArticles.add(articleId);
   saveDeletedArticles();
-  renderStats();
-  renderCatList();
-  renderRecentList();
-  renderCurriculum();
-  renderLatestComments();
+
+  state.articleMap.delete(articleId);
+  state.articleIndex = (state.articleIndex || []).filter((a) => String(a && a.id ? a.id : '') !== articleId);
+  if (state.articleOverrides && state.articleOverrides[articleId]) {
+    delete state.articleOverrides[articleId];
+    saveArticleOverrides();
+  }
+  state.serverArticleOverrideChecked.delete(articleId);
+
+  if (COMMENTS_SERVER_ENABLED) {
+    await syncServerStateToUi({
+      articles: true,
+      analytics: true,
+      comments: false,
+      glossary: false,
+      glossaryBase: false,
+      requests: false,
+      editors: false,
+      render: true,
+      currentArticleComments: false,
+    });
+  } else {
+    renderStats();
+    renderCatList();
+    renderRecentList();
+    renderCurriculum();
+    renderLatestComments();
+  }
+
   showView('home');
   toast('記事を削除しました', 'success');
 }
