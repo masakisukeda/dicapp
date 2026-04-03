@@ -7616,6 +7616,8 @@ body:not([data-theme="light"]) .header {
 @media (min-width: 901px) {
   .home-view > .home-hero.home-hero-with-kun {
     overflow: hidden;
+    padding-top: 26px !important;
+    padding-bottom: 26px !important;
   }
 
   .home-view > .home-hero.home-hero-with-kun .home-main {
