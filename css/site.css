@@ -7503,7 +7503,7 @@ body.article-view-open .sidebar {
   }
 
   .tool-filter-name {
-    font-size: 13px;
+    font-size: var(--font-ui-sm);
   }
 }
 
@@ -7682,10 +7682,6 @@ body:not([data-theme="light"]) .home-hero {
     max-height: 34vh;
   }
 
-  .home-title {
-    font-size: clamp(30px, 8vw, 42px);
-  }
-
   .title-line {
     white-space: normal;
   }
@@ -7851,7 +7847,7 @@ body {
   }
 
   .section-label {
-    font-size: var(--font-ui-sm);
+    font-size: var(--font-ui-md);
     letter-spacing: 0.08em;
   }
 
@@ -7934,7 +7930,7 @@ body {
   }
 
 .home-title {
-    font-size: clamp(30px, 7.8vw, 40px) !important;
+    font-size: clamp(26px, 5.5vw, 36px) !important;
     line-height: 1.16 !important;
   }
 
