@@ -8065,3 +8065,25 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
     min-height: 34px;
   }
 }
+
+/* ===== UI Component: X Post Button variants (P0) ===== */
+.ui-x-post-btn--compact {
+  min-height: 28px !important;
+  min-width: 84px !important;
+  padding: 5px 10px !important;
+  font-size: 12px !important;
+}
+
+.ui-x-post-btn--article {
+  min-height: 36px !important;
+  padding: 0 14px !important;
+}
+
+@media (max-width: 768px) {
+  .ui-x-post-btn--compact {
+    min-height: 24px !important;
+    min-width: 76px !important;
+    padding: 3px 7px !important;
+    font-size: 10px !important;
+  }
+}

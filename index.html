@@ -55,7 +55,8 @@
   gap: 10px;
 }
 .home-update-x-btn,
-.home-update-share-btn {
+.home-update-share-btn,
+.ui-x-post-btn--compact {
   border: 1px solid var(--line, rgba(255,255,255,0.12));
   background: transparent;
   color: var(--ink2, rgba(235,240,255,.74));
@@ -72,19 +73,22 @@
   white-space: nowrap;
 }
 .home-update-x-btn:hover,
-.home-update-share-btn:hover {
+.home-update-share-btn:hover,
+.ui-x-post-btn--compact:hover {
   color: var(--ink, #fff);
 }
 body[data-theme="light"] .home-update-x-btn,
 body[data-theme="light"] .home-update-share-btn,
-body[data-theme="light"] .x-share-btn {
+body[data-theme="light"] .x-share-btn,
+body[data-theme="light"] .ui-x-post-btn--compact {
   color: #17324a !important;
   border-color: rgba(18, 48, 74, .26) !important;
   background: rgba(40, 118, 188, .12) !important;
 }
 body[data-theme="light"] .home-update-x-btn:hover,
 body[data-theme="light"] .home-update-share-btn:hover,
-body[data-theme="light"] .x-share-btn:hover {
+body[data-theme="light"] .x-share-btn:hover,
+body[data-theme="light"] .ui-x-post-btn--compact:hover {
   color: #0e2436 !important;
   border-color: rgba(18, 48, 74, .36) !important;
   background: rgba(40, 118, 188, .18) !important;
@@ -249,7 +253,8 @@ body[data-theme="light"] .home-update-item {
     gap: 5px;
   }
   .home-update-x-btn,
-  .home-update-share-btn {
+  .home-update-share-btn,
+  .ui-x-post-btn--compact {
     min-height: 24px;
     min-width: 76px;
     padding: 3px 7px;
@@ -577,7 +582,7 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
         <section class="home-col-item home-col-full home-section-panel">
           <div class="home-section-panel-head section-label-row">
             <span class="home-section-panel-title">最近の機能アップデート</span>
-            <button class="home-update-x-btn ui-x-post-btn" type="button" onclick="postHomeUpdatesOnX()">Xでポスト</button>
+            <button class="ui-x-post-btn ui-x-post-btn--compact" type="button" onclick="postHomeUpdatesOnX()">Xでポスト</button>
           </div>
           <div class="article-list" id="homeUpdateList">
             <div class="article-row note-row is-placeholder">
@@ -868,7 +873,7 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
               <button class="admin-article-btn" onclick="openArticleEditor()">編集</button>
               <button class="admin-article-btn danger" onclick="deleteCurrentArticle()">削除</button>
             </div>
-            <button class="x-share-btn ui-x-post-btn" onclick="shareArticleOnX()">Xで引用ポスト</button>
+            <button class="x-share-btn ui-x-post-btn ui-x-post-btn--article" onclick="shareArticleOnX()">Xで引用ポスト</button>
           </div>
         </div>
 
@@ -1198,7 +1203,7 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
     <div class="home-update-detail-date" id="homeUpdateDetailDate"></div>
     <div class="home-update-detail-body" id="homeUpdateDetailBody"></div>
     <div class="home-update-detail-actions">
-      <button class="home-update-share-btn ui-x-post-btn" id="homeUpdateDetailShareBtn" type="button">Xでポスト</button>
+      <button class="ui-x-post-btn ui-x-post-btn--compact" id="homeUpdateDetailShareBtn" type="button">Xでポスト</button>
     </div>
   </div>
 </div>
