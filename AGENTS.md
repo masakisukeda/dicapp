@@ -73,6 +73,15 @@ curl -fsSL 'https://drsp.cc/dic/index.html' | rg 'app.js\?v='
 curl -fsSL 'https://drsp.cc/dic/app.js?v=xxxx' | rg '確認したい関数名'
 ```
 
+### デバッグメモ（2026-04-03 / toolsカテゴリ）
+- 対象URL: `https://drsp.cc/dic/?view=category&id=tools`
+- 変更内容: カテゴリ項目に `対象ツール: ...` を表示
+- デバッグ回数: 3回
+  - 1回目（21:40 JST）: `node --check app.js` OK / ローカル表示で `対象ツール:` を確認
+  - 2回目（21:40 JST）: `node --check app.js` OK / ローカル表示で `対象ツール:` を確認
+  - 3回目（21:40 JST）: `node --check app.js` OK / ローカル表示で `対象ツール:` を確認
+- 補足: 本番URLへの `curl` GET はWAFで `403` になることがあるため、ブラウザ経由（Playwright screenshot）で表示確認する。
+
 ## 6. NG
 - 指示のない大規模リファクタ。
 - 無関係なデザイン変更。
