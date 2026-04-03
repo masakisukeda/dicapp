@@ -167,7 +167,7 @@ function handleGet(PDO $pdo): void
             'ok' => true,
             'action' => 'article_static_get',
             'article_id' => $articleId,
-            'article' => loadStaticArticleById($articleId),
+            'article' => loadVisibleStaticArticleById($pdo, $articleId),
         ]);
         return;
     }
@@ -352,7 +352,7 @@ function handlePost(PDO $pdo): void
                 'ok' => true,
                 'action' => 'article_static_get',
                 'article_id' => $articleId,
-                'article' => loadStaticArticleById($articleId),
+                'article' => loadVisibleStaticArticleById($pdo, $articleId),
             ]);
             return;
         case 'editor_list':
@@ -888,6 +888,36 @@ function loadStaticArticleById(string $articleId): ?array
     return $decoded;
 }
 
+function listDeletedArticleIdSet(PDO $pdo): array
+{
+    $stmt = $pdo->prepare('SELECT article_id FROM article_overrides WHERE status = "deleted"');
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    $set = [];
+    foreach ($rows as $row) {
+        $id = sanitize($row['article_id'] ?? '', 191);
+        if ($id !== '') $set[$id] = true;
+    }
+    return $set;
+}
+
+function isArticleDeletedByOverride(PDO $pdo, string $articleId): bool
+{
+    if ($articleId === '') return false;
+    $row = fetchOne($pdo, 'SELECT article_id FROM article_overrides WHERE article_id = :article_id AND status = "deleted" LIMIT 1', [
+        ':article_id' => $articleId,
+    ]);
+    return is_array($row) && !empty($row['article_id']);
+}
+
+function loadVisibleStaticArticleById(PDO $pdo, string $articleId): ?array
+{
+    $id = sanitize($articleId, 191);
+    if ($id === '') return null;
+    if (isArticleDeletedByOverride($pdo, $id)) return null;
+    return loadStaticArticleById($id);
+}
+
 function normalizeArticleSummary(array $row): array
 {
     $id = sanitize($row['id'] ?? '', 191);
@@ -922,10 +952,12 @@ function listMergedArticleIndex(PDO $pdo, int $limit = 500): array
 {
     $limit = max(1, min(5000, $limit));
     $merged = [];
+    $deleted = listDeletedArticleIdSet($pdo);
 
     foreach (loadStaticArticleIndex() as $item) {
         $id = (string)($item['id'] ?? '');
         if ($id === '') continue;
+        if (isset($deleted[$id])) continue;
         $merged[$id] = $item;
     }
 
@@ -1031,16 +1063,17 @@ function deleteArticleOverride(PDO $pdo, array $payload): array
     $articleId = sanitize($payload['article_id'] ?? ($payload['id'] ?? ''), 191);
     if ($articleId === '') throw new RuntimeException('article_id is required');
 
-    $stmt = $pdo->prepare('UPDATE article_overrides SET status = "deleted", updated_at = :updated_at WHERE article_id = :article_id');
-    $stmt->execute([
+    execStmt($pdo, 'INSERT INTO article_overrides (article_id, article_json, status, updated_at) VALUES (:article_id, :article_json, "deleted", :updated_at)
+      ON CONFLICT(article_id) DO UPDATE SET status = "deleted", updated_at = :updated_at', [
         ':article_id' => $articleId,
+        ':article_json' => '{}',
         ':updated_at' => nowIso(),
     ]);
 
     return [
         'ok' => true,
         'action' => 'article_delete',
-        'deleted' => $stmt->rowCount() > 0,
+        'deleted' => true,
         'article_id' => $articleId,
     ];
 }

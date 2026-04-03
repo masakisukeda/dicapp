@@ -2328,6 +2328,9 @@ function categoryDescription(cat) {
   if (String(cat.id || '') === 'failure_cases') {
     return '失敗から学ぼう。ディレクターの一次情報として、現場で起きた失敗と再発防止策をアーカイブしています。';
   }
+  if (String(cat.id || '') === 'tools') {
+    return 'AI制作・開発ツールの使い分け';
+  }
   return `${normalizeDisplayText(cat.name || '')} に関する項目をカテゴリ単位でまとめて確認できます。`;
 }
 
