@@ -6167,8 +6167,8 @@ body[data-theme="light"] .header {
   }
 
   body[data-theme="light"] .main {
-    box-shadow: 0 8px 24px rgba(25, 40, 62, 0.10) !important;
-    background: #f7fafc !important;
+    box-shadow: none !important;
+    background: transparent !important;
   }
 
   body[data-theme="light"] .home-hero,
@@ -6339,7 +6339,15 @@ body[data-theme="light"] .header {
     border-color: rgba(160, 178, 201, 0.28) !important;
   }
 
-.home-view {
+.home-view,
+  .article-view,
+  .category-view,
+  .learn-view,
+  .tools-view,
+  #glossaryView,
+  #requestsView,
+  #editorsView,
+  #toolsView {
     padding-left: 48px !important;
     padding-right: 48px !important;
   }
