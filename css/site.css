@@ -5846,7 +5846,7 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
   color: var(--ink) !important;
   background: transparent !important;
   border-radius: 0 !important;
-  font-size: 13px !important;
+  font-size: var(--font-ui-sm) !important;
   line-height: 1.35 !important;
   text-decoration: none !important;
   font-weight: 600 !important;
@@ -8344,5 +8344,9 @@ body {
 
   .home-update-item .list-row-right {
     gap: 6px !important;
+  }
+
+  .home-update-item .home-update-link {
+    font-size: var(--font-ui-md) !important;
   }
 }
