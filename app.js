@@ -2712,6 +2712,7 @@ function unlockBodyScroll() {
 }
 
 function openHomeUpdateDetail(index) {
+  if (window.innerWidth >= 901) return;
   const updates = getHomeUpdates();
   const safeIndex = Number(index);
   const item = updates[safeIndex];
@@ -2747,6 +2748,7 @@ function closeHomeUpdateDetail() {
 function renderHomeUpdates() {
   const list = document.getElementById('homeUpdateList');
   if (!list) return;
+  const canOpenDetail = window.innerWidth < 901;
 
   const updates = getHomeUpdates();
   if (!updates.length) {
@@ -2758,9 +2760,10 @@ function renderHomeUpdates() {
     const date = escapeHtml(String(u.date || '').trim() || formatPostDateTime(new Date().toISOString()));
     const line = escapeHtml(buildHomeUpdateLine(u));
     const lineHtml = `<span class="home-update-marquee"><span class="home-update-link">${line}</span></span>`;
+    const rowClass = canOpenDetail ? 'recent-row home-update-item' : 'recent-row home-update-item no-cursor';
     return renderUnifiedListRow({
-      rowClasses: 'recent-row home-update-item',
-      onClick: `openHomeUpdateDetail(${idx})`,
+      rowClasses: rowClass,
+      onClick: canOpenDetail ? `openHomeUpdateDetail(${idx})` : '',
       badgeHtml: '<span class="article-cat-badge home-update-dot-badge">更新</span>',
       titleHtml: lineHtml,
       metaHtml: `<span class="note-meta list-row-meta">${date}</span>`,
