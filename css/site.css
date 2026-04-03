@@ -8104,6 +8104,43 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
   cursor: default;
 }
 
+@media (min-width: 901px) {
+  #homeCategoryNavList .category-quickmap-panel {
+    border: 1px solid var(--border) !important;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--bg2) 86%, var(--bg3)) !important;
+    box-shadow: 0 8px 22px rgba(10, 20, 36, 0.08) !important;
+    padding: 12px;
+  }
+
+  #homeCategoryNavList .category-quickmap-panel .ui-section-panel-title {
+    font-size: var(--font-ui-sm);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--ink2);
+  }
+
+  #homeCategoryNavList .category-quickmap-block {
+    gap: 12px;
+  }
+
+  #homeCategoryNavList .category-quickmap-row {
+    gap: 10px;
+  }
+
+  #homeCategoryNavList .category-quickmap-row + .category-quickmap-row {
+    padding-top: 12px;
+    border-top: 1px solid var(--border2);
+  }
+
+  #homeCategoryNavList .category-quickmap-label {
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+    color: var(--ink2);
+  }
+}
+
 @media (max-width: 900px) {
   #homeCategoryNavList .category-quickmap-panel .ui-section-panel-head,
   #homeCategoryNavList .category-quickmap-panel .ui-section-panel-title {
