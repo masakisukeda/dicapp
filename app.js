@@ -2613,6 +2613,12 @@ function renderAppendixTopCategoryNav() {
   });
 }
 
+function getCategoryTopItemHint(cat) {
+  const catId = String(cat && cat.id ? cat.id : '').trim();
+  if (catId === 'tools') return 'AI制作・開発ツールの使い分け';
+  return '';
+}
+
 function renderCategoryGroupTopList(target, groupKey, options = {}) {
   const { includeGlossary = false } = options;
   const root = typeof target === 'string' ? document.getElementById(target) : target;
@@ -2621,9 +2627,11 @@ function renderCategoryGroupTopList(target, groupKey, options = {}) {
   const rows = [];
   if (includeGlossary) {
     rows.push(`
-      <div class="article-row recent-row" onclick="setCategoryGroup('appendix'); showGlossaryView()">
+      <div class="article-row glossary-row category-top-row" onclick="setCategoryGroup('appendix'); showGlossaryView()">
         <span class="article-cat-badge cat-tools">用語</span>
-        <span class="article-title-row">用語集</span>
+        <span class="glossary-row-main">
+          <span class="article-title-row">用語集</span>
+        </span>
         <span class="article-arrow">›</span>
       </div>
     `);
@@ -2631,10 +2639,14 @@ function renderCategoryGroupTopList(target, groupKey, options = {}) {
   rows.push(...categories.map((cat) => {
     const label = normalizeDisplayText(cat.name);
     const catId = escapeForSingleQuote(cat.id);
+    const hint = getCategoryTopItemHint(cat);
     return `
-      <div class="article-row recent-row" onclick="showCategory('${catId}')">
+      <div class="article-row glossary-row category-top-row" onclick="showCategory('${catId}')">
         ${renderCategoryBadge(label)}
-        <span class="article-title-row">${escapeHtml(label)}</span>
+        <span class="glossary-row-main">
+          <span class="article-title-row">${escapeHtml(label)}</span>
+          ${hint ? `<span class="glossary-row-desc">${escapeHtml(hint)}</span>` : ''}
+        </span>
         <span class="article-arrow">›</span>
       </div>
     `;
