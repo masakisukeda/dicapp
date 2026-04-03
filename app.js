@@ -2853,6 +2853,23 @@ function toggleCategoryNavExpanded() {
   }
 }
 
+function buildCategoryItemToolLabel(categoryId, article, fallbackTitle = '') {
+  if (String(categoryId || '') !== 'tools') return '';
+
+  const names = [...new Set(
+    getExpandedTools(article || {})
+      .map((tool) => normalizeDisplayText(toolDisplayName(tool)))
+      .filter(Boolean)
+  )].filter((name) => name !== '共通');
+
+  if (!names.length) {
+    const fallback = normalizeDisplayText(fallbackTitle || '');
+    if (fallback && !/全般/.test(fallback)) names.push(fallback);
+  }
+
+  return names.join(' / ');
+}
+
 function renderCategoryView(categoryId) {
   const cat = getCurriculumCategoryById(categoryId);
   if (!cat) return false;
@@ -2867,10 +2884,12 @@ function renderCategoryView(categoryId) {
         indexEntry.updatedAt, indexEntry.updated_at, indexEntry.ts,
         mapArticle.updatedAt, mapArticle.updated_at, mapArticle.ts,
       );
+      const title = normalizeDisplayText(item.title);
       return {
         id,
-        title: normalizeDisplayText(item.title),
+        title,
         updatedAt: rawTs,
+        toolLabel: buildCategoryItemToolLabel(cat.id, mapArticle, title),
       };
     })
     .filter(Boolean);
@@ -2986,10 +3005,16 @@ function renderCategoryView(categoryId) {
         const isGeneral = /全般/.test(it.title);
         const kindText = isGeneral ? '全般' : '項目';
         const kindClass = isGeneral ? ' is-general' : '';
+        const toolLine = it.toolLabel
+          ? `<span class="category-item-tool">対象ツール: ${escapeHtml(it.toolLabel)}</span>`
+          : '';
         return `
           <div class="article-row note-row category-item-row${kindClass}" onclick="showArticle('${it.id}')">
             <span class="category-item-kind${kindClass}">${kindText}</span>
-            <span class="article-title-row">${it.title}</span>
+            <span class="category-item-main">
+              <span class="article-title-row">${it.title}</span>
+              ${toolLine}
+            </span>
             <span class="note-meta">${escapeHtml(formatPostDateTime(it.updatedAt))}</span>
             <span class="article-arrow">›</span>
           </div>

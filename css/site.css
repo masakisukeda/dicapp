@@ -1132,6 +1132,26 @@ flex-shrink: 0;
   gap: 10px;
 }
 
+.category-item-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.category-item-main .article-title-row {
+  min-width: 0;
+}
+
+.category-item-tool {
+  color: var(--ink3);
+  font-size: var(--font-ui-sm);
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .category-item-kind {
   display: inline-flex;
   align-items: center;
@@ -8162,6 +8182,14 @@ body {
   .category-item-row .article-title-row {
     max-width: none !important;
     flex: unset !important;
+  }
+
+  .category-item-main {
+    gap: 1px;
+  }
+
+  .category-item-tool {
+    font-size: 10px;
   }
 
   .category-item-kind {
