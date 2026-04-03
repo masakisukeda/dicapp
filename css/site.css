@@ -7643,8 +7643,9 @@ body:not([data-theme="light"]) .header {
 
   .home-view > .home-hero.home-hero-with-kun .home-hero-kun .home-hero-kun-tip {
     position: absolute;
-    right: calc(100% + 8px);
-    top: 10px;
+    left: 50%;
+    top: calc(100% + 8px);
+    transform: translateX(-50%);
     z-index: 3;
     display: block;
     padding: 5px 8px;
@@ -7664,14 +7665,16 @@ body:not([data-theme="light"]) .header {
   .home-view > .home-hero.home-hero-with-kun .home-hero-kun .home-hero-kun-tip::after {
     content: '';
     position: absolute;
-    right: -6px;
-    top: 50%;
+    left: 50%;
+    top: -6px;
     width: 10px;
     height: 10px;
-    margin-top: -5px;
+    margin-left: -5px;
     transform: rotate(45deg);
     border-top: 1px solid color-mix(in srgb, var(--accent) 26%, var(--border2));
-    border-right: 1px solid color-mix(in srgb, var(--accent) 26%, var(--border2));
+    border-left: 1px solid color-mix(in srgb, var(--accent) 26%, var(--border2));
+    border-right: none;
+    border-bottom: none;
     background: color-mix(in srgb, var(--bg2) 96%, white);
   }
 }
