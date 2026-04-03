@@ -8515,3 +8515,93 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
     gap: 6px !important;
   }
 }
+
+/* ===== PC Typography Alignment (Top cards / Category nav / Article detail) ===== */
+@media (min-width: 901px) {
+  :root {
+    --pc-typo-heading: 13px;
+    --pc-typo-body: 14px;
+    --pc-typo-meta: 12px;
+  }
+
+  /* top cards: heading / row text / meta */
+  .home-columns .home-col-item .home-section-panel-title,
+  .home-view > .home-section-panel .home-section-panel-title {
+    font-size: var(--pc-typo-heading) !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .home-view .recent-row .article-title-row,
+  .home-view .comment-row .article-title-row,
+  .home-view .home-update-item .home-update-link,
+  .home-view .home-note-link-row .article-title-row {
+    font-size: var(--pc-typo-body) !important;
+    line-height: 1.45 !important;
+  }
+
+  .home-view .recent-row .note-meta,
+  .home-view .comment-row .note-meta,
+  .home-view .home-update-item .note-meta {
+    font-size: var(--pc-typo-meta) !important;
+    line-height: 1.3 !important;
+  }
+
+  /* category navigation: panel heading / group label / chip text */
+  #homeCategoryNavList .ui-section-panel-title,
+  #categoryNavList .ui-section-panel-title,
+  #glossaryCategoryNavList .ui-section-panel-title,
+  #homeCategoryNavList .category-quickmap-panel .ui-section-panel-title {
+    font-size: var(--pc-typo-heading) !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  #homeCategoryNavList .category-quickmap-label,
+  #homeCategoryNavList .category-nav-group-text,
+  #categoryNavList .category-nav-group-text,
+  #glossaryCategoryNavList .category-nav-group-text {
+    font-size: var(--pc-typo-meta) !important;
+    line-height: 1.35 !important;
+  }
+
+  #homeCategoryNavList .category-quickmap-chip,
+  #homeCategoryNavList .category-nav-group .filter-chip,
+  #categoryNavList .category-nav-group .filter-chip,
+  #glossaryCategoryNavList .category-nav-group .filter-chip {
+    font-size: var(--pc-typo-heading) !important;
+    line-height: 1.35 !important;
+  }
+
+  /* article detail: title / body / metadata hierarchy */
+  .article-view .article-breadcrumb,
+  .article-view .article-eyebrow,
+  .article-view .article-meta,
+  .article-view .article-updated,
+  .article-view .article-editor-text,
+  .article-view .article-sibling-dir {
+    font-size: var(--pc-typo-meta) !important;
+    line-height: 1.45 !important;
+  }
+
+  .article-view .article-title {
+    font-size: 34px !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .article-view .article-body {
+    font-size: 15px !important;
+    line-height: 1.88 !important;
+  }
+
+  .article-view .article-body h3 {
+    font-size: 20px !important;
+    line-height: 1.35 !important;
+  }
+
+  .article-view .article-sibling-title {
+    font-size: var(--pc-typo-body) !important;
+    line-height: 1.45 !important;
+  }
+}
