@@ -500,7 +500,6 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
     <div class="sidebar-top">
       <div class="mode-toggle is-hidden">
         <button class="mode-btn active" onclick="setMode('search', this)">🔍 引く</button>
-        <button class="mode-btn is-hidden" onclick="setMode('learn', this)">📚 学ぶ</button>
       </div>
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
@@ -573,13 +572,6 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
       </div>
 
       <div class="category-jump-groups" id="homeCategoryNavList"></div>
-
-      <section class="home-section-panel home-curriculum-panel" aria-labelledby="homeCurriculumHeading">
-        <div class="home-section-panel-head">
-          <div class="home-section-panel-title" id="homeCurriculumHeading">目的別おすすめカリキュラム</div>
-        </div>
-        <div class="feature-grid home-track-grid" id="homeTrackGrid"></div>
-      </section>
 
       <div class="home-columns">
         <section class="home-col-item home-col-full home-section-panel">
@@ -922,81 +914,6 @@ body[data-theme="light"] .header-admin-menu-btn.primary {
         </div>
       </div>
 
-      <div class="learn-mobile-bar is-hidden" id="learnMobileBar">
-        <button class="learn-mobile-btn primary" id="mobileProgressBtn" onclick="toggleCurrentArticleProgress()">完了にする</button>
-        <button class="learn-mobile-btn" id="mobileNextBtn" onclick="openNextCurriculumArticle()">次の学習へ</button>
-        <button class="learn-mobile-btn is-hidden" onclick="showView('home')">学習一覧へ</button>
-      </div>
-
-    </div>
-
-    <!-- LEARN VIEW -->
-    <div class="learn-view ui-view-stack" id="learnView">
-      <div class="home-hero">
-        <div class="home-float-icons" aria-hidden="true">
-          <span class="float-icon" style="left: 2%; top: 12%; --delay: .2s;">📘</span>
-          <span class="float-icon" style="left: 12%; top: 66%; --delay: .8s;">✦</span>
-          <span class="float-icon" style="left: 36%; top: 78%; --delay: .4s;">✓</span>
-          <span class="float-icon" style="left: 68%; top: 18%; --delay: .7s;">⌕</span>
-          <span class="float-icon" style="left: 84%; top: 62%; --delay: 1.1s;">📝</span>
-        </div>
-
-        <div class="home-main">
-          <div class="home-eyebrow">ディレクション辞書β</div>
-          <h2 class="home-title">
-            <span class="title-line">ディレクションを</span><br>
-            <span class="title-line"><em>"わかる"</em>まで学ぼう。</span>
-          </h2>
-          <p class="home-sub">
-            テキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト。
-            テキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト。
-          </p>
-        </div>
-      </div>
-
-      <div class="section-label">レベルを選ぶ</div>
-      <div class="level-grid">
-        <div class="level-card level-1" onclick="selectLevel(1, this)">
-          <div class="level-badge">LEVEL 01</div>
-          <div class="level-title">デザイナーから転向したい</div>
-          <div class="level-desc">クライアントとの調整が増えてきた。ディレクターって何から学べばいい？</div>
-          <div class="level-topics">
-            <span class="topic-chip">企画基礎</span>
-            <span class="topic-chip">要件定義</span>
-            <span class="topic-chip">進行管理</span>
-          </div>
-        </div>
-        <div class="level-card level-2" onclick="selectLevel(2, this)">
-          <div class="level-badge">LEVEL 02</div>
-          <div class="level-title">1〜3年目のディレクター担当</div>
-          <div class="level-desc">なんとなくできてるけど、自分のスキルに抜け漏れがある気がする。</div>
-          <div class="level-topics">
-            <span class="topic-chip">情報設計</span>
-            <span class="topic-chip">QA管理</span>
-            <span class="topic-chip">運用設計</span>
-          </div>
-        </div>
-        <div class="level-card level-3" onclick="selectLevel(3, this)">
-          <div class="level-badge">LEVEL 03</div>
-          <div class="level-title">ディレクターを育てる側</div>
-          <div class="level-desc">チームメンバーにディレクターを教えたい。研修・勉強会に使いたい。</div>
-          <div class="level-topics">
-            <span class="topic-chip">採用設計</span>
-            <span class="topic-chip">プロモーション</span>
-            <span class="topic-chip">全カテゴリ</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-label">カリキュラム</div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill" style="width:14%"></div>
-      </div>
-      <div class="progress-label" id="progressLabel">1 / 7 完了</div>
-
-      <div class="curriculum" id="curriculum">
-        <!-- injected -->
-      </div>
     </div>
 
 
