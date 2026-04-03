@@ -8113,6 +8113,10 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
     padding: 12px;
   }
 
+  #homeCategoryNavList .category-quickmap-panel .ui-section-panel-head {
+    margin-bottom: 8px;
+  }
+
   #homeCategoryNavList .category-quickmap-panel .ui-section-panel-title {
     font-size: var(--font-ui-sm);
     font-weight: 800;
@@ -8121,23 +8125,29 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
   }
 
   #homeCategoryNavList .category-quickmap-block {
-    gap: 12px;
+    gap: 14px;
   }
 
   #homeCategoryNavList .category-quickmap-row {
-    gap: 10px;
+    gap: 7px;
   }
 
   #homeCategoryNavList .category-quickmap-row + .category-quickmap-row {
-    padding-top: 12px;
+    margin-top: 2px;
+    padding-top: 14px;
     border-top: 1px solid var(--border2);
   }
 
   #homeCategoryNavList .category-quickmap-label {
-    font-size: 12px;
-    letter-spacing: 0.02em;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     line-height: 1.35;
     color: var(--ink2);
+  }
+
+  #homeCategoryNavList .category-quickmap-chips {
+    gap: 8px;
   }
 }
 
