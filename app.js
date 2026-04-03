@@ -68,7 +68,7 @@ const ADMIN_SESSION_KEY = 'dir_admin_session_key';
 const ADMIN_SESSION_AT = 'dir_admin_session_at';
 const ADMIN_SESSION_TTL_MS = 2 * 60 * 60 * 1000;
 const BASE_CONTENT_UPDATED_AT = '2026-02-17T00:00:00+09:00';
-const CONTENT_ASSET_VERSION = '20260403.1039';
+const CONTENT_ASSET_VERSION = '20260403.1040';
 const SIMPLE_ROUTE_VIEWS = new Set(['glossary', 'tools', 'requests', 'editors', 'dictionary', 'appendix']);
 const PUBLIC_BASE_URL = 'https://drsp.cc/dic/';
 const DEFAULT_SEO_TITLE = '辞書.app — ディレクションの辞書';
@@ -5405,7 +5405,6 @@ function syncHeaderRouteButtons() {
 
 function showView(view, options = {}) {
   const { skipHistory = false, replaceHistory = false } = options;
-  if (view === 'learn') view = 'home';
   const homeViewEl = document.getElementById('homeView');
   const articleViewEl = document.getElementById('articleView');
   const categoryViewEl = document.getElementById('categoryView');
