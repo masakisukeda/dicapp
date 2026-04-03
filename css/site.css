@@ -8605,3 +8605,28 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
     line-height: 1.45 !important;
   }
 }
+
+/* ===== Mobile Home Category Card Surface (match other cards) ===== */
+@media (max-width: 900px) {
+  #homeCategoryNavList {
+    background: var(--bg2) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+    padding: 10px !important;
+  }
+
+  #homeCategoryNavList .category-jump-panel.category-quickmap-panel,
+  #homeCategoryNavList .category-quickmap-panel {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  body[data-theme="light"] #homeCategoryNavList {
+    background: #ffffff !important;
+    border-color: rgba(18, 22, 26, 0.14) !important;
+  }
+}
