@@ -2618,7 +2618,6 @@ function renderAppendixTopCategoryNav() {
 
 function getCategoryTopItemHint(cat) {
   const catId = String(cat && cat.id ? cat.id : '').trim();
-  if (catId === 'tools') return 'AI制作・開発ツールの使い分け';
   return '';
 }
 
