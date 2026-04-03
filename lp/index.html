@@ -93,7 +93,24 @@
 .updates-post:hover{color:var(--tx);border-color:var(--ac2);background:var(--ac4)}
 @media(max-width:760px){.updates-item{grid-template-columns:1fr}.updates-post{justify-self:flex-end}}
 </style>
-<link rel="stylesheet" href="/app/lp-common.css?v=20260330h">
+<style>
+.theme-toggle{
+  font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Segoe UI Symbol",sans-serif;
+  font-size:18px;
+  font-weight:700;
+  line-height:1;
+  color:var(--tx);
+  text-shadow:0 0 0 currentColor;
+}
+@media(max-width:760px){
+  .theme-toggle{
+    width:34px;
+    height:34px;
+    font-size:19px;
+  }
+}
+</style>
+<link rel="stylesheet" href="/app/lp-common.css?v=20260403a">
 </head>
 <body>
 <div class="w">
@@ -225,7 +242,7 @@
   const logo=document.getElementById('brandLogo');
   const saved=localStorage.getItem(KEY) || localStorage.getItem(LEGACY_KEY);
   const init=saved || (window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-  function apply(theme){document.body.setAttribute('data-theme',theme);if(btn)btn.textContent=theme==='light'?'☀︎':'☾';if(logo)logo.src=theme==='dark'?'../img/logo-dictionaryapp-dark.svg':'../img/logo-dictionaryapp-light.svg';}
+  function apply(theme){document.body.setAttribute('data-theme',theme);if(btn)btn.textContent=theme==='light'?'☀️':'🌙';if(logo)logo.src=theme==='dark'?'../img/logo-dictionaryapp-dark.svg':'../img/logo-dictionaryapp-light.svg';}
   apply(init);
   if(btn){btn.addEventListener('click',()=>{const next=document.body.getAttribute('data-theme')==='light'?'dark':'light';localStorage.setItem(KEY,next);localStorage.setItem(LEGACY_KEY,next);apply(next);});}
 })();

@@ -6,7 +6,7 @@
 - 共通指示書（最新版URL）: `https://drsp.cc/app/AGENTS.md`
 - ローカル編集元: `/Users/masakisukeda/Library/CloudStorage/GoogleDrive-masaki.sukeda@gmail.com/マイドライブ/Playground/AGENTS.md`
 - スコープは `/app` `/chat` `/dic` `/mng` のみ。無関係フォルダの編集・デプロイは禁止。
-- デプロイはFTP経由。`/dic` 以外へアップロードしないこと。
+- 通常デプロイは `main` へ push -> GitHub Actions で実施（直接FTPアップロードは禁止）。
 
 ## 0. 最初にやること
 1. この `AGENTS.md` を最後まで読む。
@@ -43,7 +43,8 @@
 - ヒットしない語は、記事検索だけでなく用語集フォールバックも検討する。
 
 ## 4. 本番反映
-- 推奨: `./scripts/deploy_prod.sh`
+- 原則: `main` へ push -> GitHub Actions 自動デプロイ
+- 緊急障害対応時のみ、ユーザー明示指示がある場合に限り直接FTP反映を許可（事後に `main` へ同内容を反映すること）。
 - スクリプト実行内容:
   1. `app.js` のバージョン更新
   2. `sitemap/robots/llms` 再生成
