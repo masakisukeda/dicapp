@@ -5964,6 +5964,13 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
     background: transparent !important;
   }
 
+  .main {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
   .sidebar-top {
     min-height: 0 !important;
     border-bottom: none !important;

@@ -5,8 +5,9 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CSS_SRC="$ROOT_DIR/css/site.css"
 CSS_MIN="$ROOT_DIR/css/site.min.css"
 INDEX_HTML="$ROOT_DIR/index.html"
-CLEANCSS="$ROOT_DIR/.npm-cache/_npx/73f5446b131a749d/node_modules/.bin/cleancss"
-NODE="/usr/local/bin/node"
+export PATH="/usr/local/bin:$PATH"
+NPXBIN="${NPXBIN:-/usr/local/bin/npx}"
+export npm_config_cache="/tmp/npm_cache_tmp"
 
 if [[ ! -f "$CSS_SRC" ]]; then
   echo "site.css が見つかりません" >&2
@@ -14,7 +15,7 @@ if [[ ! -f "$CSS_SRC" ]]; then
 fi
 
 # 1. site.min.css を再生成
-"$NODE" "$CLEANCSS" -o "$CSS_MIN" "$CSS_SRC"
+"$NPXBIN" --yes clean-css-cli -o "$CSS_MIN" "$CSS_SRC"
 echo "Minified: $CSS_SRC => $CSS_MIN"
 
 # 2. index.html の CSS バージョンを日時で更新 (例: cssmin20260403.1523)

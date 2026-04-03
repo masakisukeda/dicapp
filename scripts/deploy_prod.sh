@@ -31,6 +31,7 @@ files=(
   "$ROOT_DIR/app.js"
   "$ROOT_DIR/css/site.css"
   "$ROOT_DIR/css/site.min.css"
+  "$ROOT_DIR/data/categories.json"
   "$ROOT_DIR/data/curriculum.json"
   "$ROOT_DIR/data/data.js"
   "$ROOT_DIR/robots.txt"
