@@ -8366,6 +8366,45 @@ const TOOL_ICONS = {
   'Relume': '🔷', 'できるくんAI': '🤖', 'WordPress': 'Ⓦ',
 };
 
+const TOOL_META = {
+  '基本': {
+    desc: '実務の土台になる考え方と進め方を確認',
+    labels: ['基礎', '実務全般'],
+  },
+  'Figma': {
+    desc: '画面設計・プロトタイプ作成・レビュー共有',
+    labels: ['設計', 'UI'],
+  },
+  'バイブコーディング': {
+    desc: 'AIと対話しながら実装を前に進める手法',
+    labels: ['実装', 'AI補助'],
+  },
+  'Codex': {
+    desc: 'コード生成や改修を伴走する開発支援AI',
+    labels: ['実装', '自動化'],
+  },
+  'Claude Code': {
+    desc: 'コード読解と改修を素早く進めるAI開発補助',
+    labels: ['実装', 'AI補助'],
+  },
+  'Antigravity': {
+    desc: '制作運用の自動化フローを組むための基盤',
+    labels: ['自動化', '運用'],
+  },
+  'Relume': {
+    desc: '情報設計とUI構成案を高速に作る支援ツール',
+    labels: ['設計', '効率化'],
+  },
+  'できるくんAI': {
+    desc: '調査や文案生成などの作業を補助するAI',
+    labels: ['分析', 'AI補助'],
+  },
+  'WordPress': {
+    desc: '記事公開・SEO運用・更新管理を行うCMS',
+    labels: ['CMS', 'SEO'],
+  },
+};
+
 const TAG_ICONS = {
   figma: '📐', vibe: '🎸', wp: 'Ⓦ', codex: '🧠',
   claude_code: '⌨', antigravity: '🪐',
@@ -8398,17 +8437,75 @@ function getAllTagsFromArticles() {
   return tags;
 }
 
+function getToolMeta(toolName) {
+  const name = normalizeDisplayText(toolName || '');
+  const meta = TOOL_META[name] || {};
+  return {
+    icon: TOOL_ICONS[name] || '🔧',
+    desc: normalizeDisplayText(meta.desc || '関連する記事をまとめて確認できます'),
+    labels: Array.isArray(meta.labels) ? meta.labels.map((x) => normalizeDisplayText(x)).filter(Boolean) : [],
+  };
+}
+
+function getToolArticleCounts() {
+  const counts = new Map();
+  (state.articleIndex || []).forEach((article) => {
+    if (!article || isArticleDeleted(article.id)) return;
+    const tools = [...new Set(getExpandedTools(article))];
+    tools.forEach((tool) => {
+      counts.set(tool, (counts.get(tool) || 0) + 1);
+    });
+  });
+  return counts;
+}
+
+function renderToolFilterCard(toolName, count) {
+  const meta = getToolMeta(toolName);
+  const labels = meta.labels.slice(0, 2);
+  const labelsHtml = labels.length
+    ? `<span class="tool-filter-labels">${labels.map((label) => `<span class="tool-filter-label">${escapeHtml(label)}</span>`).join('')}</span>`
+    : '';
+  return `
+    <button class="tool-filter-card${state.toolFilter === toolName ? ' active' : ''}" type="button" onclick="selectToolFilter('${escapeForSingleQuote(toolName)}')">
+      <span class="tool-filter-head">
+        <span class="tool-filter-name-wrap">
+          <span class="tool-filter-icon">${escapeHtml(meta.icon)}</span>
+          <span class="tool-filter-name">${escapeHtml(toolName)}</span>
+        </span>
+        <span class="tool-filter-count">${Number(count) || 0}件</span>
+      </span>
+      <span class="tool-filter-desc">${escapeHtml(meta.desc)}</span>
+      ${labelsHtml}
+    </button>
+  `;
+}
+
 function renderToolsView() {
   const allTools = getAllToolsFromArticles();
   const allTags = getAllTagsFromArticles();
+  const toolCounts = getToolArticleCounts();
+  const totalArticles = (state.articleIndex || []).filter((a) => a && !isArticleDeleted(a.id)).length;
+  const sortedTools = [...allTools].sort((a, b) => {
+    const countDiff = (toolCounts.get(b) || 0) - (toolCounts.get(a) || 0);
+    if (countDiff) return countDiff;
+    return String(a).localeCompare(String(b), 'ja');
+  });
 
   const toolChipsEl = document.getElementById('toolFilterChips');
+  toolChipsEl.classList.add('tool-filter-grid');
   toolChipsEl.innerHTML = [
-    `<button class="filter-chip${!state.toolFilter ? ' active' : ''}" onclick="selectToolFilter(null)">すべて</button>`,
-    ...allTools.map((t) => {
-      const icon = TOOL_ICONS[t] || '🔧';
-      return `<button class="filter-chip${state.toolFilter === t ? ' active' : ''}" onclick="selectToolFilter('${t.replace(/'/g, "\\'")}')">${icon} ${t}</button>`;
-    }),
+    `<button class="tool-filter-card tool-filter-card-all${!state.toolFilter ? ' active' : ''}" type="button" onclick="selectToolFilter(null)">
+      <span class="tool-filter-head">
+        <span class="tool-filter-name-wrap">
+          <span class="tool-filter-icon">🧭</span>
+          <span class="tool-filter-name">すべてのツール</span>
+        </span>
+        <span class="tool-filter-count">${totalArticles}件</span>
+      </span>
+      <span class="tool-filter-desc">用途ラベル付きで全体を俯瞰して選べます</span>
+      <span class="tool-filter-labels"><span class="tool-filter-label">横断</span></span>
+    </button>`,
+    ...sortedTools.map((toolName) => renderToolFilterCard(toolName, toolCounts.get(toolName) || 0)),
   ].join('');
 
   const tagChipsEl = document.getElementById('tagFilterChips');
