@@ -68,8 +68,8 @@ const ADMIN_SESSION_KEY = 'dir_admin_session_key';
 const ADMIN_SESSION_AT = 'dir_admin_session_at';
 const ADMIN_SESSION_TTL_MS = 2 * 60 * 60 * 1000;
 const BASE_CONTENT_UPDATED_AT = '2026-02-17T00:00:00+09:00';
-const CONTENT_ASSET_VERSION = '20260403.1006';
-const SIMPLE_ROUTE_VIEWS = new Set(['learn', 'glossary', 'tools', 'requests', 'editors', 'dictionary', 'appendix']);
+const CONTENT_ASSET_VERSION = '20260403.1039';
+const SIMPLE_ROUTE_VIEWS = new Set(['glossary', 'tools', 'requests', 'editors', 'dictionary', 'appendix']);
 const PUBLIC_BASE_URL = 'https://drsp.cc/dic/';
 const DEFAULT_SEO_TITLE = '辞書.app — ディレクションの辞書';
 const DEFAULT_SEO_DESCRIPTION = 'ディレクションの"わからない"を、なくそう。キャリアチェンジ中のデザイナーも、新人ディレクターも迷ったらすぐ開ける辞書アプリ。';
@@ -100,7 +100,7 @@ const RECOMMENDED_CURRICULUM_CATEGORIES = [
     icon: '🧭',
     name: 'ディレクターへキャリアチェンジ',
     kicker: 'RECOMMENDED TRACK',
-    description: 'キャリアチェンジで最初に押さえるべき基礎から、進行管理・品質管理までを10記事で学べるカリキュラムです。',
+    description: 'キャリアチェンジで最初に押さえるべき基礎から、進行管理・品質管理までを10記事で確認できるおすすめカテゴリです。',
     items: [
       { title: 'AI時代のディレクションについて', id: '2c3d0f0a00268005a02bd61646318b64' },
       { title: '要件定義', id: '2bdd0f0a0026801094baf17661e44931' },
@@ -121,7 +121,7 @@ const RECOMMENDED_CURRICULUM_CATEGORIES = [
     icon: '🤖',
     name: 'バイブコーディング',
     kicker: 'RECOMMENDED TRACK',
-    description: 'AIエージェント時代の制作フローを前提に、主要ツールの使い分けと進め方を10記事で短期習得するカリキュラムです。',
+    description: 'AIエージェント時代の制作フローを前提に、主要ツールの使い分けと進め方を10記事で短期把握できるおすすめカテゴリです。',
     items: [
       { title: 'AI協業ディレクション', id: 'ai_collaboration_direction' },
       { title: 'Codex', id: 'tool_codex' },
@@ -140,7 +140,7 @@ const RECOMMENDED_CURRICULUM_CATEGORIES = [
     icon: '📈',
     name: 'チームマネジメント',
     kicker: 'RECOMMENDED TRACK',
-    description: '採用・収益・運用ガバナンスを軸に、経営判断に必要なディレクション視点を10記事で整理するカリキュラムです。',
+    description: '採用・収益・運用ガバナンスを軸に、経営判断に必要なディレクション視点を10記事で整理できるおすすめカテゴリです。',
     items: [
       { title: 'AI運用ガバナンス', id: 'ai_operation_governance' },
       { title: 'AI時代のディレクター評価基準', id: 'ai_hiring_scorecard' },
@@ -159,7 +159,7 @@ const RECOMMENDED_CURRICULUM_CATEGORIES = [
     icon: '📣',
     name: 'デジタルマーケティング',
     kicker: 'RECOMMENDED TRACK',
-    description: '集客から改善運用まで、広告・分析・検証の実務を10記事で押さえるデジタルマーケティング向けカリキュラムです。',
+    description: '集客から改善運用まで、広告・分析・検証の実務を10記事で押さえられるデジタルマーケティング向けカテゴリです。',
     items: [
       { title: 'AIクリエイティブ検証', id: 'ai_creative_testing' },
       { title: 'SEO（検索最適化/構造化データ/コアウェブバイタル対応）', id: '2bdd0f0a00268031901fe028ed3c6a44' },
@@ -178,7 +178,7 @@ const RECOMMENDED_CURRICULUM_CATEGORIES = [
     icon: '✨',
     name: '令和最新ディレクション',
     kicker: 'RECOMMENDED TRACK',
-    description: 'AI時代の実務で今すぐ効くテーマを横断し、企画から運用改善までを最短で押さえる最新カリキュラムです。',
+    description: 'AI時代の実務で今すぐ効くテーマを横断し、企画から運用改善までを最短で押さえられる最新カテゴリです。',
     items: [
       { title: 'AI時代のディレクションについて', id: '2c3d0f0a00268005a02bd61646318b64' },
       { title: 'AI協業ディレクション', id: 'ai_collaboration_direction' },
@@ -724,7 +724,6 @@ function routeFromInlineOnclick(rawOnclick) {
   if (viewMatch && viewMatch[1]) {
     const view = viewMatch[1];
     if (view === 'home') return buildRoute('home', null);
-    if (view === 'learn') return buildRoute('learn', null);
     if (view === 'tools') return buildRoute('tools', null);
     if (view === 'glossary') return buildRoute('glossary', null);
     if (view === 'dictionary') return buildRoute('dictionary', null);
@@ -798,10 +797,9 @@ async function ensureEditorsLoaded() {
 function updateModeButtonsForView(view) {
   const buttons = document.querySelectorAll('.mode-btn');
   if (!buttons.length) return;
-  const mode = view === 'learn' ? 'learn' : 'search';
   buttons.forEach((btn) => {
-    const isLearn = (btn.textContent || '').includes('学ぶ');
-    btn.classList.toggle('active', mode === 'learn' ? isLearn : !isLearn);
+    const btnMode = String(btn.getAttribute('data-mode') || '').trim() || 'search';
+    btn.classList.toggle('active', btnMode === 'search');
   });
 }
 
@@ -864,7 +862,7 @@ async function applyRouteState(route, { sync = false, replace = false } = {}) {
     if (sync) syncHistory('editors', null, replace);
     return;
   }
-  // 運用上、learn/toolsはhomeへ集約
+  // 運用上、toolsはhomeへ集約
   showView('home', { skipHistory: true });
   if (sync) syncHistory('home', null, replace);
 }
@@ -1236,9 +1234,6 @@ function updateSeoForRoute(view, payload = {}) {
   } else if (view === 'appendix') {
     title = 'Appendixトップ | 辞書.app';
     description = 'Appendixカテゴリと用語集への導線をまとめたトップページです。';
-  } else if (view === 'learn') {
-    title = '学ぶ | 辞書.app';
-    description = 'ディレクションを"わかる"まで学ぶための学習導線です。進捗を見ながらカテゴリ横断で学べます。';
   } else if (view === 'editors') {
     title = '編集メンバー | 辞書.app';
     description = '辞書.app の編集メンバープロフィール一覧です。';
@@ -2941,7 +2936,7 @@ function showCategory(categoryId, options = {}) {
 
 function openCurriculumTrack(categoryId) {
   if (!getVisibleCurriculumTracks().some((x) => x.id === categoryId)) {
-    toast('このカリキュラムは現在非表示です', 'error');
+    toast('このカテゴリは現在非表示です', 'error');
     return;
   }
   showCategory(categoryId);
@@ -5357,10 +5352,7 @@ async function openNextCurriculumArticle() {
 }
 
 function updateLearnMobileBar() {
-  const bar = document.getElementById('learnMobileBar');
-  if (!bar) return;
-  // "学ぶ"機能は一時非表示運用のため、モバイル学習バーは常時非表示にする
-  bar.classList.remove('visible');
+  // 学習導線を廃止したため no-op
 }
 
 function handleCatHeaderKeydown(event, categoryId) {
@@ -5419,7 +5411,6 @@ function showView(view, options = {}) {
   const categoryViewEl = document.getElementById('categoryView');
   const dictionaryTopViewEl = document.getElementById('dictionaryTopView');
   const appendixTopViewEl = document.getElementById('appendixTopView');
-  const learnViewEl = document.getElementById('learnView');
   const toolsViewEl = document.getElementById('toolsView');
   const requestsViewEl = document.getElementById('requestsView');
   const glossaryViewEl = document.getElementById('glossaryView');
@@ -5430,7 +5421,6 @@ function showView(view, options = {}) {
   if (categoryViewEl) categoryViewEl.classList.remove('visible');
   if (dictionaryTopViewEl) dictionaryTopViewEl.classList.remove('visible');
   if (appendixTopViewEl) appendixTopViewEl.classList.remove('visible');
-  if (learnViewEl) learnViewEl.classList.remove('visible');
   if (toolsViewEl) toolsViewEl.classList.remove('visible');
   if (requestsViewEl) requestsViewEl.classList.remove('visible');
   if (glossaryViewEl) glossaryViewEl.classList.remove('visible');
@@ -5441,7 +5431,6 @@ function showView(view, options = {}) {
   else if (view === 'category' && categoryViewEl) categoryViewEl.classList.add('visible');
   else if (view === 'dictionary' && dictionaryTopViewEl) dictionaryTopViewEl.classList.add('visible');
   else if (view === 'appendix' && appendixTopViewEl) appendixTopViewEl.classList.add('visible');
-  else if (view === 'learn' && learnViewEl) learnViewEl.classList.add('visible');
   else if (view === 'glossary' && glossaryViewEl) glossaryViewEl.classList.add('visible');
   else if (view === 'tools' && toolsViewEl) toolsViewEl.classList.add('visible');
   else if (view === 'requests' && requestsViewEl) requestsViewEl.classList.add('visible');
@@ -5450,7 +5439,6 @@ function showView(view, options = {}) {
   state.currentView = view;
   syncHeaderRouteButtons();
   if (view === 'home') updateSeoForRoute('home');
-  else if (view === 'learn') updateSeoForRoute('learn');
   else if (view === 'dictionary') updateSeoForRoute('dictionary');
   else if (view === 'appendix') updateSeoForRoute('appendix');
   else if (view === 'requests') updateSeoForRoute('requests');
@@ -5482,7 +5470,7 @@ function setMode(mode, btn) {
   document.querySelectorAll('.mode-btn').forEach((b) => b.classList.remove('active'));
   btn.classList.add('active');
   showView('home');
-  if (mode !== 'learn' && window.innerWidth <= 768) openMobileSidebar();
+  if (window.innerWidth <= 768) openMobileSidebar();
 }
 
 function applyLevelSelection() {
@@ -5498,7 +5486,7 @@ function selectLevel(level, el) {
   el.classList.add('selected');
   renderCurriculum();
   updateLearnMobileBar();
-  toast(`レベル ${level} のカリキュラムを設定しました`, 'success');
+  toast(`レベル ${level} を設定しました`, 'success');
 }
 
 function normalizeSearchText(text) {
