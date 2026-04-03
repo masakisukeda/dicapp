@@ -27,8 +27,8 @@
 - UI文言は日本語トーンを維持する。
 - 入力系モーダルは誤タップで閉じない設計を優先（閉じるは `×` など明示操作）。
 - `app.js` の構文エラーを出さない（編集後に `node --check app.js`）。
-- CSSを変更した場合は必ず `bash scripts/build-css.sh` を実行すること。
-  - `site.min.css` 再生成 + `index.html` の CSS バージョン番号を自動更新する。
+- CSSビルドは GitHub Actions の deploy ワークフローで自動実行されるため、通常は手動実行不要。
+  - `bash scripts/build-css.sh` が `site.min.css` 再生成 + `index.html` の CSS バージョン番号更新を自動で行う。
   - 手動で `site.min.css` を編集したりバージョン番号を書き換えたりしない。
 
 ## 3. 辞書くん修正時の注意
@@ -54,6 +54,8 @@
   - `DIC_FTP_USER`
   - `DIC_FTP_PASS`
   - `DIC_FTP_BASE`（例: `ftp://s137.coreserver.jp/public_html/drsp.cc/dic`）
+- GitHub Actions の `deploy.yml` は FTP デプロイ前に `bash scripts/build-css.sh` を実行する（CSS編集有無にかかわらず毎回実行）。
+- 通常デプロイのロールバックは `git revert <commit>` -> `git push origin main` -> 公開URLのHTTP `200`確認で行う。
 
 例:
 ```bash

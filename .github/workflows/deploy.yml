@@ -32,6 +32,9 @@ jobs:
           node scripts/build-search-assets.js
           git diff --exit-code -- robots.txt sitemap.xml llms.txt
 
+      - name: Build CSS
+        run: bash scripts/build-css.sh
+
       - name: Deploy via FTP
         env:
           FTP_HOST: ${{ secrets.DIC_FTP_HOST }}
