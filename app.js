@@ -2486,7 +2486,7 @@ function findCategoryByQuickSpec(spec) {
 function renderHomeQuickCategoryChip(spec, { secondary = false } = {}) {
   const label = normalizeDisplayText(spec.label || '');
   const commonClasses = ['filter-chip', 'category-quickmap-chip'];
-  if (secondary) commonClasses.push('is-secondary');
+  commonClasses.push(secondary ? 'is-secondary' : 'is-primary');
 
   if (spec.type === 'glossary') {
     return `<button class="${commonClasses.join(' ')} cat-glossary" type="button" onclick="setCategoryGroup('appendix'); showGlossaryView()">${escapeHtml(label)}</button>`;
@@ -2576,6 +2576,8 @@ function renderHomeCategoryNav() {
   if (!nav) return;
   const primaryChips = HOME_CATEGORY_PRIMARY_SPECS.map((spec) => renderHomeQuickCategoryChip(spec)).join('');
   const auxChips = HOME_CATEGORY_AUX_SPECS.map((spec) => renderHomeQuickCategoryChip(spec, { secondary: true })).join('');
+  const primaryCount = HOME_CATEGORY_PRIMARY_SPECS.length;
+  const auxCount = HOME_CATEGORY_AUX_SPECS.length;
 
   nav.innerHTML = renderSectionPanel({
     title: 'カテゴリから探す',
@@ -2583,12 +2585,18 @@ function renderHomeCategoryNav() {
     panelClass: 'category-jump-panel category-quickmap-panel',
     bodyHtml: `
       <div class="category-quickmap-block">
-        <div class="category-quickmap-row">
-          <div class="category-quickmap-label">主カテゴリ</div>
+        <div class="category-quickmap-row is-primary">
+          <div class="category-quickmap-label-wrap">
+            <div class="category-quickmap-label">主カテゴリ <span class="category-quickmap-count">${primaryCount}</span></div>
+            <p class="category-quickmap-note">まずは業務領域から選ぶ</p>
+          </div>
           <div class="filter-chip-group category-quickmap-chips">${primaryChips}</div>
         </div>
-        <div class="category-quickmap-row">
-          <div class="category-quickmap-label">補助カテゴリ</div>
+        <div class="category-quickmap-row is-secondary">
+          <div class="category-quickmap-label-wrap">
+            <div class="category-quickmap-label">補助カテゴリ <span class="category-quickmap-count">${auxCount}</span></div>
+            <p class="category-quickmap-note">用途別の補助導線</p>
+          </div>
           <div class="filter-chip-group category-quickmap-chips">${auxChips}</div>
         </div>
       </div>

@@ -8070,6 +8070,11 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
   gap: 8px;
 }
 
+#homeCategoryNavList .category-quickmap-label-wrap {
+  display: grid;
+  gap: 4px;
+}
+
 #homeCategoryNavList .category-quickmap-row + .category-quickmap-row {
   padding-top: 10px;
   border-top: 1px solid color-mix(in srgb, var(--border2) 80%, transparent);
@@ -8079,6 +8084,31 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
+  color: var(--ink3);
+}
+
+#homeCategoryNavList .category-quickmap-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  min-height: 18px;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--border2) 88%, transparent);
+  background: color-mix(in srgb, var(--bg3) 86%, transparent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--ink3);
+  vertical-align: middle;
+}
+
+#homeCategoryNavList .category-quickmap-note {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.35;
   color: var(--ink3);
 }
 
@@ -8121,23 +8151,102 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
   }
 
   #homeCategoryNavList .category-quickmap-block {
-    gap: 12px;
+    gap: 14px;
   }
 
   #homeCategoryNavList .category-quickmap-row {
-    gap: 10px;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--border2) 86%, transparent);
+    background: color-mix(in srgb, var(--bg3) 90%, transparent);
   }
 
   #homeCategoryNavList .category-quickmap-row + .category-quickmap-row {
     padding-top: 12px;
-    border-top: 1px solid var(--border2);
+    border-top: none;
+  }
+
+  #homeCategoryNavList .category-quickmap-row.is-primary {
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--border2));
+    background: color-mix(in srgb, var(--accent) 5%, var(--bg2));
+  }
+
+  #homeCategoryNavList .category-quickmap-row.is-secondary {
+    background: color-mix(in srgb, var(--bg3) 94%, transparent);
   }
 
   #homeCategoryNavList .category-quickmap-label {
     font-size: 12px;
+    font-weight: 800;
     letter-spacing: 0.02em;
     line-height: 1.35;
     color: var(--ink2);
+  }
+
+  #homeCategoryNavList .category-quickmap-count {
+    min-width: 22px;
+    min-height: 18px;
+    font-size: 10px;
+    color: var(--ink2);
+  }
+
+  #homeCategoryNavList .category-quickmap-note {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  #homeCategoryNavList .category-quickmap-chips {
+    margin-bottom: 0;
+    display: grid;
+    gap: 8px;
+  }
+
+  #homeCategoryNavList .category-quickmap-row.is-primary .category-quickmap-chips {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #homeCategoryNavList .category-quickmap-row.is-secondary .category-quickmap-chips {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #homeCategoryNavList .category-quickmap-chip,
+  #homeCategoryNavList .category-quickmap-chip[class*="cat-"] {
+    width: 100%;
+    min-height: 36px;
+    justify-content: center;
+    padding: 7px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    color: var(--ink2) !important;
+    border-color: color-mix(in srgb, var(--border2) 88%, transparent) !important;
+    background: color-mix(in srgb, var(--bg2) 94%, transparent) !important;
+  }
+
+  #homeCategoryNavList .category-quickmap-row.is-primary .category-quickmap-chip,
+  #homeCategoryNavList .category-quickmap-row.is-primary .category-quickmap-chip[class*="cat-"] {
+    font-weight: 700;
+    border-color: color-mix(in srgb, var(--accent) 34%, var(--border2)) !important;
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg2)) !important;
+  }
+
+  #homeCategoryNavList .category-quickmap-row.is-secondary .category-quickmap-chip,
+  #homeCategoryNavList .category-quickmap-row.is-secondary .category-quickmap-chip[class*="cat-"] {
+    font-weight: 600;
+    border-style: dashed;
+    background: color-mix(in srgb, var(--bg3) 94%, var(--bg2)) !important;
+  }
+
+  #homeCategoryNavList .category-quickmap-chip:hover {
+    transform: translateY(-1px);
+    color: var(--ink) !important;
+    border-color: color-mix(in srgb, var(--accent) 48%, var(--border2)) !important;
+  }
+
+  #homeCategoryNavList .category-quickmap-chip.is-secondary {
+    opacity: 1;
   }
 }
 
