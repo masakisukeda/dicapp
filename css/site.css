@@ -6337,6 +6337,14 @@ body[data-theme="light"] .header {
     padding-right: 48px !important;
   }
 
+  .header,
+  body .header,
+  body[data-theme="light"] .header,
+  body:not([data-theme="light"]) .header {
+    padding-left: max(48px, calc((100vw - 1200px) / 2 + 48px)) !important;
+    padding-right: max(48px, calc((100vw - 1200px) / 2 + 48px)) !important;
+  }
+
 .comment-row .article-title-row {
     flex: 0 1 min(24ch, 24vw) !important;
     max-width: min(24ch, 24vw) !important;
