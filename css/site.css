@@ -7989,3 +7989,79 @@ body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .categor
 body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-tools { border-color: #5d81c7 !important; background: #243f6f !important; color: #e3ecff !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-recruit { border-color: #8cab41 !important; background: #3a5320 !important; color: #efffd4 !important; }
 body:not([data-theme="light"]) #homeCategoryNavList .category-nav-group .category-nav-group-chips .filter-chip.cat-failure { border-color: #b96f64 !important; background: #5f2d29 !important; color: #ffe0dc !important; }
+
+/* ===== Home Category Quick Map ===== */
+#homeCategoryNavList .category-quickmap-panel {
+  border: 1px solid color-mix(in srgb, var(--border2) 88%, transparent) !important;
+  background: color-mix(in srgb, var(--bg3) 90%, transparent) !important;
+  box-shadow: none !important;
+}
+
+#homeCategoryNavList .category-quickmap-panel .ui-section-panel-head {
+  margin-bottom: 10px;
+}
+
+#homeCategoryNavList .category-quickmap-panel .ui-section-panel-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+#homeCategoryNavList .category-quickmap-block {
+  display: grid;
+  gap: 10px;
+}
+
+#homeCategoryNavList .category-quickmap-row {
+  display: grid;
+  gap: 8px;
+}
+
+#homeCategoryNavList .category-quickmap-row + .category-quickmap-row {
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--border2) 80%, transparent);
+}
+
+#homeCategoryNavList .category-quickmap-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink3);
+}
+
+#homeCategoryNavList .category-quickmap-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#homeCategoryNavList .category-quickmap-chip {
+  min-height: 32px;
+  padding: 6px 12px;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+#homeCategoryNavList .category-quickmap-chip.is-secondary {
+  opacity: 0.96;
+}
+
+#homeCategoryNavList .category-quickmap-chip.is-missing {
+  opacity: 0.56;
+  cursor: default;
+}
+
+@media (max-width: 900px) {
+  #homeCategoryNavList .category-quickmap-panel .ui-section-panel-head,
+  #homeCategoryNavList .category-quickmap-panel .ui-section-panel-title {
+    display: block !important;
+  }
+
+  #homeCategoryNavList .category-quickmap-panel .ui-section-panel-title {
+    font-size: 15px;
+  }
+
+  #homeCategoryNavList .category-quickmap-chip {
+    min-height: 34px;
+  }
+}

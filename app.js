@@ -68,7 +68,7 @@ const ADMIN_SESSION_KEY = 'dir_admin_session_key';
 const ADMIN_SESSION_AT = 'dir_admin_session_at';
 const ADMIN_SESSION_TTL_MS = 2 * 60 * 60 * 1000;
 const BASE_CONTENT_UPDATED_AT = '2026-02-17T00:00:00+09:00';
-const CONTENT_ASSET_VERSION = '20260403.1046';
+const CONTENT_ASSET_VERSION = '20260403.1101';
 const SIMPLE_ROUTE_VIEWS = new Set(['glossary', 'tools', 'requests', 'editors', 'dictionary', 'appendix']);
 const PUBLIC_BASE_URL = 'https://drsp.cc/dic/';
 const DEFAULT_SEO_TITLE = '辞書.app — ディレクションの辞書';
@@ -2440,6 +2440,68 @@ function renderSectionPanel({ title = '', panelClass = '', bodyHtml = '', ariaLa
   `;
 }
 
+const HOME_CATEGORY_PRIMARY_SPECS = [
+  { label: '企画・プロデュース', aliases: ['企画・プロデュース'] },
+  { label: '情報設計・仕様設計', aliases: ['情報設計・仕様設計', '情報設計', '仕様設計'] },
+  { label: '制作・開発ディレクション', aliases: ['制作・開発ディレクション', '制作・開発'] },
+  { label: 'サービス運営・運用', aliases: ['サービス運営・運用', 'サービス運用'] },
+  { label: 'プロモーション', aliases: ['プロモーション'] },
+  { label: 'ライティング', aliases: ['ライティング'] },
+];
+
+const HOME_CATEGORY_AUX_SPECS = [
+  { label: '用語集', type: 'glossary' },
+  { label: 'ツール・効率化', aliases: ['ツール・効率化', 'ツール'] },
+  { label: 'ディレクター採用', aliases: ['ディレクター採用', '採用'] },
+  { label: 'ディレクター失敗談', ids: ['failure_cases'], aliases: ['ディレクター失敗談', '失敗談'] },
+];
+
+function findCategoryByQuickSpec(spec) {
+  const categories = state.categories || [];
+  const ids = new Set((spec.ids || []).map((id) => String(id || '').trim()).filter(Boolean));
+  const aliases = (spec.aliases || [spec.label || ''])
+    .map((v) => normalizeDisplayText(v))
+    .filter(Boolean);
+
+  if (ids.size) {
+    const hitById = categories.find((cat) => cat && ids.has(String(cat.id || '').trim()));
+    if (hitById) return hitById;
+  }
+
+  for (const alias of aliases) {
+    const exact = categories.find((cat) => normalizeDisplayText(cat && cat.name) === alias);
+    if (exact) return exact;
+  }
+
+  for (const alias of aliases) {
+    const partial = categories.find((cat) => {
+      const name = normalizeDisplayText(cat && cat.name);
+      return name && (name.includes(alias) || alias.includes(name));
+    });
+    if (partial) return partial;
+  }
+  return null;
+}
+
+function renderHomeQuickCategoryChip(spec, { secondary = false } = {}) {
+  const label = normalizeDisplayText(spec.label || '');
+  const commonClasses = ['filter-chip', 'category-quickmap-chip'];
+  if (secondary) commonClasses.push('is-secondary');
+
+  if (spec.type === 'glossary') {
+    return `<button class="${commonClasses.join(' ')} cat-glossary" type="button" onclick="setCategoryGroup('appendix'); showGlossaryView()">${escapeHtml(label)}</button>`;
+  }
+
+  const category = findCategoryByQuickSpec(spec);
+  if (!category || !category.id) {
+    return `<button class="${commonClasses.join(' ')} is-missing" type="button" disabled>${escapeHtml(label)}</button>`;
+  }
+
+  const categoryName = normalizeDisplayText(category.name || label);
+  const catClass = categoryBadgeClass(categoryName);
+  return `<button class="${commonClasses.join(' ')} ${catClass}" type="button" onclick="showCategory('${escapeForSingleQuote(category.id)}')">${escapeHtml(label)}</button>`;
+}
+
 function renderCategoryJumpGroups(target, options = {}) {
   const root = typeof target === 'string' ? document.getElementById(target) : target;
   if (!root) return;
@@ -2512,7 +2574,26 @@ function renderCategoryJumpGroups(target, options = {}) {
 function renderHomeCategoryNav() {
   const nav = document.getElementById('homeCategoryNavList');
   if (!nav) return;
-  renderCategoryJumpGroups(nav, { includeGlossaryInAppendix: true });
+  const primaryChips = HOME_CATEGORY_PRIMARY_SPECS.map((spec) => renderHomeQuickCategoryChip(spec)).join('');
+  const auxChips = HOME_CATEGORY_AUX_SPECS.map((spec) => renderHomeQuickCategoryChip(spec, { secondary: true })).join('');
+
+  nav.innerHTML = renderSectionPanel({
+    title: 'カテゴリから探す',
+    ariaLabel: 'カテゴリから探す',
+    panelClass: 'category-jump-panel category-quickmap-panel',
+    bodyHtml: `
+      <div class="category-quickmap-block">
+        <div class="category-quickmap-row">
+          <div class="category-quickmap-label">主カテゴリ</div>
+          <div class="filter-chip-group category-quickmap-chips">${primaryChips}</div>
+        </div>
+        <div class="category-quickmap-row">
+          <div class="category-quickmap-label">補助カテゴリ</div>
+          <div class="filter-chip-group category-quickmap-chips">${auxChips}</div>
+        </div>
+      </div>
+    `,
+  });
 }
 
 function renderDictionaryTopCategoryNav() {
