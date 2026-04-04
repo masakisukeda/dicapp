@@ -74,6 +74,15 @@ curl -fsSL 'https://drsp.cc/dic/index.html' | rg 'app.js\?v='
 curl -fsSL 'https://drsp.cc/dic/app.js?v=xxxx' | rg '確認したい関数名'
 ```
 
+## デプロイ完遂ルール
+
+ユーザーへの確認不要。自己完結で実施し結果のみ報告すること。
+
+1. push -> GitHub Actions完了を待つ
+2. `curl -fsSL 'https://drsp.cc/dic/index.html' | grep 'app.js?v='` でバージョン更新を確認
+3. 不具合があれば即ロールバック後に報告
+4. 報告フォーマット: `✅ デプロイ完了` / `❌ ロールバック実施済み／原因：〇〇`
+
 ### デバッグメモ（2026-04-03 / toolsカテゴリ）
 - 対象URL: `https://drsp.cc/dic/?view=category&id=tools`
 - 変更内容: カテゴリ項目に `対象ツール: ...` を表示
