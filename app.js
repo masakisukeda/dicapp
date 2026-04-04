@@ -95,6 +95,9 @@ const FEATURE_VIBE_TOOLING_ENABLED = true;
 const DISABLED_ARTICLE_TOOLS = new Set(['バイブコーディング', 'Codex', 'Claude Code', 'Antigravity', 'Relume', 'できるくんAI']);
 const DISABLED_HASHTAG_KEYS = new Set(['バイブコーディング', 'vibe', 'codex', 'claude code', 'claude_code', 'antigravity', 'relume', 'できるくんai']);
 const TOOLS_CATEGORY_USAGE_LABEL = '資料読解 / 要点整理 / 比較検討';
+const FORCE_HIDDEN_ARTICLE_IDS = new Set([
+  '2bdd0f0a002680059327da9b2088404c',
+]);
 
 const RECOMMENDED_CURRICULUM_CATEGORIES = [
   {
@@ -548,7 +551,7 @@ const state = {
   serverGlossaryBaseDeleted: new Set(),
   serverGlossaryBaseLoaded: false,
   glossarySort: localStorage.getItem(STORAGE_KEYS.glossarySort) || 'freq',
-  toolsSort: localStorage.getItem(STORAGE_KEYS.toolsSort) || 'default',
+  toolsSort: localStorage.getItem(STORAGE_KEYS.toolsSort) || 'usage',
   analyticsSummary: null,
   adminKey: '',
   adminKeyChangeExpanded: false,
@@ -883,7 +886,12 @@ function saveDeletedArticles() {
 }
 
 function isArticleDeleted(articleId) {
-  return state.deletedArticles.has(articleId);
+  const id = String(articleId || '');
+  return FORCE_HIDDEN_ARTICLE_IDS.has(id) || state.deletedArticles.has(id);
+}
+
+function isForceHiddenArticle(articleId) {
+  return FORCE_HIDDEN_ARTICLE_IDS.has(String(articleId || ''));
 }
 
 function syncArticleIdMap() {
@@ -2880,36 +2888,25 @@ function buildCategoryItemUsageKeywordLabel(categoryId, articleId, article, fall
 
 function sortToolsCategoryItems(items) {
   const list = Array.isArray(items) ? [...items] : [];
-  const mode = (state.toolsSort === 'usage' || state.toolsSort === 'kana') ? state.toolsSort : 'default';
+  const mode = state.toolsSort === 'kana' ? 'kana' : 'usage';
 
   if (mode === 'kana') {
     return list.sort((a, b) => normalizeDisplayText(a.title).localeCompare(normalizeDisplayText(b.title), 'ja'));
   }
 
-  if (mode === 'usage') {
-    return list.sort((a, b) => {
-      const aUsage = normalizeDisplayText(a.usageKeywordLabel || '');
-      const bUsage = normalizeDisplayText(b.usageKeywordLabel || '');
-      if (aUsage && !bUsage) return -1;
-      if (!aUsage && bUsage) return 1;
-      const usageDiff = aUsage.localeCompare(bUsage, 'ja');
-      if (usageDiff !== 0) return usageDiff;
-      return normalizeDisplayText(a.title).localeCompare(normalizeDisplayText(b.title), 'ja');
-    });
-  }
-
+  // Usage order follows curated category item order.
   return list;
 }
 
 function syncToolsSortButtons(isToolsCategory) {
   document.querySelectorAll('[data-tools-sort]').forEach((btn) => {
-    const activeMode = isToolsCategory ? state.toolsSort : 'default';
+    const activeMode = isToolsCategory ? (state.toolsSort === 'kana' ? 'kana' : 'usage') : '';
     btn.classList.toggle('active', btn.getAttribute('data-tools-sort') === activeMode);
   });
 }
 
 function setToolsSort(mode) {
-  const next = (mode === 'usage' || mode === 'kana') ? mode : 'default';
+  const next = mode === 'kana' ? 'kana' : 'usage';
   state.toolsSort = next;
   localStorage.setItem(STORAGE_KEYS.toolsSort, state.toolsSort);
   if (state.currentView === 'category' && state.currentCategoryId === 'tools') {
@@ -5337,7 +5334,7 @@ async function showArticle(id, options = {}) {
 
   // 端末ローカルの古い非表示フラグで、サーバー配信済み記事が見えなくなる問題を回避する
   if (isArticleDeleted(id) && !state.isAdmin) {
-    if (article) {
+    if (!isForceHiddenArticle(id) && article) {
       state.deletedArticles.delete(id);
       saveSet(STORAGE_KEYS.deletedArticles, state.deletedArticles);
     } else {
