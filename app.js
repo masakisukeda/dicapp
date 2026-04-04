@@ -3116,7 +3116,7 @@ function renderCategoryView(categoryId) {
         const kindText = isGeneral ? '全般' : '項目';
         const kindClass = isGeneral ? ' is-general' : '';
         const usageLine = it.usageKeywordLabel
-          ? `<span class="category-item-tool">用途キーワード: ${escapeHtml(it.usageKeywordLabel)}</span>`
+          ? `<span class="category-item-tool">${escapeHtml(it.usageKeywordLabel)}</span>`
           : '';
         return `
           <div class="article-row note-row category-item-row${kindClass}" onclick="showArticle('${it.id}')">
