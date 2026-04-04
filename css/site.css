@@ -6671,6 +6671,7 @@ body[data-theme="light"] .header {
 
   .category-view .category-hero .cat-title {
     font-size: 34px !important;
+    font-weight: 800 !important;
     line-height: 1.15 !important;
     letter-spacing: -0.02em !important;
   }
