@@ -6663,6 +6663,18 @@ body[data-theme="light"] .header {
     letter-spacing: -0.02em !important;
   }
 
+  /* category top/detail: align breadcrumb and heading scale with article view */
+  .category-view .article-breadcrumb {
+    font-size: var(--pc-typo-meta) !important;
+    line-height: 1.45 !important;
+  }
+
+  .category-view .category-hero .cat-title {
+    font-size: 34px !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+  }
+
   .article-view .article-body {
     font-size: 15px !important;
     line-height: 1.88 !important;
