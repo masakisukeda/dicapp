@@ -2936,7 +2936,6 @@ function renderCategoryView(categoryId) {
         id,
         title,
         updatedAt: rawTs,
-        toolLabel: buildCategoryItemToolLabel(cat.id, mapArticle, title),
         usageKeywordLabel: buildCategoryItemUsageKeywordLabel(cat.id, id, mapArticle, title),
       };
     })
@@ -3062,9 +3061,6 @@ function renderCategoryView(categoryId) {
         const isGeneral = /全般/.test(it.title);
         const kindText = isGeneral ? '全般' : '項目';
         const kindClass = isGeneral ? ' is-general' : '';
-        const toolLine = it.toolLabel
-          ? `<span class="category-item-tool">対象ツール: ${escapeHtml(it.toolLabel)}</span>`
-          : '';
         const usageLine = it.usageKeywordLabel
           ? `<span class="category-item-tool">用途キーワード: ${escapeHtml(it.usageKeywordLabel)}</span>`
           : '';
@@ -3073,7 +3069,6 @@ function renderCategoryView(categoryId) {
             <span class="category-item-kind${kindClass}">${kindText}</span>
             <span class="category-item-main">
               <span class="article-title-row">${it.title}</span>
-              ${toolLine}
               ${usageLine}
             </span>
             <span class="note-meta">${escapeHtml(formatPostDateTime(it.updatedAt))}</span>
