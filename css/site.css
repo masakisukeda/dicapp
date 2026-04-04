@@ -1245,6 +1245,28 @@ line-height: 1.48;
   align-items: flex-start;
 }
 
+.category-top-row {
+  display: grid;
+  grid-template-columns: clamp(116px, 31%, 172px) minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-top-row .article-cat-badge {
+  width: 100%;
+  max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.category-top-row .glossary-row-main {
+  min-width: 0;
+}
+
 .glossary-row-main {
   display: flex;
   flex-direction: column;
