@@ -562,6 +562,8 @@ const state = {
   articleCreateMode: 'source',
   articleEditorMode: localStorage.getItem(STORAGE_KEYS.articleEditorMode) || 'markdown',
   articleKeywordTagCache: new Map(),
+  toolsKeywordWarmupInFlight: false,
+  toolsKeywordWarmupTriedIds: new Set(),
   serverArticleOverrideChecked: new Set(),
   commentNotifySeen: new Set((() => {
     try {
@@ -2943,6 +2945,35 @@ function buildCategoryItemUsageKeywordLabel(categoryId, articleId, article, fall
   return derived.join(' / ');
 }
 
+function warmToolsCategoryKeywordData(items) {
+  const list = Array.isArray(items) ? items : [];
+  if (!list.length) return;
+  if (state.toolsKeywordWarmupInFlight) return;
+
+  const missingIds = list
+    .map((it) => String((it && it.id) || '').trim())
+    .filter(Boolean)
+    .filter((id) => (
+      !articleHasRenderableContent(state.articleMap.get(id))
+      && !state.toolsKeywordWarmupTriedIds.has(id)
+    ));
+
+  if (!missingIds.length) return;
+  missingIds.forEach((id) => state.toolsKeywordWarmupTriedIds.add(id));
+
+  state.toolsKeywordWarmupInFlight = true;
+  Promise.allSettled(missingIds.map((id) => loadArticle(id)))
+    .catch(() => {
+      // noop
+    })
+    .finally(() => {
+      state.toolsKeywordWarmupInFlight = false;
+      if (state.currentView === 'category' && state.currentCategoryId === 'tools') {
+        renderCategoryView('tools');
+      }
+    });
+}
+
 function sortToolsCategoryItems(items) {
   const list = Array.isArray(items) ? [...items] : [];
   const mode = state.toolsSort === 'kana' ? 'kana' : 'usage';
@@ -2994,6 +3025,10 @@ function renderCategoryView(categoryId) {
       };
     })
     .filter(Boolean);
+
+  if (String(categoryId || '') === 'tools') {
+    warmToolsCategoryKeywordData(items);
+  }
 
   if (cat.isCurriculumTrack) {
     items = items.slice(0, 10);
