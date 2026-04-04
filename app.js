@@ -3690,18 +3690,27 @@ function renderCommentsIndexView() {
   const categoryById = new Map((state.articleIndex || []).map((a) => [a.id, normalizeDisplayText(a.cat || '')]));
   const titleById = new Map((state.articleIndex || []).map((a) => [a.id, normalizeDisplayText(a.title || a.id || '')]));
   list.innerHTML = recent.map((c) => {
+    const commentId = String(c.id || '').trim();
+    const articleId = String(c.articleId || '').trim();
     const date = formatPostDateTime(c.ts);
-    const catName = categoryById.get(c.articleId) || '';
+    const catName = categoryById.get(articleId) || '';
     const catClass = categoryBadgeClass(catName);
-    const articleTitle = titleById.get(c.articleId) || normalizeDisplayText(c.articleId || '');
+    const articleTitle = titleById.get(articleId) || normalizeDisplayText(articleId || '');
     const rawBody = normalizeDisplayText((c.body || '').replace(/\s+/g, ' ').trim());
     const bodyPreview = rawBody.length > 90 ? `${rawBody.slice(0, 90)}…` : rawBody;
     const author = normalizeDisplayText(c.name || '匿名');
+    const adminActions = (state.isAdmin && commentId && articleId)
+      ? `<span class="request-row-actions admin-row-actions list-row-head-actions">
+          <button class="admin-article-btn admin-row-btn" type="button" onclick="event.stopPropagation();editComment('${escapeForSingleQuote(commentId)}','${escapeForSingleQuote(articleId)}')">編集</button>
+          <button class="admin-article-btn danger admin-row-btn" type="button" onclick="event.stopPropagation();deleteComment('${escapeForSingleQuote(commentId)}','${escapeForSingleQuote(articleId)}')">削除</button>
+        </span>`
+      : '';
     return `
-      <div class="article-row note-row request-row list-row list-row--stack ${catClass}" onclick="showArticle('${escapeForSingleQuote(String(c.articleId || ''))}')">
+      <div class="article-row note-row request-row list-row list-row--stack ${catClass}" onclick="showArticle('${escapeForSingleQuote(articleId)}')">
         <span class="request-row-head list-row-head">
           ${renderCategoryBadge(catName)}
           <span class="request-meta-text">${escapeHtml(author)}</span>
+          ${adminActions}
         </span>
         <span class="request-row-main list-row-main-block">
           <span class="article-title-row">${escapeHtml(articleTitle)}</span>
@@ -4422,6 +4431,38 @@ function closeCommentComposer() {
   if (modal) modal.classList.remove('open');
 }
 
+function resolveCommentArticleId(commentId, articleId) {
+  const requested = String(articleId || '').trim();
+  if (requested) return requested;
+
+  const current = String(state.currentArticleId || '').trim();
+  if (current && Array.isArray(state.commentsByArticle[current])) {
+    const hit = state.commentsByArticle[current].some((c) => String(c && c.id) === String(commentId));
+    if (hit) return current;
+  }
+
+  const entries = Object.entries(state.commentsByArticle || {});
+  for (let i = 0; i < entries.length; i += 1) {
+    const [aid, comments] = entries[i];
+    if (!Array.isArray(comments)) continue;
+    const hit = comments.some((c) => String(c && c.id) === String(commentId));
+    if (hit) return String(aid);
+  }
+  return '';
+}
+
+function refreshCommentUiAfterMutation(targetArticleId) {
+  const activeArticleId = String(state.currentArticleId || '').trim();
+  if (activeArticleId && activeArticleId === String(targetArticleId || '')) {
+    renderComments(activeArticleId);
+  }
+  if (state.currentView === 'comments') {
+    renderCommentsIndexView();
+  }
+  renderLatestComments();
+  renderStats();
+}
+
 function renderComments(articleId) {
   const panel = document.getElementById('commentPanel');
   const list = document.getElementById('commentList');
@@ -4520,15 +4561,15 @@ async function addComment() {
   toast("コメントを保存しました", "success");
 }
 
-async function editComment(commentId) {
-  const articleId = state.currentArticleId;
-  if (!articleId || !state.commentsByArticle[articleId]) return;
+async function editComment(commentId, articleId = '') {
+  const targetArticleId = resolveCommentArticleId(commentId, articleId);
+  if (!targetArticleId || !state.commentsByArticle[targetArticleId]) return;
   if (!state.isAdmin) {
     toast('編集は管理者パスワード入力後のみ実行できます', 'error');
     return;
   }
 
-  const current = (state.commentsByArticle[articleId] || []).find((c) => String(c.id) === String(commentId));
+  const current = (state.commentsByArticle[targetArticleId] || []).find((c) => String(c.id) === String(commentId));
   if (!current) {
     toast('コメントが見つかりません', 'error');
     return;
@@ -4543,6 +4584,7 @@ async function editComment(commentId) {
 
   const localOnly = String(commentId).includes('_');
   if (COMMENTS_SERVER_ENABLED && !localOnly) {
+    const commentsLimit = state.currentView === 'comments' ? COMMENT_INDEX_LIMIT : 30;
     const data = await fetchCommentsApi('', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4564,29 +4606,27 @@ async function editComment(commentId) {
       comments: true,
       glossary: false,
       requests: false,
-      commentsLimit: 30,
+      commentsLimit,
       render: true,
-      currentArticleComments: true,
+      currentArticleComments: state.currentArticleId === targetArticleId,
     });
     toast('コメントを更新しました', 'success');
     return;
   }
 
-  state.commentsByArticle[articleId] = (state.commentsByArticle[articleId] || []).map((c) => (
+  state.commentsByArticle[targetArticleId] = (state.commentsByArticle[targetArticleId] || []).map((c) => (
     String(c.id) === String(commentId)
       ? { ...c, body: nextBody.trim() }
       : c
   ));
   saveComments();
-  renderComments(articleId);
-  renderLatestComments();
-  renderStats();
+  refreshCommentUiAfterMutation(targetArticleId);
   toast('コメントを更新しました', 'success');
 }
 
-async function deleteComment(commentId) {
-  const articleId = state.currentArticleId;
-  if (!articleId || !state.commentsByArticle[articleId]) return;
+async function deleteComment(commentId, articleId = '') {
+  const targetArticleId = resolveCommentArticleId(commentId, articleId);
+  if (!targetArticleId || !state.commentsByArticle[targetArticleId]) return;
   if (!state.isAdmin) {
     toast("削除は管理者パスワード入力後のみ実行できます", "error");
     return;
@@ -4595,30 +4635,31 @@ async function deleteComment(commentId) {
   const localOnly = String(commentId).includes("_");
 
   if (COMMENTS_SERVER_ENABLED && !localOnly && state.isAdmin) {
-    const deleted = await deleteCommentFromServer(articleId, commentId);
+    const deleted = await deleteCommentFromServer(targetArticleId, commentId);
     if (!(deleted && deleted.ok)) {
       const reason = deleted && deleted.error ? `（${deleted.error}）` : '';
       toast(`削除に失敗しました${reason}`, "error");
       return;
     }
 
+    const commentsLimit = state.currentView === 'comments' ? COMMENT_INDEX_LIMIT : 30;
     await syncServerStateToUi({
       analytics: true,
       comments: true,
       glossary: false,
       requests: false,
-      commentsLimit: 30,
+      commentsLimit,
       render: true,
-      currentArticleComments: true,
+      currentArticleComments: state.currentArticleId === targetArticleId,
     });
     toast("コメントを削除しました", "success");
     return;
   }
 
-  state.commentsByArticle[articleId] = state.commentsByArticle[articleId].filter((c) => c.id !== commentId);
+  state.commentsByArticle[targetArticleId] = (state.commentsByArticle[targetArticleId] || []).filter((c) => c.id !== commentId);
   saveComments();
-  renderComments(articleId);
-  renderLatestComments();
+  refreshCommentUiAfterMutation(targetArticleId);
+  toast("コメントを削除しました", "success");
 }
 
 function stripHtmlToText(html) {
@@ -7269,6 +7310,7 @@ function refreshUiAfterAdminModeChange() {
   renderLatestComments();
   if (state.currentArticleId) renderComments(state.currentArticleId);
   if (state.currentView === 'requests') renderFeatureRequestsView();
+  if (state.currentView === 'comments') renderCommentsIndexView();
   if (state.currentView === 'glossary') renderCurrentGlossaryView();
   if (state.currentView === 'editors') renderEditorsView();
 }
