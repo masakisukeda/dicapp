@@ -3154,9 +3154,7 @@ function renderCategoryView(categoryId) {
   }
 
   if (toolsSortRow) {
-    const isToolsCategory = String(categoryId || '') === 'tools';
-    toolsSortRow.hidden = !isToolsCategory;
-    syncToolsSortButtons(isToolsCategory);
+    toolsSortRow.hidden = true;
   }
 
   if (list) {
