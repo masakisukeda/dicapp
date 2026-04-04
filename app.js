@@ -3696,8 +3696,7 @@ function renderCommentsIndexView() {
     const catName = categoryById.get(articleId) || '';
     const catClass = categoryBadgeClass(catName);
     const articleTitle = titleById.get(articleId) || normalizeDisplayText(articleId || '');
-    const rawBody = normalizeDisplayText((c.body || '').replace(/\s+/g, ' ').trim());
-    const bodyPreview = rawBody.length > 90 ? `${rawBody.slice(0, 90)}…` : rawBody;
+    const rawBody = normalizeDisplayText(String(c.body || '').trim());
     const author = normalizeDisplayText(c.name || '匿名');
     const adminActions = (state.isAdmin && commentId && articleId)
       ? `<span class="request-row-actions admin-row-actions list-row-head-actions">
@@ -3714,7 +3713,7 @@ function renderCommentsIndexView() {
         </span>
         <span class="request-row-main list-row-main-block">
           <span class="article-title-row">${escapeHtml(articleTitle)}</span>
-          <span class="request-row-body">${escapeHtml(bodyPreview || 'コメント')}</span>
+          <span class="request-row-body">${escapeHtml(rawBody || 'コメント')}</span>
         </span>
         <span class="request-row-meta list-row-right list-row-right-wrap">
           <span class="request-meta-text">${escapeHtml(date)}</span>

@@ -1323,6 +1323,14 @@ line-height: 1.48;
   height: 100%;
 }
 
+#commentIndexList .request-row-body {
+  display: block;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: initial;
+  overflow: visible;
+  white-space: pre-wrap;
+}
+
 #commentIndexList .is-placeholder {
   grid-column: 1 / -1;
 }
