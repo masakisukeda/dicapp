@@ -12,6 +12,7 @@ const STORAGE_KEYS = {
   glossaryBaseOverrides: 'dir_glossary_base_overrides',
   glossaryBaseDeleted: 'dir_glossary_base_deleted',
   glossarySort: 'dir_glossary_sort',
+  toolsSort: 'dir_tools_sort',
   articleEditorMode: 'dir_article_editor_mode',
   editors: 'dir_editors',
   dictKunRingDismissed: 'dir_dictkun_ring_dismissed',
@@ -577,6 +578,7 @@ const state = {
   serverGlossaryBaseDeleted: new Set(),
   serverGlossaryBaseLoaded: false,
   glossarySort: localStorage.getItem(STORAGE_KEYS.glossarySort) || 'freq',
+  toolsSort: localStorage.getItem(STORAGE_KEYS.toolsSort) || 'default',
   analyticsSummary: null,
   adminKey: '',
   adminKeyChangeExpanded: false,
@@ -2921,6 +2923,45 @@ function buildCategoryItemUsageKeywordLabel(categoryId, articleId, article, fall
   return keywords.join(' / ');
 }
 
+function sortToolsCategoryItems(items) {
+  const list = Array.isArray(items) ? [...items] : [];
+  const mode = (state.toolsSort === 'usage' || state.toolsSort === 'kana') ? state.toolsSort : 'default';
+
+  if (mode === 'kana') {
+    return list.sort((a, b) => normalizeDisplayText(a.title).localeCompare(normalizeDisplayText(b.title), 'ja'));
+  }
+
+  if (mode === 'usage') {
+    return list.sort((a, b) => {
+      const aUsage = normalizeDisplayText(a.usageKeywordLabel || '');
+      const bUsage = normalizeDisplayText(b.usageKeywordLabel || '');
+      if (aUsage && !bUsage) return -1;
+      if (!aUsage && bUsage) return 1;
+      const usageDiff = aUsage.localeCompare(bUsage, 'ja');
+      if (usageDiff !== 0) return usageDiff;
+      return normalizeDisplayText(a.title).localeCompare(normalizeDisplayText(b.title), 'ja');
+    });
+  }
+
+  return list;
+}
+
+function syncToolsSortButtons(isToolsCategory) {
+  document.querySelectorAll('[data-tools-sort]').forEach((btn) => {
+    const activeMode = isToolsCategory ? state.toolsSort : 'default';
+    btn.classList.toggle('active', btn.getAttribute('data-tools-sort') === activeMode);
+  });
+}
+
+function setToolsSort(mode) {
+  const next = (mode === 'usage' || mode === 'kana') ? mode : 'default';
+  state.toolsSort = next;
+  localStorage.setItem(STORAGE_KEYS.toolsSort, state.toolsSort);
+  if (state.currentView === 'category' && state.currentCategoryId === 'tools') {
+    renderCategoryView('tools');
+  }
+}
+
 function renderCategoryView(categoryId) {
   const cat = getCurriculumCategoryById(categoryId);
   if (!cat) return false;
@@ -2961,6 +3002,7 @@ function renderCategoryView(categoryId) {
   const count = document.getElementById('categoryArticleCount');
   const nav = document.getElementById('categoryNavList');
   const list = document.getElementById('categoryArticleList');
+  const toolsSortRow = document.getElementById('categoryToolsSortRow');
   const view = document.getElementById('categoryView');
 
   if (!cat.isCurriculumTrack) {
@@ -3042,16 +3084,24 @@ function renderCategoryView(categoryId) {
     }
   }
 
+  if (toolsSortRow) {
+    const isToolsCategory = String(categoryId || '') === 'tools';
+    toolsSortRow.hidden = !isToolsCategory;
+    syncToolsSortButtons(isToolsCategory);
+  }
+
   if (list) {
     if (!items.length) {
       list.innerHTML = '<div class="article-row note-row is-placeholder"><span class="article-title-row">このカテゴリの項目は準備中です</span></div>';
     } else {
-      const ordered = [...items].sort((a, b) => {
-        const aGeneral = /全般/.test(a.title) ? 1 : 0;
-        const bGeneral = /全般/.test(b.title) ? 1 : 0;
-        if (aGeneral !== bGeneral) return bGeneral - aGeneral;
-        return 0;
-      });
+      const ordered = String(categoryId || '') === 'tools'
+        ? sortToolsCategoryItems(items)
+        : [...items].sort((a, b) => {
+            const aGeneral = /全般/.test(a.title) ? 1 : 0;
+            const bGeneral = /全般/.test(b.title) ? 1 : 0;
+            if (aGeneral !== bGeneral) return bGeneral - aGeneral;
+            return 0;
+          });
 
       list.innerHTML = ordered.map((it) => {
         const isGeneral = /全般/.test(it.title);

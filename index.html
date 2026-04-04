@@ -418,6 +418,12 @@
           <div class="ui-section-panel-head">
             <div class="ui-section-panel-title" id="categoryListHeading">カテゴリの項目一覧</div>
           </div>
+          <div class="glossary-sort-row" id="categoryToolsSortRow" hidden>
+            <span class="glossary-sort-label">並び順</span>
+            <button class="filter-chip active" type="button" data-tools-sort="default" onclick="setToolsSort('default')">並び順</button>
+            <button class="filter-chip" type="button" data-tools-sort="usage" onclick="setToolsSort('usage')">用途順</button>
+            <button class="filter-chip" type="button" data-tools-sort="kana" onclick="setToolsSort('kana')">五十音順</button>
+          </div>
           <div class="article-list" id="categoryArticleList"></div>
         </section>
       </div>
