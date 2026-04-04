@@ -2886,17 +2886,19 @@ function buildCategoryItemToolLabel(categoryId, article, fallbackTitle = '') {
 }
 
 function parseUsageKeywordList(raw) {
+  const normalizeUsageKeywordText = (value) => normalizeDisplayText(value).replace(/^[\s\u3000]+|[\s\u3000]+$/g, '');
+
   if (Array.isArray(raw)) {
     return raw
-      .map((part) => normalizeDisplayText(part))
+      .map((part) => normalizeUsageKeywordText(part))
       .filter(Boolean);
   }
 
-  const text = normalizeDisplayText(raw);
+  const text = normalizeUsageKeywordText(raw);
   if (!text) return [];
   return text
     .split(/[\/／|,、・]/)
-    .map((part) => normalizeDisplayText(part))
+    .map((part) => normalizeUsageKeywordText(part))
     .filter(Boolean);
 }
 
