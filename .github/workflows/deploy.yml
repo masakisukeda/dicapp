@@ -41,5 +41,4 @@ jobs:
           FTP_USER: ${{ secrets.DIC_FTP_USER }}
           FTP_PASS: ${{ secrets.DIC_FTP_PASS }}
           FTP_BASE: ${{ secrets.DIC_FTP_BASE }}
-          SKIP_PREPARE: "1"
         run: ./scripts/deploy_prod.sh
