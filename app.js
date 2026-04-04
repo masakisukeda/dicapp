@@ -3153,15 +3153,17 @@ function renderCategoryView(categoryId) {
     }
   }
 
+  const isToolsCategory = String(categoryId || '') === 'tools';
   if (toolsSortRow) {
-    toolsSortRow.hidden = true;
+    toolsSortRow.hidden = !isToolsCategory;
   }
+  syncToolsSortButtons(isToolsCategory);
 
   if (list) {
     if (!items.length) {
       list.innerHTML = '<div class="article-row note-row is-placeholder"><span class="article-title-row">このカテゴリの項目は準備中です</span></div>';
     } else {
-      const ordered = String(categoryId || '') === 'tools'
+      const ordered = isToolsCategory
         ? sortToolsCategoryItems(items)
         : [...items].sort((a, b) => {
             const aGeneral = /全般/.test(a.title) ? 1 : 0;
