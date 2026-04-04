@@ -5189,7 +5189,14 @@ async function loadArticle(id) {
 
   const applyServerOverrideIfNeeded = async () => {
     if (!COMMENTS_SERVER_ENABLED) return;
-    if (state.serverArticleOverrideChecked.has(id)) return;
+    if (state.serverArticleOverrideChecked.has(id)) {
+      const cachedOverride = normalizeServerArticle((state.articleOverrides || {})[id], id);
+      if (cachedOverride && !state.articleMap.has(id)) {
+        state.articleMap.set(id, cachedOverride);
+        updateArticleIndexEntry(id, cachedOverride);
+      }
+      return;
+    }
     state.serverArticleOverrideChecked.add(id);
     const override = await loadArticleOverrideFromServer(id);
     if (!override) return;
@@ -5214,8 +5221,6 @@ async function loadArticle(id) {
             state.articleMap.set(id, sourceArticle);
             updateArticleIndexEntry(id, sourceArticle);
           }
-        } else if (COMMENTS_SERVER_ENABLED) {
-          state.articleMap.delete(id);
         }
       } catch {
         // noop: keep current cached article when static file is unavailable
