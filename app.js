@@ -94,7 +94,11 @@ const TOOL_VARIANT_EXTENSIONS = {
 const FEATURE_VIBE_TOOLING_ENABLED = true;
 const DISABLED_ARTICLE_TOOLS = new Set(['バイブコーディング', 'Codex', 'Claude Code', 'Antigravity', 'Relume', 'できるくんAI']);
 const DISABLED_HASHTAG_KEYS = new Set(['バイブコーディング', 'vibe', 'codex', 'claude code', 'claude_code', 'antigravity', 'relume', 'できるくんai']);
-const TOOLS_CATEGORY_USAGE_LABEL = '資料読解 / 要点整理 / 比較検討';
+const TOOLS_USAGE_KEYWORD_STOPWORDS = new Set([
+  'ツール', '実務', '業務', '作業', '利用', '活用', '導入', '運用', '対応',
+  '整理', '情報', '管理', '確認', '共有', '比較', '検討', '改善', '案件',
+  '制作', '開発', '設計', 'チーム', 'プロジェクト',
+]);
 const FORCE_HIDDEN_ARTICLE_IDS = new Set([
   '2bdd0f0a002680059327da9b2088404c',
 ]);
@@ -2881,9 +2885,60 @@ function buildCategoryItemToolLabel(categoryId, article, fallbackTitle = '') {
   return names.join(' / ');
 }
 
-function buildCategoryItemUsageKeywordLabel(categoryId, articleId, article, fallbackTitle = '') {
+function parseUsageKeywordList(raw) {
+  if (Array.isArray(raw)) {
+    return raw
+      .map((part) => normalizeDisplayText(part))
+      .filter(Boolean);
+  }
+
+  const text = normalizeDisplayText(raw);
+  if (!text) return [];
+  return text
+    .split(/[\/／|,、・]/)
+    .map((part) => normalizeDisplayText(part))
+    .filter(Boolean);
+}
+
+function buildCategoryItemUsageKeywordLabel(categoryId, articleId, article, fallbackTitle = '', item = null) {
   if (String(categoryId || '') !== 'tools') return '';
-  return TOOLS_CATEGORY_USAGE_LABEL;
+
+  const explicit = [
+    ...(parseUsageKeywordList(item && item.usageKeywordLabel)),
+    ...(parseUsageKeywordList(item && item.usageKeyword)),
+    ...(parseUsageKeywordList(item && item.usageKeywords)),
+    ...(parseUsageKeywordList(article && article.usageKeywordLabel)),
+    ...(parseUsageKeywordList(article && article.usageKeyword)),
+    ...(parseUsageKeywordList(article && article.usageKeywords)),
+  ];
+  if (explicit.length) {
+    const seen = new Set();
+    const deduped = explicit.filter((kw) => {
+      const key = normalizeHashtagKey(kw);
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    return deduped.slice(0, 4).join(' / ');
+  }
+
+  const normalizedTitle = normalizeHashtagKey((article && article.title) || fallbackTitle || '');
+  const seen = new Set();
+  const derived = getArticleKeywordTags(article, 12)
+    .map((kw) => normalizeDisplayText(kw))
+    .filter(Boolean)
+    .filter((kw) => {
+      const key = normalizeHashtagKey(kw);
+      if (!key) return false;
+      if (key === normalizedTitle) return false;
+      if (TOOLS_USAGE_KEYWORD_STOPWORDS.has(key)) return false;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 4);
+
+  return derived.join(' / ');
 }
 
 function sortToolsCategoryItems(items) {
@@ -2933,7 +2988,7 @@ function renderCategoryView(categoryId) {
         id,
         title,
         updatedAt: rawTs,
-        usageKeywordLabel: buildCategoryItemUsageKeywordLabel(cat.id, id, mapArticle, title),
+        usageKeywordLabel: buildCategoryItemUsageKeywordLabel(cat.id, id, mapArticle, title, item),
       };
     })
     .filter(Boolean);
