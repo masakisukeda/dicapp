@@ -23,6 +23,7 @@ const NOTE_HOME_LIMIT = 5;
 const NOTE_RELATED_LIMIT = 5;
 const HOME_RECENT_LIMIT = 6;
 const HOME_COMMENT_LIMIT = 6;
+const COMMENT_INDEX_LIMIT = 300;
 const HOME_COMMENT_EXCERPT_MAX = 20;
 const HOME_COMMENT_TITLE_MAX = 16;
 const HOME_UPDATE_LIMIT = 3;
@@ -70,7 +71,7 @@ const ADMIN_SESSION_AT = 'dir_admin_session_at';
 const ADMIN_SESSION_TTL_MS = 2 * 60 * 60 * 1000;
 const BASE_CONTENT_UPDATED_AT = '2026-02-17T00:00:00+09:00';
 const CONTENT_ASSET_VERSION = '20260404.0936';
-const SIMPLE_ROUTE_VIEWS = new Set(['glossary', 'tools', 'requests', 'editors', 'dictionary', 'appendix']);
+const SIMPLE_ROUTE_VIEWS = new Set(['glossary', 'tools', 'requests', 'comments', 'editors', 'dictionary', 'appendix']);
 const PUBLIC_BASE_URL = 'https://drsp.cc/dic/';
 const DEFAULT_SEO_TITLE = '辞書.app — ディレクションの辞書';
 const DEFAULT_SEO_DESCRIPTION = 'ディレクションの"わからない"を、なくそう。キャリアチェンジ中のデザイナーも、新人ディレクターも迷ったらすぐ開ける辞書アプリ。';
@@ -730,6 +731,7 @@ function routeFromInlineOnclick(rawOnclick) {
   if (/showDictionaryTopView\(/.test(raw)) return buildRoute('dictionary', null);
   if (/showAppendixTopView\(/.test(raw)) return buildRoute('appendix', null);
   if (/showFeatureRequestsView\(/.test(raw) || /goRequestsPage\(/.test(raw)) return buildRoute('requests', null);
+  if (/showCommentsView\(/.test(raw) || /goCommentsPage\(/.test(raw)) return buildRoute('comments', null);
   if (/showEditorsView\(/.test(raw)) return buildRoute('editors', null);
 
   const viewMatch = raw.match(/showView\('([^']+)'\)/);
@@ -741,6 +743,7 @@ function routeFromInlineOnclick(rawOnclick) {
     if (view === 'dictionary') return buildRoute('dictionary', null);
     if (view === 'appendix') return buildRoute('appendix', null);
     if (view === 'requests') return buildRoute('requests', null);
+    if (view === 'comments') return buildRoute('comments', null);
     if (view === 'editors') return buildRoute('editors', null);
   }
 
@@ -867,6 +870,11 @@ async function applyRouteState(route, { sync = false, replace = false } = {}) {
   if (safeRoute.view === 'requests') {
     await showFeatureRequestsView({ skipHistory: true });
     if (sync) syncHistory('requests', null, replace);
+    return;
+  }
+  if (safeRoute.view === 'comments') {
+    await showCommentsView({ skipHistory: true });
+    if (sync) syncHistory('comments', null, replace);
     return;
   }
   if (safeRoute.view === 'editors') {
@@ -1201,6 +1209,21 @@ function updateStructuredDataForRoute(view, payload = {}) {
     return;
   }
 
+  if (view === 'comments') {
+    const collectionLd = {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'コメント一覧 | 辞書.app',
+      url: buildPublicRouteUrl('comments'),
+      description: '辞書.app の最新コメント一覧です。質問や相談を時系列で確認できます。',
+      inLanguage: 'ja',
+    };
+    upsertJsonLd('jsonld-website', website);
+    upsertJsonLd('jsonld-page', collectionLd);
+    upsertJsonLd('jsonld-breadcrumb', null);
+    return;
+  }
+
   if (view === 'dictionary' || view === 'appendix') {
     const isAppendix = view === 'appendix';
     const collectionLd = {
@@ -1245,6 +1268,9 @@ function updateSeoForRoute(view, payload = {}) {
   } else if (view === 'requests') {
     title = '要望一覧 | 辞書.app';
     description = '辞書.app に寄せられた要望一覧です。改善アイデアや追加してほしい項目を確認できます。';
+  } else if (view === 'comments') {
+    title = 'コメント一覧 | 辞書.app';
+    description = '辞書.app に投稿されたコメント一覧です。質問・相談・フィードバックを新着順で確認できます。';
   } else if (view === 'dictionary') {
     title = '辞書トップ | 辞書.app';
     description = '辞書カテゴリの一覧からカテゴリトップへ移動できます。';
@@ -3650,6 +3676,47 @@ function renderLatestComments() {
   }).join('');
 }
 
+function renderCommentsIndexView() {
+  const list = document.getElementById('commentIndexList');
+  const countPill = document.getElementById('commentIndexCountPill');
+  if (!list || !countPill) return;
+
+  const recent = getRecentVisibleComments(COMMENT_INDEX_LIMIT);
+  countPill.textContent = `${recent.length} 件`;
+
+  if (!recent.length) {
+    list.innerHTML = '<div class="article-row note-row is-placeholder"><span class="article-title-row">まだコメントはありません</span></div>';
+    return;
+  }
+
+  const categoryById = new Map((state.articleIndex || []).map((a) => [a.id, normalizeDisplayText(a.cat || '')]));
+  const titleById = new Map((state.articleIndex || []).map((a) => [a.id, normalizeDisplayText(a.title || a.id || '')]));
+  list.innerHTML = recent.map((c) => {
+    const date = formatPostDateTime(c.ts);
+    const catName = categoryById.get(c.articleId) || '';
+    const catClass = categoryBadgeClass(catName);
+    const articleTitle = titleById.get(c.articleId) || normalizeDisplayText(c.articleId || '');
+    const rawBody = normalizeDisplayText((c.body || '').replace(/\s+/g, ' ').trim());
+    const bodyPreview = rawBody.length > 90 ? `${rawBody.slice(0, 90)}…` : rawBody;
+    const author = normalizeDisplayText(c.name || '匿名');
+    return `
+      <div class="article-row note-row request-row list-row list-row--stack ${catClass}" onclick="showArticle('${escapeForSingleQuote(String(c.articleId || ''))}')">
+        <span class="request-row-head list-row-head">
+          ${renderCategoryBadge(catName)}
+          <span class="request-meta-text">${escapeHtml(author)}</span>
+        </span>
+        <span class="request-row-main list-row-main-block">
+          <span class="article-title-row">${escapeHtml(articleTitle)}</span>
+          <span class="request-row-body">${escapeHtml(bodyPreview || 'コメント')}</span>
+        </span>
+        <span class="request-row-meta list-row-right list-row-right-wrap">
+          <span class="request-meta-text">${escapeHtml(date)}</span>
+        </span>
+      </div>
+    `;
+  }).join('');
+}
+
 function formatFeedDate(raw) {
   if (!raw) return '';
   const d = new Date(raw);
@@ -4162,6 +4229,7 @@ function renderUnifiedViews(options = {}) {
     renderCategoryView(state.currentCategoryId);
   }
   if (latestComments) renderLatestComments();
+  if (state.currentView === 'comments') renderCommentsIndexView();
   if (glossary) {
     renderGlossary();
     renderCurrentGlossaryView();
@@ -5710,7 +5778,7 @@ function scrollViewportTop() {
 }
 
 function syncHeaderRouteButtons() {
-  const activeRoute = (state.currentView === 'requests' || state.currentView === 'glossary' || state.currentView === 'editors')
+  const activeRoute = (state.currentView === 'requests' || state.currentView === 'comments' || state.currentView === 'glossary' || state.currentView === 'editors')
     ? state.currentView
     : '';
   document.querySelectorAll('.header-route-btn').forEach((btn) => {
@@ -5731,6 +5799,7 @@ function showView(view, options = {}) {
   const appendixTopViewEl = document.getElementById('appendixTopView');
   const toolsViewEl = document.getElementById('toolsView');
   const requestsViewEl = document.getElementById('requestsView');
+  const commentsViewEl = document.getElementById('commentsView');
   const glossaryViewEl = document.getElementById('glossaryView');
   const editorsViewEl = document.getElementById('editorsView');
 
@@ -5741,6 +5810,7 @@ function showView(view, options = {}) {
   if (appendixTopViewEl) appendixTopViewEl.classList.remove('visible');
   if (toolsViewEl) toolsViewEl.classList.remove('visible');
   if (requestsViewEl) requestsViewEl.classList.remove('visible');
+  if (commentsViewEl) commentsViewEl.classList.remove('visible');
   if (glossaryViewEl) glossaryViewEl.classList.remove('visible');
   if (editorsViewEl) editorsViewEl.classList.remove('visible');
 
@@ -5752,6 +5822,7 @@ function showView(view, options = {}) {
   else if (view === 'glossary' && glossaryViewEl) glossaryViewEl.classList.add('visible');
   else if (view === 'tools' && toolsViewEl) toolsViewEl.classList.add('visible');
   else if (view === 'requests' && requestsViewEl) requestsViewEl.classList.add('visible');
+  else if (view === 'comments' && commentsViewEl) commentsViewEl.classList.add('visible');
   else if (view === 'editors' && editorsViewEl) editorsViewEl.classList.add('visible');
 
   state.currentView = view;
@@ -5760,6 +5831,7 @@ function showView(view, options = {}) {
   else if (view === 'dictionary') updateSeoForRoute('dictionary');
   else if (view === 'appendix') updateSeoForRoute('appendix');
   else if (view === 'requests') updateSeoForRoute('requests');
+  else if (view === 'comments') updateSeoForRoute('comments');
   else if (view === 'editors') updateSeoForRoute('editors');
   scrollViewportTop();
   syncHeaderCompactState();
@@ -8283,6 +8355,33 @@ async function goRequestsPage() {
     await showFeatureRequestsView();
   } catch {
     window.location.href = './?view=requests';
+  }
+}
+
+async function showCommentsView(options = {}) {
+  const { skipHistory = false } = options;
+  closeMobileSidebar();
+  closeMobileMenu();
+
+  renderCommentsIndexView();
+  showView('comments', { skipHistory: true });
+  if (!skipHistory) syncHistory('comments', null, false);
+
+  if (COMMENTS_SERVER_ENABLED) {
+    hydrateCommentsFromServer(COMMENT_INDEX_LIMIT).then((ok) => {
+      if (!ok) return;
+      renderCommentsIndexView();
+      renderLatestComments();
+      renderStats();
+    }).catch(() => {});
+  }
+}
+
+async function goCommentsPage() {
+  try {
+    await showCommentsView();
+  } catch {
+    window.location.href = './?view=comments';
   }
 }
 
