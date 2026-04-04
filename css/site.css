@@ -1313,6 +1313,20 @@ line-height: 1.48;
   gap: 12px;
 }
 
+#commentIndexList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+#commentIndexList .request-row {
+  height: 100%;
+}
+
+#commentIndexList .is-placeholder {
+  grid-column: 1 / -1;
+}
+
 #featureRequestGrid .request-row{
 height: 100%;
 
@@ -7498,6 +7512,7 @@ body.article-view-open .sidebar {
   .article-view,
   #glossaryView,
   #requestsView,
+  #commentsView,
   #editorsView,
   #toolsView {
     padding-top: 14px !important;
@@ -8077,6 +8092,10 @@ body {
   }
 
   #featureRequestGrid {
+    grid-template-columns: 1fr;
+  }
+
+  #commentIndexList {
     grid-template-columns: 1fr;
   }
 
