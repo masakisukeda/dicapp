@@ -93,6 +93,37 @@ const TOOL_VARIANT_EXTENSIONS = {
 const FEATURE_VIBE_TOOLING_ENABLED = true;
 const DISABLED_ARTICLE_TOOLS = new Set(['バイブコーディング', 'Codex', 'Claude Code', 'Antigravity', 'Relume', 'できるくんAI']);
 const DISABLED_HASHTAG_KEYS = new Set(['バイブコーディング', 'vibe', 'codex', 'claude code', 'claude_code', 'antigravity', 'relume', 'できるくんai']);
+const TOOL_USAGE_KEYWORDS_BY_ARTICLE_ID = {
+  'tool_notebooklm': ['資料読解', '要点整理', '比較検討'],
+  'tool_windsurf': ['実装補助', 'コード生成', '改修支援'],
+  'tool_v0': ['UIプロトタイプ', '画面叩き台', 'レイアウト検証'],
+  'tool_bolt_new': ['高速試作', 'MVP構築', '画面実装'],
+  'tool_cursor': ['コード補完', '実装支援', 'レビュー補助'],
+  'tool_linear': ['課題管理', 'スプリント運用', '進行可視化'],
+  'tool_fireflies': ['議事録自動化', '会議要約', 'アクション抽出'],
+  'tool_descript': ['音声編集', '動画編集', '文字起こし'],
+  'tool_lovable': ['アプリ試作', 'UI生成', '要件検証'],
+  'tool_gamma': ['資料作成', 'スライド生成', '提案整理'],
+  'tool_perplexity': ['調査初動', '情報収集', '一次情報探索'],
+  '2bdd0f0a002680059327da9b2088404c': ['ツール選定', '運用設計', '効率化全般'],
+  '2bdd0f0a002680b69934e271b3aaec8b': ['UI設計', 'デザイン作成', 'プロトタイプ'],
+  '2bdd0f0a002680218c37d179fcdb4fb6': ['サイト構築', '更新運用', 'プラグイン活用'],
+  '2bdd0f0a00268052a2fbd61cfe0990fb': ['ノーコード構築', 'サイト公開', 'コンテンツ運用'],
+  '2bdd0f0a002680db93cdd8548cc52fe9': ['チーム連携', '通知運用', '情報共有'],
+  '2bdd0f0a0026803d8a68fbe326d0b911': ['要件整理', '図解作成', '合意形成'],
+  '2bdd0f0a0026805e80fff78432726e74': ['会議運用', 'チャット連携', '社内共有'],
+  '2bdd0f0a002680ee9be9c54d04c706f0': ['タスク管理', '課題管理', '進行管理'],
+  '2bdd0f0a002680e88e4ee904f081c77d': ['クリエイティブ制作', '画像編集', '動画編集'],
+  'tool_claude': ['要件言語化', '文章整理', '仕様レビュー'],
+  'tool_relume': ['ワイヤー作成', 'サイト構成案', 'UI叩き台'],
+  'tool_dekirukun_ai': ['業務自動化', '定型文生成', '作業効率化'],
+  'tool_antigravity': ['AI試作', '実装支援', 'プロンプト活用'],
+  'tool_codex': ['実装支援', 'デバッグ補助', '影響範囲確認'],
+};
+const TOOL_USAGE_KEYWORD_BLACKLIST = new Set([
+  'ディレクション', '実務', 'ツール', '基本', '共通', '案件', '情報', '作業', '判断', '活用',
+  '支援', '内容', '確認', '改善', '重要', '今回', 'この', 'その', 'など', 'ため',
+]);
 
 const RECOMMENDED_CURRICULUM_CATEGORIES = [
   {
@@ -2870,6 +2901,26 @@ function buildCategoryItemToolLabel(categoryId, article, fallbackTitle = '') {
   return names.join(' / ');
 }
 
+function buildCategoryItemUsageKeywordLabel(categoryId, articleId, article, fallbackTitle = '') {
+  if (String(categoryId || '') !== 'tools') return '';
+
+  const manual = TOOL_USAGE_KEYWORDS_BY_ARTICLE_ID[String(articleId || '')];
+  if (Array.isArray(manual) && manual.length) {
+    return manual.map((x) => normalizeDisplayText(x)).filter(Boolean).slice(0, 3).join(' / ');
+  }
+
+  const title = normalizeDisplayText(fallbackTitle || '');
+  const titleLower = title.toLowerCase();
+  const keywords = getArticleKeywordTags(article || {}, 20)
+    .map((raw) => normalizeDisplayText(raw))
+    .filter(Boolean)
+    .filter((kw) => !TOOL_USAGE_KEYWORD_BLACKLIST.has(kw.toLowerCase()))
+    .filter((kw) => kw.toLowerCase() !== titleLower)
+    .slice(0, 3);
+
+  return keywords.join(' / ');
+}
+
 function renderCategoryView(categoryId) {
   const cat = getCurriculumCategoryById(categoryId);
   if (!cat) return false;
@@ -2890,6 +2941,7 @@ function renderCategoryView(categoryId) {
         title,
         updatedAt: rawTs,
         toolLabel: buildCategoryItemToolLabel(cat.id, mapArticle, title),
+        usageKeywordLabel: buildCategoryItemUsageKeywordLabel(cat.id, id, mapArticle, title),
       };
     })
     .filter(Boolean);
@@ -3008,12 +3060,16 @@ function renderCategoryView(categoryId) {
         const toolLine = it.toolLabel
           ? `<span class="category-item-tool">対象ツール: ${escapeHtml(it.toolLabel)}</span>`
           : '';
+        const usageLine = it.usageKeywordLabel
+          ? `<span class="category-item-tool">用途キーワード: ${escapeHtml(it.usageKeywordLabel)}</span>`
+          : '';
         return `
           <div class="article-row note-row category-item-row${kindClass}" onclick="showArticle('${it.id}')">
             <span class="category-item-kind${kindClass}">${kindText}</span>
             <span class="category-item-main">
               <span class="article-title-row">${it.title}</span>
               ${toolLine}
+              ${usageLine}
             </span>
             <span class="note-meta">${escapeHtml(formatPostDateTime(it.updatedAt))}</span>
             <span class="article-arrow">›</span>
