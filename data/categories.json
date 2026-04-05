@@ -487,11 +487,15 @@
     "id": "tools",
     "icon": "🛠",
     "name": "ツール・効率化",
-    "count": 25,
+    "count": 26,
     "items": [
       {
         "title": "NotebookLM",
         "id": "tool_notebooklm"
+      },
+      {
+        "title": "Stitch",
+        "id": "tool_stitch"
       },
       {
         "title": "Windsurf",

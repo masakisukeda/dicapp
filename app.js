@@ -8788,7 +8788,7 @@ async function fillEditorProfileFromX() {
 const TOOL_ICONS = {
   '基本': '📖', 'Figma': '📐', 'バイブコーディング': '🎸',
   'Codex': '🧠', 'Claude Code': '⌨', 'Antigravity': '🪐',
-  'Relume': '🔷', 'できるくんAI': '🤖', 'WordPress': 'Ⓦ',
+  'Relume': '🔷', 'Stitch': '🧵', 'できるくんAI': '🤖', 'WordPress': 'Ⓦ',
 };
 
 const TOOL_META = {
@@ -8819,6 +8819,10 @@ const TOOL_META = {
   'Relume': {
     desc: '情報設計とUI構成案を高速に作る支援ツール',
     labels: ['設計', '効率化'],
+  },
+  'Stitch': {
+    desc: 'GoogleのUI生成ツールで画面叩き台を素早く作成',
+    labels: ['設計', 'AI補助'],
   },
   'できるくんAI': {
     desc: '調査や文案生成などの作業を補助するAI',

@@ -18,6 +18,7 @@
 - キャリア棚卸しデータに学ぶ採用と育成の勘所: https://drsp.cc/dic/?view=article&id=case_career_inventory_insights
 - 悲しきデスマーチに学ぶ失敗パターン: https://drsp.cc/dic/?view=article&id=case_death_march_lesson
 - NotebookLM: https://drsp.cc/dic/?view=article&id=tool_notebooklm
+- Stitch: https://drsp.cc/dic/?view=article&id=tool_stitch
 - Windsurf: https://drsp.cc/dic/?view=article&id=tool_windsurf
 - v0: https://drsp.cc/dic/?view=article&id=tool_v0
 - Bolt.new: https://drsp.cc/dic/?view=article&id=tool_bolt_new
@@ -54,7 +55,6 @@
 - 予算計画（P/L・ROI）: https://drsp.cc/dic/?view=article&id=2bdd0f0a002680c8b4f7cc1d769b6dea
 - 見積もり（金額・工数）: https://drsp.cc/dic/?view=article&id=2bdd0f0a002680fa9450c9e341e7fe76
 - 工数見積り: https://drsp.cc/dic/?view=article&id=2bdd0f0a0026803caef4c90b16ca8c90
-- 全般: https://drsp.cc/dic/?view=article&id=2bdd0f0a0026806a9144d3b4906587d4
 
 ## Notes
 - 各記事は日本語で書かれています。
