@@ -1061,6 +1061,12 @@ function normalizeDisplayText(text) {
     .replace(/Vibeコーディング/g, 'バイブコーディング');
 }
 
+function formatNumberWithComma(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return '0';
+  return Math.max(0, Math.trunc(n)).toLocaleString('en-US');
+}
+
 function setMetaContent(selector, content) {
   const el = document.querySelector(selector);
   if (el) el.setAttribute('content', String(content || ''));
@@ -1593,7 +1599,7 @@ async function renderHashtagModal(tag) {
   const related = (await getHashtagRelatedArticles(normalized, { currentArticleId: state.currentArticleId })).slice(0, 8);
   if (requestId !== state.hashtagModalRequestId) return;
   sub.textContent = related.length
-    ? `${related.length}件の関連記事があります`
+    ? `${formatNumberWithComma(related.length)}件の関連記事があります`
     : 'このタグに近い関連記事はまだ少なめです';
 
   list.innerHTML = related.length
@@ -2116,7 +2122,7 @@ async function init() {
 
 function setHomeRequestCount(count) {
   const homeRequest = document.getElementById('homeRequestTotal');
-  if (homeRequest) homeRequest.textContent = String(Math.max(0, Number(count) || 0));
+  if (homeRequest) homeRequest.textContent = formatNumberWithComma(count);
 }
 
 function renderStats() {
@@ -2124,13 +2130,13 @@ function renderStats() {
   const displayTotal = Math.max(total, 120);
 
   const articleCountEl = document.getElementById('articleCount');
-  if (articleCountEl) articleCountEl.textContent = String(displayTotal);
+  if (articleCountEl) articleCountEl.textContent = formatNumberWithComma(displayTotal);
 
   const glossaryCountEl = document.getElementById('glossaryCount');
   const mergedGlossaryCount = getGlossaryTermsMerged().length;
   const baseGlossaryCount = Array.isArray(GLOSSARY_TERMS) ? GLOSSARY_TERMS.length : 0;
   const glossaryCount = Math.max(mergedGlossaryCount, baseGlossaryCount);
-  if (glossaryCountEl) glossaryCountEl.textContent = String(glossaryCount);
+  if (glossaryCountEl) glossaryCountEl.textContent = formatNumberWithComma(glossaryCount);
 
   const localCommentTotal = Object.values(state.commentsByArticle || {})
     .reduce((sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0), 0);
@@ -2149,13 +2155,13 @@ function renderStats() {
   const requestCount = (COMMENTS_SERVER_ENABLED && Number.isFinite(requestServer) && requestServer >= 0) ? requestServer : localRequestTotal;
 
   const homeComment = document.getElementById('homeCommentTotal');
-  if (homeComment) homeComment.textContent = String(commentTotal);
+  if (homeComment) homeComment.textContent = formatNumberWithComma(commentTotal);
   setHomeRequestCount(requestCount);
 
   const homePv = document.getElementById('homePvToday');
   const homeUu = document.getElementById('homeUuToday');
-  if (homePv) homePv.textContent = String(pvTotal);
-  if (homeUu) homeUu.textContent = String(uuTotal);
+  if (homePv) homePv.textContent = formatNumberWithComma(pvTotal);
+  if (homeUu) homeUu.textContent = formatNumberWithComma(uuTotal);
 }
 
 function renderCatList() {
@@ -2174,7 +2180,7 @@ function renderCatList() {
         <div class="cat-header ${state.currentCategoryId === cat.id && state.currentView === 'category' ? 'active' : ''} ${isMobile ? 'open' : ''}" role="button" tabindex="0" aria-expanded="${isMobile ? 'true' : 'false'}" aria-controls="${catItemsId}" onclick="showCategory('${catIdEsc}')" onkeydown="handleCatHeaderKeydown(event, '${catIdEsc}')" data-cat="${escapeHtml(cat.id || '')}">
           <span class="cat-icon">${cat.icon}</span>
           <span class="cat-name">${normalizeDisplayText(cat.name)}</span>
-          <span class="cat-count">${visibleItems.length}</span>
+          <span class="cat-count">${formatNumberWithComma(visibleItems.length)}</span>
           <button class="cat-arrow" type="button" aria-label="カテゴリの項目を開閉" onclick="toggleCat(event, this)"><span aria-hidden="true">›</span></button>
         </div>
         <div class="cat-items ${isMobile ? 'open' : ''}" id="${catItemsId}">
@@ -2239,7 +2245,7 @@ function renderMobileCategoryGrid() {
     return `
       <button class="mobile-cat-btn" type="button" onclick="openMobileCategoryFromGrid('${cat.id}')">
         <span class="mobile-cat-name"><span>${cat.icon}</span><span>${normalizeDisplayText(cat.name)}</span></span>
-        <span class="mobile-cat-count">${visibleItems.length}</span>
+        <span class="mobile-cat-count">${formatNumberWithComma(visibleItems.length)}</span>
       </button>
     `;
   }).join('');
@@ -3499,7 +3505,7 @@ function renderGlossaryPage(keyword = '') {
     return text.includes(q);
   }));
 
-  if (count) count.textContent = `${filtered.length} 件`;
+  if (count) count.textContent = `${formatNumberWithComma(filtered.length)} 件`;
   syncGlossarySortButtons();
 
   if (!filtered.length) {
@@ -3597,13 +3603,13 @@ function notifyNewCommentsIfNeeded() {
   const body = `${normalizeDisplayText(latest.name || '匿名')}: ${normalizeDisplayText((latest.body || '').replace(/\s+/g, ' ').trim()).slice(0, 48)}`;
 
   if (!('Notification' in window)) {
-    toast(`新着コメント ${fresh.length}件`, 'success');
+    toast(`新着コメント ${formatNumberWithComma(fresh.length)}件`, 'success');
     return;
   }
 
   const sendNotification = () => {
     try {
-      const n = new Notification(`辞書.app 新着コメント ${fresh.length}件`, {
+      const n = new Notification(`辞書.app 新着コメント ${formatNumberWithComma(fresh.length)}件`, {
         body: `${articleTitle} / ${body}`,
         tag: 'dic-new-comment',
       });
@@ -3612,7 +3618,7 @@ function notifyNewCommentsIfNeeded() {
         showArticle(latest.articleId);
       };
     } catch (_) {
-      toast(`新着コメント ${fresh.length}件`, 'success');
+      toast(`新着コメント ${formatNumberWithComma(fresh.length)}件`, 'success');
     }
   };
 
@@ -3624,12 +3630,12 @@ function notifyNewCommentsIfNeeded() {
   if (Notification.permission === 'default') {
     Notification.requestPermission().then((perm) => {
       if (perm === 'granted') sendNotification();
-      else toast(`新着コメント ${fresh.length}件`, 'success');
-    }).catch(() => toast(`新着コメント ${fresh.length}件`, 'success'));
+      else toast(`新着コメント ${formatNumberWithComma(fresh.length)}件`, 'success');
+    }).catch(() => toast(`新着コメント ${formatNumberWithComma(fresh.length)}件`, 'success'));
     return;
   }
 
-  toast(`新着コメント ${fresh.length}件`, 'success');
+  toast(`新着コメント ${formatNumberWithComma(fresh.length)}件`, 'success');
 }
 
 function startCommentNotificationWatcher() {
@@ -3682,7 +3688,7 @@ function renderCommentsIndexView() {
   if (!list || !countPill) return;
 
   const recent = getRecentVisibleComments(COMMENT_INDEX_LIMIT);
-  countPill.textContent = `${recent.length} 件`;
+  countPill.textContent = `${formatNumberWithComma(recent.length)} 件`;
 
   if (!recent.length) {
     list.innerHTML = '<div class="article-row note-row is-placeholder"><span class="article-title-row">まだコメントはありません</span></div>';
@@ -8159,7 +8165,7 @@ async function renderFeatureRequestsView() {
   if (!grid || !countPill) return;
 
   const requests = (await getFeatureRequests()).slice().sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime());
-  countPill.textContent = `${requests.length} 件`;
+  countPill.textContent = `${formatNumberWithComma(requests.length)} 件`;
   setHomeRequestCount(requests.length);
 
   if (!requests.length) {
@@ -8891,7 +8897,7 @@ function renderToolFilterCard(toolName, count) {
           <span class="tool-filter-icon">${escapeHtml(meta.icon)}</span>
           <span class="tool-filter-name">${escapeHtml(toolName)}</span>
         </span>
-        <span class="tool-filter-count">${Number(count) || 0}件</span>
+        <span class="tool-filter-count">${formatNumberWithComma(count)}件</span>
       </span>
       <span class="tool-filter-desc">${escapeHtml(meta.desc)}</span>
       ${labelsHtml}
@@ -8919,7 +8925,7 @@ function renderToolsView() {
           <span class="tool-filter-icon">🧭</span>
           <span class="tool-filter-name">すべてのツール</span>
         </span>
-        <span class="tool-filter-count">${totalArticles}件</span>
+        <span class="tool-filter-count">${formatNumberWithComma(totalArticles)}件</span>
       </span>
       <span class="tool-filter-desc">用途ラベル付きで全体を俯瞰して選べます</span>
       <span class="tool-filter-labels"><span class="tool-filter-label">横断</span></span>
@@ -8956,7 +8962,7 @@ function renderToolsArticleList() {
     articles = articles.filter((a) => (a.tags || []).includes(state.tagFilter));
   }
 
-  label.textContent = `${articles.length}件の記事`;
+  label.textContent = `${formatNumberWithComma(articles.length)}件の記事`;
 
   list.innerHTML = articles.length
     ? articles.map((a) => `
