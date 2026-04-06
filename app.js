@@ -186,7 +186,7 @@ const RECOMMENDED_CURRICULUM_CATEGORIES = [
   {
     id: 'track_reiwa_latest_direction',
     icon: '✨',
-    name: '令和最新ディレクション',
+    name: '続 令和時代に必要な10',
     kicker: 'RECOMMENDED TRACK',
     description: 'AI時代の実務で今すぐ効くテーマを横断し、企画から運用改善までを最短で押さえられる最新カテゴリです。',
     items: [
