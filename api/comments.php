@@ -647,7 +647,7 @@ function listGlossaryTerms(PDO $pdo, int $limit): array
 function addGlossaryTerm(PDO $pdo, array $payload): array
 {
     $term = sanitize($payload['term'] ?? '', 80);
-    $description = sanitize($payload['description'] ?? ($payload['desc'] ?? ''), 500);
+    $description = sanitize($payload['description'] ?? ($payload['desc'] ?? ''), 0);
     $authorName = sanitize($payload['name'] ?? ($payload['author_name'] ?? '匿名'), 60);
 
     if ($term === '') throw new RuntimeException('term is required');
@@ -687,7 +687,7 @@ function updateGlossaryTerm(PDO $pdo, array $payload): array
 {
     $id = sanitize($payload['id'] ?? ($payload['term_id'] ?? ''), 64);
     $term = sanitize($payload['term'] ?? '', 80);
-    $description = sanitize($payload['description'] ?? ($payload['desc'] ?? ''), 500);
+    $description = sanitize($payload['description'] ?? ($payload['desc'] ?? ''), 0);
     $authorName = sanitize($payload['name'] ?? ($payload['author_name'] ?? '匿名'), 60);
 
     if ($id === '') throw new RuntimeException('id is required');
@@ -769,7 +769,7 @@ function setGlossaryBaseOverride(PDO $pdo, array $payload): array
 {
     $baseKey = sanitize($payload['base_key'] ?? '', 120);
     $term = sanitize($payload['term'] ?? '', 120);
-    $description = sanitize($payload['description'] ?? ($payload['desc'] ?? ''), 400);
+    $description = sanitize($payload['description'] ?? ($payload['desc'] ?? ''), 0);
     $authorName = sanitize($payload['name'] ?? ($payload['author_name'] ?? '匿名'), 60);
 
     if ($baseKey === '') throw new RuntimeException('base_key is required');
@@ -1917,7 +1917,7 @@ function sanitize($value, int $maxLen = 200): string
 {
     $s = trim((string)$value);
     $s = preg_replace('/[\x00-\x1F\x7F]/u', '', $s) ?? '';
-    if (mb_strlen($s, 'UTF-8') > $maxLen) {
+    if ($maxLen > 0 && mb_strlen($s, 'UTF-8') > $maxLen) {
         $s = mb_substr($s, 0, $maxLen, 'UTF-8');
     }
     return $s;
